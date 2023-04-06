@@ -1,4 +1,4 @@
-# Genrate pom.xml
+# Generate pom.xml
 ```
 mvn archetype:generate \
         -DarchetypeGroupId=org.openjfx \

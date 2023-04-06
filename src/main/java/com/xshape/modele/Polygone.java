@@ -7,7 +7,7 @@ public class Polygone extends SimpleShape {
     double radius;
     double nbSides;
 
-    public Polygone(double centerX, double centerY, double radius, double nbSides, Renderer renderer) {
+    public Polygone(double centerX, double centerY, double radius, double nbSides, IRenderer renderer) {
         super(renderer);
         this.centerX = centerX;
         this.centerY = centerY;
@@ -29,7 +29,7 @@ public class Polygone extends SimpleShape {
             double nextX = centerX + radius * Math.cos(i * angle);
             double nextY = centerY + radius * Math.sin(i * angle);
 
-            _renderer.drawLine(x, y, nextX, nextY);
+            _I_renderer.drawLine(x, y, nextX, nextY);
 
             x = nextX;
             y = nextY;

@@ -4,7 +4,7 @@ public class Rectangle extends SimpleShape {
 
     private double x, y, width, height;
 
-    public Rectangle(double x, double y, double width, double height, Renderer renderer) {
+    public Rectangle(double x, double y, double width, double height, IRenderer renderer) {
         super(renderer);
         this.x = x;
         this.y = y;

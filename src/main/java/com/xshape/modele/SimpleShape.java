@@ -1,11 +1,11 @@
 package com.xshape.modele;
 
-public abstract class SimpleShape implements Shape{
+public abstract class SimpleShape implements IShape {
 
-    Renderer _renderer;
+    IRenderer _I_renderer;
 
-    public SimpleShape(Renderer renderer){
-        _renderer = renderer;
+    public SimpleShape(IRenderer IRenderer){
+        _I_renderer = IRenderer;
     }
 
 }

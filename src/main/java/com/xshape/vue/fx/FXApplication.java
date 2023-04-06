@@ -4,29 +4,41 @@ import com.xshape.modele.fx.JavaFXRenderer;
 import com.xshape.modele.Polygone;
 import com.xshape.modele.Rectangle;
 import com.xshape.modele.Shape;
+
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class FXApplication extends Application {
+
+    public static Composite menuElements = new Composite();
+    public static Composite whiteBoardElements = new Composite();
+    public static BorderPane _root = new BorderPane();
+    public static FxBuilder fxBuilder = null;
+
     @Override
     public void start(Stage stage) throws IOException {
         Group root = new Group();
         Canvas fxCanvas = new Canvas(800, 600);
         root.getChildren().add(fxCanvas);
-        JavaFXRenderer fxRenderer = new JavaFXRenderer(fxCanvas);
+        FxRenderer fxRenderer = new FxRenderer(fxCanvas);
 
-        Shape rect = new Rectangle(100, 100, 200, 150, fxRenderer);
+        IShape rect = new Rectangle(100, 100, 200, 150, fxRenderer);
         rect.draw();
 
-        Shape poly = new Polygone(400, 300, 100, 8, fxRenderer);
+        IShape poly = new Polygone(400, 300, 100, 8, fxRenderer);
         poly.draw();
 
-        Scene scene = new Scene(root);
+        FxBuilder fxb = new FxBuilder(menuElements,whiteBoardElements,_root);
+        fxBuilder = fxb;
+        _root = fxBuilder.build();
+
+        Scene scene = new Scene(_root,800,600);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
