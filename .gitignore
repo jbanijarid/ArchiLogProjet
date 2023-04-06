@@ -4,9 +4,6 @@ target/
 # Fichiers de sauvegarde créés par certains éditeurs de texte
 *~
 
-# Fichiers de configuration d'IDE
-.idea/
-
 # Fichiers de journalisation
 *.log
 
