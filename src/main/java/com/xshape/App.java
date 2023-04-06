@@ -1,5 +1,6 @@
 package com.xshape;
 
+
 import com.xshape.modele.XShape;
 import com.xshape.vue.awt.AwtApp;
 import com.xshape.vue.fx.FxApp;
@@ -11,6 +12,7 @@ public class App {
         appAwt.run();
         XShape appFx = new FxApp();
         appFx.run();
+        System.out.println("ok");
 
     }
 
