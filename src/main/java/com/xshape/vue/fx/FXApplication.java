@@ -1,9 +1,11 @@
 package com.xshape.vue.fx;
 
-import com.xshape.modele.fx.JavaFXRenderer;
+import com.xshape.Composite;
+import com.xshape.FxBuilder;
+import com.xshape.modele.fx.FxRenderer;
 import com.xshape.modele.Polygone;
 import com.xshape.modele.Rectangle;
-import com.xshape.modele.Shape;
+import com.xshape.modele.IShape;
 
 import javafx.application.Application;
 import javafx.scene.Group;

@@ -1,5 +1,7 @@
 package com.xshape;
 
+import com.xshape.modele.IShape;
+
 import java.util.ArrayList;
 import java.util.List;
 

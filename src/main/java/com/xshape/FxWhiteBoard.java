@@ -1,5 +1,6 @@
 package com.xshape;
 
+import com.xshape.modele.IShape;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Shape;
 

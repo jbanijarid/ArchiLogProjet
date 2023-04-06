@@ -1,17 +1,16 @@
 package com.xshape.modele.fx;
 
-import com.xshape.modele.Renderer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-
-public class JavaFXRenderer implements Renderer {
+import  com.xshape.modele.*;
+public class FxRenderer implements IRenderer {
 
     private GraphicsContext _gc;
     private Canvas _canvas;
 
 
-    public JavaFXRenderer(Canvas canvas){
+    public FxRenderer(Canvas canvas){
         _canvas = canvas;
         _gc = _canvas.getGraphicsContext2D();
     }
@@ -24,6 +23,8 @@ public class JavaFXRenderer implements Renderer {
     @Override
     public void setColor(int color) {
         _gc.setFill(Color.RED);
+
+
     }
 
 

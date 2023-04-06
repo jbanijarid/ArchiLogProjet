@@ -1,10 +1,13 @@
 package com.xshape;
 
+import com.xshape.modele.IRenderer;
+import com.xshape.modele.Polygone;
+import com.xshape.modele.Rectangle;
 import javafx.scene.control.Button;
 
 public class FxFactory implements IFactory{
     @Override
-    public Rectangle createRectangle(double x, double y, double width, double height,IRenderer r) {
+    public Rectangle createRectangle(double x, double y, double width, double height, IRenderer r) {
         return new Rectangle(x,y,width,height,r);
     }
 
