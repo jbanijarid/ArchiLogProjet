@@ -2,6 +2,7 @@ package com.xshape.modele.awt;
 
 import com.xshape.modele.IBuilder;
 import com.xshape.vue.awt.AwtApplication;
+import javafx.scene.layout.BorderPane;
 
 import java.awt.*;
 
@@ -30,11 +31,19 @@ public class AwtBuilder implements IBuilder {
         buttonPanel.add(cancelButton);
         // Ajouter le panneau de boutons au bas de la fenêtre
         this.app.add(buttonPanel, BorderLayout.NORTH);
+        this.app.setLayout(new FlowLayout(FlowLayout.LEFT));
 
     }
 
     @Override
     public void whiteBoard() {
+        Panel awtb = new AwtWhiteBord();
+        this.app.add(awtb);
+    }
 
+    public void build(){
+        toolBar();
+        menuBar();
+        whiteBoard();
     }
 }
