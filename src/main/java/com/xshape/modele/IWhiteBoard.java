@@ -1,4 +1,4 @@
-package com.xshape;
+package com.xshape.modele;
 
 import com.xshape.modele.IShape;
 

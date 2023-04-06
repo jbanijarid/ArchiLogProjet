@@ -1,11 +1,11 @@
-package com.xshape;
+package com.xshape.modele.fx;
 
-import javafx.geometry.Insets;
+import com.xshape.modele.Composite;
+import com.xshape.modele.IBuilder;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 public class FxBuilder implements IBuilder {
 
@@ -13,7 +13,7 @@ public class FxBuilder implements IBuilder {
     private Composite whiteboard;
     private BorderPane borderPane;
 
-    public static FxWhiteBoard  _whiteBoard;
+    public static FxWhiteBoard _whiteBoard;
 
 
 

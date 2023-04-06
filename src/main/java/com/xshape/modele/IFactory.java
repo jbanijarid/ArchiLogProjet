@@ -1,8 +1,5 @@
-package com.xshape;
+package com.xshape.modele;
 
-import com.xshape.modele.IRenderer;
-import com.xshape.modele.Polygone;
-import com.xshape.modele.Rectangle;
 import javafx.scene.control.Button;
 
 public interface IFactory {
@@ -18,6 +15,6 @@ public interface IFactory {
     public Button createButton(String title, double width, double height);
 
 
-    public IToolBar createToolBar(Composite  toolBarElements, Composite canvasElements);
+    public IToolBar createToolBar(Composite toolBarElements, Composite canvasElements);
     public IWhiteBoard createWhiteBoard(Composite canvasElements, double width, double height);
 }

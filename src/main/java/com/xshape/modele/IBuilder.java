@@ -1,4 +1,4 @@
-package com.xshape;
+package com.xshape.modele;
 
 public interface IBuilder {
 

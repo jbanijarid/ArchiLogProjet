@@ -1,7 +1,7 @@
 package com.xshape.vue.fx;
 
-import com.xshape.Composite;
-import com.xshape.FxBuilder;
+import com.xshape.modele.Composite;
+import com.xshape.modele.fx.FxBuilder;
 import com.xshape.modele.fx.FxRenderer;
 import com.xshape.modele.Polygone;
 import com.xshape.modele.Rectangle;

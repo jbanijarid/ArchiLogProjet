@@ -1,4 +1,6 @@
-package com.xshape;
+package com.xshape.modele.awt;
+
+import com.xshape.modele.IBuilder;
 
 public class AwtBuilder implements IBuilder {
     @Override
