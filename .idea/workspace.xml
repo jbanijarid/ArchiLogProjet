@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bfe736e0-e99c-4062-be07-d29af2f34f9d" name="Changes" comment="" />
+    <list default="true" id="bfe736e0-e99c-4062-be07-d29af2f34f9d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/toolbar/Tool.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/toolbar/ToolBarComponent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/toolbar/ToolBarComposite.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtToolBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtToolBar.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

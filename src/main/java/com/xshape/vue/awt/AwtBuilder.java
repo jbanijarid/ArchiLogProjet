@@ -20,7 +20,7 @@ public class AwtBuilder implements IBuilder {
 
     @Override
     public void toolBar() {
-        Panel awtT = new AwtToolBar(this.app, 12, 82, 135, app.getHeight()-60);
+        Panel awtT = new AwtToolBar(this.app, 12, 82, 135, app.getHeight()-82);
         toolBar = awtT;
         this.app.add(awtT);
     }
