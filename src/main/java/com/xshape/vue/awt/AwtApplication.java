@@ -1,5 +1,7 @@
 package com.xshape.vue.awt;
 
+import com.xshape.modele.IRenderer;
+import com.xshape.modele.Rectangle;
 import com.xshape.modele.awt.AwtBuilder;
 import com.xshape.modele.awt.AwtRenderer;
 import com.xshape.modele.fx.FxBuilder;
@@ -15,6 +17,7 @@ public class AwtApplication extends Frame {
         setSize(800, 600);
         AwtBuilder awtb = new AwtBuilder(this);
         awtb.build();
+
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent evt) {
