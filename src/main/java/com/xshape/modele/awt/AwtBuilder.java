@@ -2,8 +2,8 @@ package com.xshape.modele.awt;
 
 import com.xshape.modele.IBuilder;
 import com.xshape.vue.awt.AwtApplication;
-import javafx.scene.layout.BorderPane;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class AwtBuilder implements IBuilder {
@@ -22,23 +22,38 @@ public class AwtBuilder implements IBuilder {
 
     @Override
     public void menuBar() {
+        /*
 
-        // Créer un panneau pour les boutons
-        Panel buttonPanel = new Panel();
-        Button okButton = new Button("Undo");
-        buttonPanel.add(okButton);
-        Button cancelButton = new Button("Redo");
-        buttonPanel.add(cancelButton);
-        // Ajouter le panneau de boutons au bas de la fenêtre
-        this.app.add(buttonPanel, BorderLayout.NORTH);
-        this.app.setLayout(new FlowLayout(FlowLayout.LEFT));
+        Panel awtM = new Panel();
+
+        awtM.setBounds(0,0, 800, 92);
+        awtM.setBackground(Color.GRAY);
+
+        Button undo = new Button("Undo");
+        awtM.add(undo);
+
+        Button redo = new Button("Redo");
+        awtM.add(redo);
+
+        Button save = new Button("Save");
+        awtM.add(save);
+
+        Button load = new Button("Load");
+        awtM.add(load);
+
+
+
+        this.app.add(awtM);
+         */
+        JToolBar awtM = new AwtMenuBar(this.app);
+        this.app.add(awtM);
 
     }
 
     @Override
     public void whiteBoard() {
-        Panel awtb = new AwtWhiteBord();
-        this.app.add(awtb);
+        Panel awtB = new AwtWhiteBord(this.app);
+        this.app.add(awtB);
     }
 
     public void build(){

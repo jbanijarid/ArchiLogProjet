@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bfe736e0-e99c-4062-be07-d29af2f34f9d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt/AwtWhiteBoard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt/AwtMenuBar.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt/AwtBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt/AwtBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt/AwtRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt/AwtRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt/AwtWhiteBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt/AwtWhiteBoard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtApplication.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
