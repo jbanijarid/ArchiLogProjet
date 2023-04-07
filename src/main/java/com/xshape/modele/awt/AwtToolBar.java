@@ -1,5 +1,8 @@
 package com.xshape.modele.awt;
 
+import com.xshape.modele.IRenderer;
+import com.xshape.modele.Polygone;
+import com.xshape.modele.Rectangle;
 import com.xshape.vue.awt.AwtApplication;
 
 import java.awt.*;
@@ -13,10 +16,12 @@ class AwtToolBar extends Panel {
         setBackground(Color.CYAN);
         setBounds(x, y, width, height);
         app.add(this);
+
     }
 
     public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
+
 
 
     }

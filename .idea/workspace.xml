@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bfe736e0-e99c-4062-be07-d29af2f34f9d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt/undo.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt/AwtBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt/AwtBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt/AwtRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt/AwtRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt/AwtMenuBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt/AwtMenuBar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt/AwtToolBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt/AwtToolBar.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt/AwtWhiteBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt/AwtWhiteBoard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtApplication.java" afterDir="false" />
     </list>
@@ -44,6 +45,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -54,6 +56,9 @@
       <recent name="com.xshape.vue.awt" />
       <recent name="com.xshape.modele" />
       <recent name="com.xshape" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\galel\Pictures\ArchiLogProjet\src\main\java\com\xshape\modele\awt" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.xshape.modele.awt" />

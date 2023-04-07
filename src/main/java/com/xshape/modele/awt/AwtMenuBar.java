@@ -18,10 +18,22 @@ class AwtMenuBar extends JToolBar {
         setBackground(Color.gray);
         setBounds(x,y,width,height);
 
-        JButton undoButton = new JButton("Undo");
-        JButton redoButton = new JButton("Redo");
-        JButton saveButton = new JButton("Save");
-        JButton loadButton = new JButton("Load");
+        ImageIcon undoIcon = new ImageIcon("src/main/resources/com/xshape/undo.png");
+        ImageIcon redoIcon = new ImageIcon("src/main/resources/com/xshape/redo.png");
+        ImageIcon saveIcon = new ImageIcon("./src/main/resources/com/xshape/save.png");
+        ImageIcon loadIcon = new ImageIcon("src/main/resources/com/xshape/load.png");
+
+        int iconWidth = 24; // largeur des icônes des boutons
+        int iconHeight = 24; // hauteur des icônes des boutons
+        undoIcon.setImage(undoIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
+        redoIcon.setImage(redoIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
+        saveIcon.setImage(saveIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
+        loadIcon.setImage(loadIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
+
+        JButton undoButton = new JButton(undoIcon);
+        JButton redoButton = new JButton(redoIcon);
+        JButton saveButton = new JButton(saveIcon);
+        JButton loadButton = new JButton(loadIcon);
 
         add(undoButton);
         add(redoButton);
