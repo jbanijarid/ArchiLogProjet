@@ -5,23 +5,15 @@ import com.xshape.modele.IShape;
 import com.xshape.modele.Polygone;
 import com.xshape.modele.Rectangle;
 import com.xshape.modele.awt.AwtRenderer;
-import com.xshape.modele.toolbar.Tool;
-import com.xshape.modele.toolbar.ToolBarComponent;
-import com.xshape.modele.toolbar.ToolBarComposite;
-import com.xshape.vue.awt.AwtApplication;
+import com.xshape.modele.Goupage.ToolGroupComponent;
+import com.xshape.modele.Goupage.ToolGroupComposite;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 class AwtToolBar extends Panel {
@@ -31,7 +23,7 @@ class AwtToolBar extends Panel {
     int width = 50;
     int height = 30;
     int radious = 25;
-    ToolBarComponent tools = new ToolBarComposite();
+    ToolGroupComponent tools = new ToolGroupComposite();
     private Image trashLabel;
     private boolean clicked;
 

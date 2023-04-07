@@ -1,11 +1,10 @@
-package com.xshape.modele.toolbar;
+package com.xshape.modele.Goupage;
 
-import com.xshape.modele.IRenderer;
 import com.xshape.modele.IShape;
 
 import java.util.ArrayList;
 
-public class ToolBarComposite implements ToolBarComponent{
+public class ToolGroupComposite implements ToolGroupComponent {
 
     ArrayList<IShape> tools = new ArrayList<>();
 

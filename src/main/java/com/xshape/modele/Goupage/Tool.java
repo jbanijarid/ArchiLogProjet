@@ -1,9 +1,8 @@
-package com.xshape.modele.toolbar;
+package com.xshape.modele.Goupage;
 
-import com.xshape.modele.IRenderer;
 import com.xshape.modele.IShape;
 
-public class Tool implements ToolBarComponent{
+public class Tool implements ToolGroupComponent {
 
     IShape shape;
 
