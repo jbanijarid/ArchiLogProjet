@@ -36,7 +36,7 @@ public class FxBuilder implements IBuilder {
         //vbox.getChildren().add(v);
         //borderPane.setLeft(vbox);
         IShape rect = factory.createRectangle(25, 40, 50, 40, _renderer);
-        IShape poly = new Polygone(45, 120, 30, 5, _renderer);
+        IShape poly = factory.createPolygone(45, 120, 30, 5, _renderer);
         toolbar.add(rect);
         toolbar.add(poly);
         ToolBar tool = new ToolBar();
@@ -51,10 +51,10 @@ public class FxBuilder implements IBuilder {
     public void menuBar() {
         ToolBar toolBar = new ToolBar();
 
-        Button button1 = new Button("Undo");
+        Button button1 = factory.createButton("Undo");
         toolBar.getItems().add(button1);
 
-        Button button2 = new Button("Redo");
+        Button button2 = factory.createButton("Redo");
         toolBar.getItems().add(button2);
 
         HBox hBox = new HBox();

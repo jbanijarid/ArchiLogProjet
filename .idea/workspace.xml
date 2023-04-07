@@ -6,15 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="bfe736e0-e99c-4062-be07-d29af2f34f9d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Composite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Composite.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Goupage/Tool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Goupage/Tool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Goupage/ToolGroupComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Goupage/ToolGroupComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Goupage/ToolGroupComposite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Goupage/ToolGroupComposite.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/IShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/IShape.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Polygone.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Polygone.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Rectangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Rectangle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/SimpleShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/SimpleShape.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtToolBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtToolBar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/IFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/IFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/fx/FxBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/fx/FxBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/fx/FxFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/fx/FxFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xshape.iml" beforeDir="false" afterPath="$PROJECT_DIR$/xshape.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,18 +37,21 @@
     </option>
   </component>
   <component name="ProjectId" id="2O3cb0b418LaziIJMlvo8Oc605H" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/xshape/modele/awt" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.xshape.vue.fx" />
