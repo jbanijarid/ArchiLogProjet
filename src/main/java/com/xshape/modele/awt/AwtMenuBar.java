@@ -13,10 +13,10 @@ import java.awt.geom.Rectangle2D;
 
 class AwtMenuBar extends JToolBar {
 
-    public AwtMenuBar(AwtApplication app) {
+    public AwtMenuBar(AwtApplication app, int x, int y, int width, int height) {
 
         setBackground(Color.gray);
-        setBounds(0,23,800,60);
+        setBounds(x,y,width,height);
 
         JButton undoButton = new JButton("Undo");
         JButton redoButton = new JButton("Redo");
@@ -35,7 +35,7 @@ class AwtMenuBar extends JToolBar {
         undoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                System.out.println("ehhhhhhhhhhhhhhhh");
             }
         });
 

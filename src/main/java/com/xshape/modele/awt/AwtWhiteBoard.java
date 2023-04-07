@@ -8,13 +8,10 @@ import java.awt.geom.Rectangle2D;
 
 class AwtWhiteBord extends Panel {
 
-    public AwtWhiteBord(AwtApplication app) {
+    public AwtWhiteBord(AwtApplication app, int x, int y, int width, int height) {
 
-        //setBounds(app.getWidth() - this.getPreferredSize().width, app.getHeight() - this.getPreferredSize().height, 200, 200);
-        // Créer un panneau pour les boutons
-        //setBounds(app.getWidth() - this.getPreferredSize().width, app.getHeight() - this.getPreferredSize().height, 700, 508);7
         setBackground(Color.BLUE);
-        setBounds(app.getWidth() - 650, app.getHeight() - 540, 650, 540);
+        setBounds(x, y, width, height);
         app.add(this);
     }
 

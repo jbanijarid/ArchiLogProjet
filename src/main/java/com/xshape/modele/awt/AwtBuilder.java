@@ -17,42 +17,20 @@ public class AwtBuilder implements IBuilder {
 
     @Override
     public void toolBar() {
-
+        Panel awtT = new AwtToolBar(this.app, 12, 82, 135, app.getHeight()-60);
+        this.app.add(awtT);
     }
 
     @Override
     public void menuBar() {
-        /*
-
-        Panel awtM = new Panel();
-
-        awtM.setBounds(0,0, 800, 92);
-        awtM.setBackground(Color.GRAY);
-
-        Button undo = new Button("Undo");
-        awtM.add(undo);
-
-        Button redo = new Button("Redo");
-        awtM.add(redo);
-
-        Button save = new Button("Save");
-        awtM.add(save);
-
-        Button load = new Button("Load");
-        awtM.add(load);
-
-
-
-        this.app.add(awtM);
-         */
-        JToolBar awtM = new AwtMenuBar(this.app);
+        JToolBar awtM = new AwtMenuBar(this.app, 0,23,800,60);
         this.app.add(awtM);
 
     }
 
     @Override
     public void whiteBoard() {
-        Panel awtB = new AwtWhiteBord(this.app);
+        Panel awtB = new AwtWhiteBord(this.app, app.getWidth() - 650, app.getHeight() - 540, 650, 540);
         this.app.add(awtB);
     }
 
