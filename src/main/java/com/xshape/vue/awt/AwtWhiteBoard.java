@@ -1,8 +1,9 @@
-package com.xshape.modele.awt;
+package com.xshape.vue.awt;
 
 import com.xshape.modele.IRenderer;
 import com.xshape.modele.Polygone;
 import com.xshape.modele.Rectangle;
+import com.xshape.modele.awt.AwtRenderer;
 import com.xshape.vue.awt.AwtApplication;
 
 import java.awt.*;

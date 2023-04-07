@@ -1,4 +1,4 @@
-package com.xshape.modele.awt;
+package com.xshape.vue.awt;
 
 import com.xshape.vue.awt.AwtApplication;
 

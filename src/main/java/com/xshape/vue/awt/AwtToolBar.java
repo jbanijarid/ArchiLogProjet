@@ -1,4 +1,4 @@
-package com.xshape.modele.awt;
+package com.xshape.vue.awt;
 
 import com.xshape.modele.IRenderer;
 import com.xshape.modele.Polygone;

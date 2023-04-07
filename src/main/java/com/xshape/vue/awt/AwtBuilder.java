@@ -1,7 +1,6 @@
-package com.xshape.modele.awt;
+package com.xshape.vue.awt;
 
 import com.xshape.modele.IBuilder;
-import com.xshape.vue.awt.AwtApplication;
 
 import javax.swing.*;
 import java.awt.*;
