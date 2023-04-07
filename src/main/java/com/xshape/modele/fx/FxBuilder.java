@@ -1,7 +1,6 @@
 package com.xshape.modele.fx;
 
-import com.xshape.modele.Composite;
-import com.xshape.modele.IBuilder;
+import com.xshape.modele.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
@@ -12,19 +11,39 @@ public class FxBuilder implements IBuilder {
     private Composite toolbar;
     private Composite whiteboard;
     private BorderPane borderPane;
+    private IRenderer _renderer;
 
     public static FxWhiteBoard _whiteBoard;
+    private IFactory factory = new FxFactory();
 
 
 
-    public FxBuilder(Composite toolbar, Composite whiteboard, BorderPane borderPane) {
+    public FxBuilder(Composite toolbar, Composite whiteboard, IRenderer renderer, BorderPane borderPane) {
         this.toolbar = toolbar;
         this.whiteboard = whiteboard;
         this.borderPane = borderPane;
+        this._renderer = renderer;
     }
 
     @Override
     public void toolBar() {
+        //GraphicsContext graphic = canvas.getGraphicsContext2D();
+        _renderer.drawLine(100, 25, 100, 600);
+        //toolbar.getShaps().size();
+
+        // VBox vbox = new VBox();
+        //Canvas v = new Canvas();
+        //vbox.getChildren().add(v);
+        //borderPane.setLeft(vbox);
+        IShape rect = factory.createRectangle(25, 40, 50, 40, _renderer);
+        IShape poly = new Polygone(45, 120, 30, 5, _renderer);
+        toolbar.add(rect);
+        toolbar.add(poly);
+        ToolBar tool = new ToolBar();
+
+        for (IShape shape : toolbar.getShaps()) {
+          toolbar.draw();
+        }
 
     }
 

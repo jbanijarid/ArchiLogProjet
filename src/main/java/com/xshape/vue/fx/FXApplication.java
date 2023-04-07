@@ -1,11 +1,9 @@
 package com.xshape.vue.fx;
 
-import com.xshape.modele.Composite;
+import com.xshape.modele.*;
 import com.xshape.modele.fx.FxBuilder;
+import com.xshape.modele.fx.FxFactory;
 import com.xshape.modele.fx.FxRenderer;
-import com.xshape.modele.Polygone;
-import com.xshape.modele.Rectangle;
-import com.xshape.modele.IShape;
 
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -18,6 +16,7 @@ import java.io.IOException;
 
 public class FXApplication extends Application {
 
+    public static Composite toolBarElements = new Composite();
     public static Composite menuElements = new Composite();
     public static Composite whiteBoardElements = new Composite();
     public static BorderPane _root = new BorderPane();
@@ -25,19 +24,26 @@ public class FXApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Group root = new Group();
+        //Group root = new Group();
         Canvas fxCanvas = new Canvas(800, 600);
-        root.getChildren().add(fxCanvas);
+        _root.getChildren().add(fxCanvas);
         FxRenderer fxRenderer = new FxRenderer(fxCanvas);
 
-        IShape rect = new Rectangle(100, 100, 200, 150, fxRenderer);
+        //IShape rect = new Rectangle(100, 100, 200, 150, fxRenderer);
+        //rect.draw();
+
+        //IShape poly = new Polygone(400, 300, 100, 8, fxRenderer);
+        //poly.draw();
+
+        IFactory factory = new FxFactory();
+        IShape rect = factory.createRectangle(100, 100, 20, 150, fxRenderer);
         rect.draw();
+
 
         IShape poly = new Polygone(400, 300, 100, 8, fxRenderer);
         poly.draw();
 
-        FxBuilder fxb = new FxBuilder(menuElements,whiteBoardElements,_root);
-        fxBuilder = fxb;
+        fxBuilder = new FxBuilder(toolBarElements,whiteBoardElements, fxRenderer, _root);
         _root = fxBuilder.build();
 
         Scene scene = new Scene(_root,800,600);

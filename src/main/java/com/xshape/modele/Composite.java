@@ -28,4 +28,8 @@ public class Composite implements IShape {
             shape.draw();
         }
     }
+
+    public List<IShape> getShaps(){
+        return shaps;
+    }
 }
