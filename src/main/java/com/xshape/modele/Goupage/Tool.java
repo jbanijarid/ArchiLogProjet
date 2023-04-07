@@ -10,9 +10,15 @@ public class Tool implements ToolGroupComponent {
         this.shape = shape;
     }
 
+
     @Override
-    public IShape get() {
-        return this.shape;
+    public double getPositionX() {
+        return this.shape.getPositionX();
+    }
+
+    @Override
+    public double getPositionY() {
+        return this.shape.getPositionY();
     }
 
     @Override
@@ -24,4 +30,16 @@ public class Tool implements ToolGroupComponent {
     public void remove(IShape shape) {
 
     }
+
+    @Override
+    public void draw() {
+        this.shape.draw();
+    }
+
+    @Override
+    public void setPosition(double x, double y) {
+        this.shape.setPosition(x, y);
+    }
+
+
 }

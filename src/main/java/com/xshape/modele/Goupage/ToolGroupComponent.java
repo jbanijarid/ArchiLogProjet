@@ -4,9 +4,11 @@ import com.xshape.modele.IShape;
 
 public interface ToolGroupComponent {
 
-    IShape get();
+    double getPositionX();
+    double getPositionY();
     void add(IShape shape);
     void remove(IShape shape);
-
+    void draw();
+    void setPosition(double x, double y);
 
 }

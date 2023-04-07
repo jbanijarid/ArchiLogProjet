@@ -2,7 +2,7 @@ package com.xshape.modele;
 
 public class Polygone extends SimpleShape {
 
-    private double centerX;
+    double centerX;
     double centerY;
     double radius;
     double nbSides;
@@ -34,6 +34,22 @@ public class Polygone extends SimpleShape {
             x = nextX;
             y = nextY;
         }
+    }
+
+    @Override
+    public void setPosition(double x, double y){
+        this.centerX = x;
+        this.centerY = y;
+    }
+
+    @Override
+    public double getPositionX() {
+        return this.centerX;
+    }
+
+    @Override
+    public double getPositionY() {
+        return this.centerY;
     }
 
 }

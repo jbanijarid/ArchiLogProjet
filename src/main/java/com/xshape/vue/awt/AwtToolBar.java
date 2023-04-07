@@ -1,5 +1,6 @@
 package com.xshape.vue.awt;
 
+import com.xshape.modele.Goupage.Tool;
 import com.xshape.modele.IRenderer;
 import com.xshape.modele.IShape;
 import com.xshape.modele.Polygone;
@@ -15,15 +16,17 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 class AwtToolBar extends Panel {
 
-    int pos_x = 15;
+    int pos_x = 30;
     int pos_y = 10;
     int width = 50;
     int height = 30;
     int radious = 25;
-    ToolGroupComponent tools = new ToolGroupComposite();
+    private int current_y = pos_y;
+    ArrayList<ToolGroupComponent> tools = new ArrayList<>();
     private Image trashLabel;
     private boolean clicked;
 
@@ -59,27 +62,28 @@ class AwtToolBar extends Panel {
         }
     }
 
-
-
-    void addTool(IShape s){
-        tools.add(s);
-        s.draw();
+    void addTool(ToolGroupComponent tool){
+        tools.add(tool);
     }
 
-    //toujours faire addShape pour pouvoir bien placer le tool dans le bartools
-    void addShape(){
-        this.pos_y = this.pos_y+75;
-    }
 
 
     public void paint(Graphics g) {
         IRenderer renderer = new AwtRenderer(g);
-
         Rectangle r = new Rectangle(this.pos_x, this.pos_y, this.width, this.height, renderer);
-        addShape();
         Polygone p = new Polygone(this.pos_x+ this.radious, this.pos_y, this.radious, 6, renderer);
-        addTool(r);
-        addTool(p);
+        ToolGroupComponent recTool = new Tool(r);
+        ToolGroupComponent polyTool = new Tool(p);
+        addTool(recTool);
+        addTool(polyTool);
+
+
+
+        for(ToolGroupComponent tool: this.tools){
+            tool.setPosition(tool.getPositionX(), current_y);
+            tool.draw();
+            current_y += 75;
+        }
 
 
         if (trashLabel != null) {

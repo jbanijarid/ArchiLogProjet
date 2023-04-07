@@ -8,4 +8,5 @@ public abstract class SimpleShape implements IShape {
         _renderer = renderer;
     }
 
+
 }

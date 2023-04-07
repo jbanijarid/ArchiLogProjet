@@ -29,6 +29,21 @@ public class Composite implements IShape {
         }
     }
 
+    @Override
+    public void setPosition(double x, double y) {
+
+    }
+
+    @Override
+    public double getPositionX() {
+        return 0;
+    }
+
+    @Override
+    public double getPositionY() {
+        return 0;
+    }
+
     public List<IShape> getShaps(){
         return shaps;
     }

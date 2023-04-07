@@ -32,4 +32,21 @@ public class Rectangle extends SimpleShape {
 
 
 
+    @Override
+    public void setPosition(double x, double y){
+        this.x = x;
+        this.y = y;
+    }
+
+    @Override
+    public double getPositionX() {
+        return this.x;
+    }
+
+    @Override
+    public double getPositionY() {
+        return this.y;
+    }
+
+
 }
