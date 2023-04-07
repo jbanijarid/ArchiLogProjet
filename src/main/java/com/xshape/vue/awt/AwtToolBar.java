@@ -27,9 +27,10 @@ import java.net.URL;
 class AwtToolBar extends Panel {
 
     int pos_x = 15;
-    int pos_y = 0;
-    int width = 40;
-    int height =40;
+    int pos_y = 10;
+    int width = 50;
+    int height = 30;
+    int radious = 25;
     ToolBarComponent tools = new ToolBarComposite();
     private Image trashLabel;
     private boolean clicked;
@@ -84,7 +85,7 @@ class AwtToolBar extends Panel {
 
         Rectangle r = new Rectangle(this.pos_x, this.pos_y, this.width, this.height, renderer);
         addShape();
-        Polygone p = new Polygone(this.pos_x, this.pos_y, this.width, this.height, renderer);
+        Polygone p = new Polygone(this.pos_x+ this.radious, this.pos_y, this.radious, 6, renderer);
         addTool(r);
         addTool(p);
 

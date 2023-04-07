@@ -17,7 +17,7 @@ public class Polygone extends SimpleShape {
 
     @Override
     public void draw() {
-        double angle = 2 * Math.PI / 5; // Angle entre deux sommets consécutifs du pentagone
+        double angle = 2 * Math.PI / nbSides; // Angle entre deux sommets consécutifs du pentagone
         double x, y;
 
         // Coordonnées du premier sommet
@@ -25,7 +25,7 @@ public class Polygone extends SimpleShape {
         y = centerY + radius * Math.sin(0);
 
         // Dessine les cinq côtés du pentagone
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= nbSides; i++) {
             double nextX = centerX + radius * Math.cos(i * angle);
             double nextY = centerY + radius * Math.sin(i * angle);
 
