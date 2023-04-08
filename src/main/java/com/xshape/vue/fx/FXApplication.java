@@ -49,7 +49,7 @@ public class FXApplication extends Application {
         fxBuilder = new FxBuilder(_root);
         _root = fxBuilder.build();
 
-        Scene scene = new Scene(_root,800,600);
+        Scene scene = new Scene(_root,800,635);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
