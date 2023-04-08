@@ -6,7 +6,6 @@ public interface ToolGroupComponent {
     void add(ToolGroupComponent tool);
     void remove(ToolGroupComponent tool);
     void draw();
-    IShape get();
     ToolGroupComponent clone();
-
+    IShape get();
 }

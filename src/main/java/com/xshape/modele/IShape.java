@@ -8,4 +8,5 @@ public interface IShape {
     double getPositionY();
     double getWidth();
     double getHeight();
+    boolean IsArea(double mouseX, double mouseY);
 }

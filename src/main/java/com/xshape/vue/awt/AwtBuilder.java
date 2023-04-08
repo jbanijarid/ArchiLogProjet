@@ -64,8 +64,9 @@ public class AwtBuilder implements IBuilder, MouseListener {
     public void mouseClicked(MouseEvent e) {
         for (ToolGroupComponent tool : toolBar.getTools()) {
             // Vérifie si la souris est dans la zone de la forme
-            if (e.getX() >= tool.get().getPositionX() && e.getX() <= tool.get().getPositionX() + tool.get().getWidth() &&
-                    e.getY() >= tool.get().getPositionY() && e.getY() <= tool.get().getPositionY() + tool.get().getHeight()) {
+            if (tool.get().IsArea(e.getX(), e.getY())) {
+                System.out.println(tool.get().IsArea(e.getX(), e.getY()));
+                System.out.println(tool.get());
                 // Si la forme est cliquée, elle devient le selectedtool
                 this.selectedTool = tool;
                 System.out.println("entreeeeeeeeeeeeeeeeeeee");
@@ -76,13 +77,17 @@ public class AwtBuilder implements IBuilder, MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (selectedTool != null) {
-            draggedTool = selectedTool.clone();
-            draggedTool.get().setPosition(e.getX(), e.getY());
-            // Ajouter la forme au panneau blanc
-            whiteBoard.add(draggedTool);
-            System.out.println("wehhhhhhhhhhhhhhhhhhhhh");
-            // Actualiser le panneau blanc pour afficher la nouvelle forme
+        for (ToolGroupComponent tool : toolBar.getTools()) {
+            // Vérifie si la souris est dans la zone de la forme
+            if (tool.get().IsArea(e.getX(), e.getY())) {
+                if (selectedTool != null) {
+                    draggedTool = selectedTool.clone();
+                    draggedTool.get().setPosition(e.getX(), e.getY());
+                    // Ajouter la forme au panneau blanc
+                    whiteBoard.add(draggedTool);
+                    // Actualiser le panneau blanc pour afficher la nouvelle forme
+                }
+            }
         }
     }
 

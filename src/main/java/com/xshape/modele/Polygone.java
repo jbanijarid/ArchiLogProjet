@@ -73,4 +73,84 @@ public class Polygone extends SimpleShape {
         return 2 * apothem;
     }
 
+    @Override
+    public boolean IsArea(double mouseX, double mouseY) {
+        double angle = 2 * Math.PI / nbSides;
+        double apothem = radius * Math.cos(angle / 2);
+        double centerX = this.centerX;
+        double centerY = this.centerY;
+
+        // Point de départ
+        double x = centerX + radius;
+        double y = centerY;
+
+        // Initialise les variables pour trouver le minimum et le maximum des coordonnées X et Y
+        double minX = x, maxX = x, minY = y, maxY = y;
+
+        // Trouve les coordonnées de chaque sommet et met à jour les variables minX, maxX, minY, maxY
+        for (int i = 1; i <= nbSides; i++) {
+            double nextX = centerX + radius * Math.cos(i * angle);
+            double nextY = centerY + radius * Math.sin(i * angle);
+
+            if (nextX < minX) {
+                minX = nextX;
+            }
+            if (nextX > maxX) {
+                maxX = nextX;
+            }
+            if (nextY < minY) {
+                minY = nextY;
+            }
+            if (nextY > maxY) {
+                maxY = nextY;
+            }
+
+            double dist = distanceToLineSegment(mouseX, mouseY, x, y, nextX, nextY);
+
+            // Si la distance de la souris à la ligne est inférieure ou égale à 2 pixels, retourne vrai
+            if (dist <= 2) {
+                return true;
+            }
+
+            x = nextX;
+            y = nextY;
+        }
+
+        // Si la souris est dans le rectangle englobant, retourne vrai
+        if (mouseX >= minX && mouseX <= maxX && mouseY >= minY && mouseY <= maxY) {
+            return true;
+        }
+
+        return false;
+    }
+
+    // Calcule la distance de la souris à une ligne spécifiée
+    private double distanceToLineSegment(double x, double y, double x1, double y1, double x2, double y2) {
+        double A = x - x1;
+        double B = y - y1;
+        double C = x2 - x1;
+        double D = y2 - y1;
+
+        double dot = A * C + B * D;
+        double len_sq = C * C + D * D;
+        double param = dot / len_sq;
+
+        double xx, yy;
+
+        if (param < 0) {
+            xx = x1;
+            yy = y1;
+        } else if (param > 1) {
+            xx = x2;
+            yy = y2;
+        } else {
+            xx = x1 + param * C;
+            yy = y1 + param * D;
+        }
+
+        double dx = x - xx;
+        double dy = y - yy;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
 }

@@ -63,5 +63,14 @@ public class Rectangle extends SimpleShape {
         return this.height;
     }
 
+    @Override
+    public boolean IsArea(double mouseX, double mouseY) {
+        if (mouseX < this.x || mouseX > this.x + this.width || mouseY < this.y || mouseY > this.y + this.height) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 
 }

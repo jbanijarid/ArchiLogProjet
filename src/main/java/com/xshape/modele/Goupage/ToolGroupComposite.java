@@ -26,21 +26,19 @@ public class ToolGroupComposite implements ToolGroupComponent {
         }
     }
 
-    @Override
-    public IShape get() {
-        return null;
+    ArrayList<ToolGroupComponent> getTools(){
+        return this.tools;
     }
-
 
     @Override
     public ToolGroupComponent clone() {
         return null;
     }
 
-    public ArrayList<ToolGroupComponent> getTools(){
-        return this.tools;
+    @Override
+    public IShape get() {
+        return null;
     }
-
 
 
 }

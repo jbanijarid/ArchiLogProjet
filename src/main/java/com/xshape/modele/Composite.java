@@ -59,6 +59,12 @@ public class Composite implements IShape {
         return 0;
     }
 
+    @Override
+    public boolean IsArea(double mousseX, double mousseY) {
+        return false;
+    }
+
+
     public List<IShape> getShaps(){
         return shaps;
     }
