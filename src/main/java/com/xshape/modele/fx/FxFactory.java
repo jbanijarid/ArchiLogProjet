@@ -16,14 +16,13 @@ public class FxFactory implements IFactory {
     }
 
     @Override
-    public Polygone createPolygon(double centerX, double centerY, double radius, double nbSides, IRenderer renderer) {
+    public Polygone createPolygone(double centerX, double centerY, double radius, double nbSides, IRenderer renderer) {
         return new Polygone(centerX,centerY,radius,nbSides,renderer);
     }
 
     @Override
-    public Button createButton(String title, double width, double height) {
+    public Button createButton(String title) {
         Button b = new Button(title);
-        b.setPrefSize(width,height);
         return b;
     }
 
