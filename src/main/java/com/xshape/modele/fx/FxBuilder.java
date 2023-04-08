@@ -1,5 +1,6 @@
 package com.xshape.modele.fx;
 
+import com.sun.scenario.effect.impl.sw.java.JSWBlend_REDPeer;
 import com.xshape.modele.*;
 import javafx.scene.Camera;
 import javafx.scene.canvas.Canvas;
@@ -10,13 +11,14 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
-public class FxBuilder implements IBuilder {
+public class FxBuilder implements IBuilder, Event {
 
     private Composite toolbar;
     private Composite whiteboard;
     private BorderPane borderPane;
     private IRenderer _renderer;
     private Canvas _canvas;
+    //IShape selectedShape = null;
 
     public static FxWhiteBoard _whiteBoard;
     private IFactory factory = new FxFactory();
@@ -31,6 +33,7 @@ public class FxBuilder implements IBuilder {
         borderPane.setBottom(_canvas);
         this._renderer = new FxRenderer(_canvas);
 
+        /*
         _canvas.setOnDragOver(event -> {
             if (event.getGestureSource() != _canvas && event.getDragboard().hasString()) {
                 event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
@@ -46,8 +49,9 @@ public class FxBuilder implements IBuilder {
                     double x = event.getX();
                     double y = event.getY();
                     factory = new FxFactory();
-                    IShape rect = factory.createRectangle(25, 40, 50, 40, _renderer);
+                    IShape rect = factory.createRectangle(100, 200, 50, 40, _renderer);
                     rect.draw();
+                    System.out.println("helloo");
                     //Command drawCommand = new DrawRectangleCommand(_factory, x, y);
                     //undoStack.push(drawCommand);
                     //drawCommand.execute();
@@ -58,6 +62,8 @@ public class FxBuilder implements IBuilder {
             event.setDropCompleted(success);
             event.consume();
         });
+
+         */
     }
 
     @Override
@@ -71,7 +77,6 @@ public class FxBuilder implements IBuilder {
         toolbar.add(rect);
         toolbar.add(poly);
         toolbar.draw();
-
     }
 
     @Override
@@ -99,7 +104,44 @@ public class FxBuilder implements IBuilder {
         toolBar();
         menuBar();
         whiteBoard();
+        toolBarEvents(toolbar);
 
         return borderPane;
+    }
+
+    @Override
+    public void groupDarggable(Composite group) {
+    }
+
+    @Override
+    public void toolBarEvents(Composite toolBar) {
+        _canvas.setOnMousePressed(event -> {
+            double mouseX = event.getX();
+            double mouseY = event.getY();
+            for (IShape shape : toolbar.getShaps()){
+                if (shape.IsArea(mouseX, mouseY)){
+                    System.out.println("hellooooox");
+                    _canvas.setOnMouseDragged(dragEvent -> {
+                    });
+                    _canvas.setOnMouseReleased(releaseEvent -> {
+                        double deltaX = releaseEvent.getX() - mouseX;
+                        double deltaY = releaseEvent.getY() - mouseY;
+                        _canvas.setOnMouseDragged(null);
+                        if (deltaX > 100){
+                            //shape.setPosition(shape.getPositionX() + deltaX, shape.getPositionY() + deltaY);
+                            IShape newShape = shape;
+                            newShape.setPosition(shape.getPositionX() + deltaX, shape.getPositionY() + deltaY);
+                            System.out.println("helloobbbbbbbbbbbbbb");
+                            newShape.draw();
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    @Override
+    public void whiteBoardEvents(IWhiteBoard whiteBoard) {
+
     }
 }
