@@ -70,7 +70,7 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
 
 
         for(ToolGroupComponent tool: this.tools){
-            tool.setPosition(tool.getPositionX(), current_y);
+            tool.get().setPosition(tool.get().getPositionX(), current_y);
             tool.draw();
             current_y += 75;
         }

@@ -10,26 +10,6 @@ public class ToolGroupComposite implements ToolGroupComponent {
 
 
     @Override
-    public double getPositionX() {
-        return 0;
-    }
-
-    @Override
-    public double getPositionY() {
-        return 0;
-    }
-
-    @Override
-    public double getWidth() {
-        return 0;
-    }
-
-    @Override
-    public double getHeight() {
-        return 0;
-    }
-
-    @Override
     public void add(ToolGroupComponent tool) {
         tools.add(tool);
     }
@@ -47,15 +27,14 @@ public class ToolGroupComposite implements ToolGroupComponent {
     }
 
     @Override
-    public void setPosition(double x, double y) {
-
+    public IShape get() {
+        return null;
     }
 
+
     @Override
-    public void setColor(int color) {
-        for(ToolGroupComponent tool : tools){
-            tool.setColor(color);
-        }
+    public ToolGroupComponent clone() {
+        return null;
     }
 
     public ArrayList<ToolGroupComponent> getTools(){

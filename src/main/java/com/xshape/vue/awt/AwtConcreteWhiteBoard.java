@@ -1,5 +1,6 @@
 package com.xshape.vue.awt;
 
+import com.xshape.modele.Goupage.ToolGroupComponent;
 import com.xshape.modele.IRenderer;
 import com.xshape.modele.Rectangle;
 import com.xshape.modele.awt.AwtRenderer;
@@ -20,6 +21,7 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
         DrawRectangle();
     }
 
+
     public void DrawRectangle(){
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -35,9 +37,13 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
 
                 Graphics g = getGraphics();
                 IRenderer test = new AwtRenderer(g);
-                com.xshape.modele.Rectangle rectangle = new Rectangle(startX,startY, endX-startX,endY-startY, test);
+                Rectangle rectangle = new Rectangle(startX,startY, endX-startX,endY-startY, test);
                 rectangle.draw();
             }
         });
+    }
+
+    public void add(ToolGroupComponent draggedTool) {
+
     }
 }

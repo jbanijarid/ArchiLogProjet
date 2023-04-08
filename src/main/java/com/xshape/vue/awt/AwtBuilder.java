@@ -16,6 +16,9 @@ public class AwtBuilder implements IBuilder, MouseListener {
     private AwtConcreteToolBar toolBar;
     private JToolBar menuBar;
     private AwtConcreteWhiteBoard whiteBoard;
+    private ToolGroupComponent selectedTool;
+    private ToolGroupComponent draggedTool;
+
 
     public AwtBuilder(AwtApplication awtApplication){
         this.app = awtApplication;
@@ -61,10 +64,10 @@ public class AwtBuilder implements IBuilder, MouseListener {
     public void mouseClicked(MouseEvent e) {
         for (ToolGroupComponent tool : toolBar.getTools()) {
             // Vérifie si la souris est dans la zone de la forme
-            if (e.getX() >= tool.getPositionX() && e.getX() <= tool.getPositionX() + tool.getWidth() &&
-                    e.getY() >= tool.getPositionY() && e.getY() <= tool.getPositionY() + tool.getHeight()) {
+            if (e.getX() >= tool.get().getPositionX() && e.getX() <= tool.get().getPositionX() + tool.get().getWidth() &&
+                    e.getY() >= tool.get().getPositionY() && e.getY() <= tool.get().getPositionY() + tool.get().getHeight()) {
                 // Si la forme est cliquée, elle devient le selectedtool
-                tool.setColor(150);
+                this.selectedTool = tool;
                 System.out.println("entreeeeeeeeeeeeeeeeeeee");
                 break;
             }
@@ -73,33 +76,25 @@ public class AwtBuilder implements IBuilder, MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        if (selectedTool != null) {
+            draggedTool = selectedTool.clone();
+            draggedTool.get().setPosition(e.getX(), e.getY());
+            // Ajouter la forme au panneau blanc
+            whiteBoard.add(draggedTool);
+            System.out.println("wehhhhhhhhhhhhhhhhhhhhh");
+            // Actualiser le panneau blanc pour afficher la nouvelle forme
+        }
     }
 
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
-    }
-
-    /*
-    public void dragAndDrop(ToolGroupComponent toolName) {
-        if (toolBar != null && whiteBoard != null) {
-            // Parcourir les composants de la barre d'outils
-            for (ToolGroupComponent tool: toolBar.getTools()) {
-                if (tool.equals(toolName)) {
-                    AwtShape shape = tool.createShape();
-                    // Ajouter la forme au panneau blanc
-                    whiteBoard.add(shape);
-                    // Actualiser le panneau blanc pour afficher la nouvelle forme
-                    whiteBoard.repaint();
-                    // Sortir de la boucle
-                    break;
-                }
-            }
+        if (draggedTool != null) {
+            // Réinitialiser la forme qui est en train d'être déplacée
+            draggedTool = null;
         }
     }
-     */
+
 
 
     public void build(){

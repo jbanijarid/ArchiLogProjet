@@ -2,7 +2,7 @@ package com.xshape.modele.Goupage;
 
 import com.xshape.modele.IShape;
 
-public class Tool implements ToolGroupComponent {
+public class Tool implements ToolGroupComponent, Cloneable {
 
     IShape shape;
 
@@ -10,26 +10,6 @@ public class Tool implements ToolGroupComponent {
         this.shape = shape;
     }
 
-
-    @Override
-    public double getPositionX() {
-        return this.shape.getPositionX();
-    }
-
-    @Override
-    public double getPositionY() {
-        return this.shape.getPositionY();
-    }
-
-    @Override
-    public double getWidth() {
-        return this.shape.getWidth();
-    }
-
-    @Override
-    public double getHeight() {
-        return this.shape.getHeight();
-    }
 
     @Override
     public void add(ToolGroupComponent tool) {
@@ -47,13 +27,19 @@ public class Tool implements ToolGroupComponent {
     }
 
     @Override
-    public void setPosition(double x, double y) {
-        this.shape.setPosition(x, y);
+    public IShape get() {
+        return this.shape;
     }
 
-    @Override
-    public void setColor(int color) {
 
+    @Override
+    public ToolGroupComponent clone() {
+        try {
+            return (Tool) super.clone();
+        } catch (CloneNotSupportedException e) {
+            // si l'objet ne peut pas être cloné
+            return null;
+        }
     }
 
 
