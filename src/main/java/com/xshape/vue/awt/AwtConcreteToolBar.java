@@ -1,24 +1,22 @@
 package com.xshape.vue.awt;
 
 import com.xshape.modele.Goupage.Tool;
+import com.xshape.modele.Goupage.ToolGroupComponent;
 import com.xshape.modele.IRenderer;
-import com.xshape.modele.IShape;
 import com.xshape.modele.Polygone;
 import com.xshape.modele.Rectangle;
 import com.xshape.modele.awt.AwtRenderer;
-import com.xshape.modele.Goupage.ToolGroupComponent;
-import com.xshape.modele.Goupage.ToolGroupComposite;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-class AwtToolBar extends Panel {
+public class AwtConcreteToolBar extends AwtAbstractToolBar{
 
     int pos_x = 30;
     int pos_y = 10;
@@ -29,11 +27,11 @@ class AwtToolBar extends Panel {
     ArrayList<ToolGroupComponent> tools = new ArrayList<>();
     private Image trashLabel;
     private boolean clicked;
+    private ToolGroupComponent selectedTool = null;
 
 
-    public AwtToolBar(AwtApplication app, int x, int y, int width, int height) {
-        setBackground(Color.CYAN);
-        setBounds(x, y, width, height);
+    AwtConcreteToolBar(AwtApplication app, int x, int y, int width, int height){
+        super(app, x, y, width, height);
         clicked = false;
 
         try {
@@ -44,39 +42,31 @@ class AwtToolBar extends Panel {
             e.printStackTrace();
         }
 
-        // Créer un MouseListener pour l'image seulement
-        ImageMouseListener listener = new ImageMouseListener();
-        addMouseListener(listener);
-
         app.add(this);
+
     }
 
-    private class ImageMouseListener extends MouseAdapter {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            // Vérifier si le clic a été effectué dans la zone de l'image
-            if (e.getX() < trashLabel.getWidth(null) && e.getY() < trashLabel.getHeight(null)) {
-                clicked = !clicked;
 
-            }
-        }
-    }
 
     void addTool(ToolGroupComponent tool){
         tools.add(tool);
     }
 
 
+    public ArrayList<ToolGroupComponent> getTools() {
+        return tools;
+    }
 
+
+    @Override
     public void paint(Graphics g) {
         IRenderer renderer = new AwtRenderer(g);
-        Rectangle r = new Rectangle(this.pos_x, this.pos_y, this.width, this.height, renderer);
+        com.xshape.modele.Rectangle r = new Rectangle(this.pos_x, this.pos_y, this.width, this.height, renderer);
         Polygone p = new Polygone(this.pos_x+ this.radious, this.pos_y, this.radious, 6, renderer);
         ToolGroupComponent recTool = new Tool(r);
         ToolGroupComponent polyTool = new Tool(p);
         addTool(recTool);
         addTool(polyTool);
-
 
 
         for(ToolGroupComponent tool: this.tools){
@@ -90,5 +80,4 @@ class AwtToolBar extends Panel {
             g.drawImage(trashLabel, (getWidth() - trashLabel.getWidth(null)) / 2, getHeight() - trashLabel.getHeight(null) - 10, null);
         }
     }
-
 }

@@ -1,6 +1,10 @@
 package com.xshape.vue.awt;
 
+import com.xshape.modele.Goupage.ToolGroupComponent;
+
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -11,7 +15,6 @@ public class AwtApplication extends Frame {
         setSize(800, 600);
         AwtBuilder awtb = new AwtBuilder(this);
         awtb.build();
-
 
 
         addWindowListener(new WindowAdapter() {

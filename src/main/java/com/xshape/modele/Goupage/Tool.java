@@ -22,12 +22,22 @@ public class Tool implements ToolGroupComponent {
     }
 
     @Override
-    public void add(IShape shape) {
+    public double getWidth() {
+        return this.shape.getWidth();
+    }
+
+    @Override
+    public double getHeight() {
+        return this.shape.getHeight();
+    }
+
+    @Override
+    public void add(ToolGroupComponent tool) {
 
     }
 
     @Override
-    public void remove(IShape shape) {
+    public void remove(ToolGroupComponent tool) {
 
     }
 
@@ -39,6 +49,11 @@ public class Tool implements ToolGroupComponent {
     @Override
     public void setPosition(double x, double y) {
         this.shape.setPosition(x, y);
+    }
+
+    @Override
+    public void setColor(int color) {
+
     }
 
 

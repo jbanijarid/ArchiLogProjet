@@ -6,6 +6,7 @@ public class Polygone extends SimpleShape {
     double centerY;
     double radius;
     double nbSides;
+    private int color=50;
 
     public Polygone(double centerX, double centerY, double radius, double nbSides, IRenderer renderer) {
         super(renderer);
@@ -17,6 +18,7 @@ public class Polygone extends SimpleShape {
 
     @Override
     public void draw() {
+        _renderer.setColor(this.color);
         double angle = 2 * Math.PI / nbSides; // Angle entre deux sommets consécutifs du pentagone
         double x, y;
 
@@ -37,6 +39,11 @@ public class Polygone extends SimpleShape {
     }
 
     @Override
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    @Override
     public void setPosition(double x, double y){
         this.centerX = x;
         this.centerY = y;
@@ -50,6 +57,20 @@ public class Polygone extends SimpleShape {
     @Override
     public double getPositionY() {
         return this.centerY;
+    }
+
+    @Override
+    public double getWidth() {
+        double angle = Math.PI / nbSides; // angle entre le centre, un sommet et le sommet adjacent
+        double sideLength = 2 * radius * Math.sin(angle); // longueur d'un côté
+        return sideLength;
+    }
+
+    @Override
+    public double getHeight() {
+        double angle = Math.PI / nbSides; // angle entre le centre, un sommet et le sommet adjacent
+        double apothem = radius * Math.cos(angle); // apothème du polygone (distance entre le centre et le milieu d'un côté)
+        return 2 * apothem;
     }
 
 }

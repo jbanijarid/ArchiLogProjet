@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class ToolGroupComposite implements ToolGroupComponent {
 
-    ArrayList<IShape> tools = new ArrayList<>();
+    ArrayList<ToolGroupComponent> tools = new ArrayList<>();
 
 
     @Override
@@ -20,19 +20,29 @@ public class ToolGroupComposite implements ToolGroupComponent {
     }
 
     @Override
-    public void add(IShape shape) {
-        tools.add(shape);
+    public double getWidth() {
+        return 0;
     }
 
     @Override
-    public void remove(IShape shape) {
-        tools.remove(shape);
+    public double getHeight() {
+        return 0;
+    }
+
+    @Override
+    public void add(ToolGroupComponent tool) {
+        tools.add(tool);
+    }
+
+    @Override
+    public void remove(ToolGroupComponent tool) {
+        tools.remove(tool);
     }
 
     @Override
     public void draw() {
-        for(IShape shape : tools){
-            shape.draw();
+        for(ToolGroupComponent tool : tools){
+            tool.draw();
         }
     }
 
@@ -41,7 +51,14 @@ public class ToolGroupComposite implements ToolGroupComponent {
 
     }
 
-    public ArrayList<IShape> getTools(){
+    @Override
+    public void setColor(int color) {
+        for(ToolGroupComponent tool : tools){
+            tool.setColor(color);
+        }
+    }
+
+    public ArrayList<ToolGroupComponent> getTools(){
         return this.tools;
     }
 

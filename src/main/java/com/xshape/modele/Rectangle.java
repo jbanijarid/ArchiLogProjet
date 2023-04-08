@@ -3,6 +3,7 @@ package com.xshape.modele;
 public class Rectangle extends SimpleShape {
 
     private double x, y, width, height;
+    private int color=50;
 
     public Rectangle(double x, double y, double width, double height, IRenderer renderer) {
         super(renderer);
@@ -15,7 +16,7 @@ public class Rectangle extends SimpleShape {
     @Override
     public void draw() {
         //_renderer.drawRectangle(x, y, width, height);
-        _renderer.setColor(50);
+        _renderer.setColor(this.color);
 
         // Ligne horizontale du haut
         _renderer.drawLine(x, y, x + width, y);
@@ -30,6 +31,10 @@ public class Rectangle extends SimpleShape {
         _renderer.drawLine(x, y + height, x, y);
     }
 
+    @Override
+    public void setColor(int color) {
+        this.color =color;
+    }
 
 
     @Override
@@ -46,6 +51,16 @@ public class Rectangle extends SimpleShape {
     @Override
     public double getPositionY() {
         return this.y;
+    }
+
+    @Override
+    public double getWidth() {
+        return this.width;
+    }
+
+    @Override
+    public double getHeight() {
+        return this.height;
     }
 
 

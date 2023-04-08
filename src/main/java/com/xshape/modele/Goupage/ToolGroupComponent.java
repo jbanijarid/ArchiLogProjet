@@ -6,9 +6,12 @@ public interface ToolGroupComponent {
 
     double getPositionX();
     double getPositionY();
-    void add(IShape shape);
-    void remove(IShape shape);
+    double getWidth();
+    double getHeight();
+    void add(ToolGroupComponent tool);
+    void remove(ToolGroupComponent tool);
     void draw();
     void setPosition(double x, double y);
+    void setColor(int color);
 
 }

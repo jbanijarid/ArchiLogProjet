@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bfe736e0-e99c-4062-be07-d29af2f34f9d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtAbstractToolBar.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtAbstractWhiteBoard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Composite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Composite.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Goupage/Tool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Goupage/Tool.java" afterDir="false" />
@@ -13,8 +15,10 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/IShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/IShape.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Polygone.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Polygone.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Rectangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/Rectangle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/modele/SimpleShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/modele/SimpleShape.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtToolBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtToolBar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtToolBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtConcreteToolBar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtWhiteBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xshape/vue/awt/AwtConcreteWhiteBoard.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
