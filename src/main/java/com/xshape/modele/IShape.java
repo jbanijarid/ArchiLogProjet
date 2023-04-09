@@ -8,5 +8,9 @@ public interface IShape {
     double getPositionY();
     double getWidth();
     double getHeight();
+    double getRadius();
+    double getNbSides();
     boolean IsArea(double mouseX, double mouseY);
+    void setRenderer(IRenderer r);
+    IRenderer getIRenderer();
 }

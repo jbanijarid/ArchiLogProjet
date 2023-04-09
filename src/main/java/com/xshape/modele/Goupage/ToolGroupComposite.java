@@ -4,7 +4,7 @@ import com.xshape.modele.IShape;
 
 import java.util.ArrayList;
 
-public class ToolGroupComposite implements ToolGroupComponent {
+public class ToolGroupComposite implements ToolGroupComponent, Cloneable {
 
     ArrayList<ToolGroupComponent> tools = new ArrayList<>();
 
@@ -19,24 +19,21 @@ public class ToolGroupComposite implements ToolGroupComponent {
         tools.remove(tool);
     }
 
-    @Override
-    public void draw() {
-        for(ToolGroupComponent tool : tools){
-            tool.draw();
-        }
-    }
-
     ArrayList<ToolGroupComponent> getTools(){
         return this.tools;
     }
 
     @Override
     public ToolGroupComponent clone() {
-        return null;
+        ToolGroupComposite clone = new ToolGroupComposite();
+        for (ToolGroupComponent tool : tools) {
+            clone.add(tool.clone());
+        }
+        return clone;
     }
 
     @Override
-    public IShape get() {
+    public IShape getShape() {
         return null;
     }
 

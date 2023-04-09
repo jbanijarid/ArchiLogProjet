@@ -1,8 +1,11 @@
 package com.xshape.modele.Goupage;
 
+import com.xshape.modele.CloneShape;
 import com.xshape.modele.IShape;
+import com.xshape.modele.Polygone;
+import com.xshape.modele.Rectangle;
 
-public class Tool implements ToolGroupComponent, Cloneable {
+public class Tool implements ToolGroupComponent, Cloneable{
 
     IShape shape;
 
@@ -22,24 +25,21 @@ public class Tool implements ToolGroupComponent, Cloneable {
     }
 
     @Override
-    public void draw() {
-        this.shape.draw();
-    }
-
-    @Override
-    public IShape get() {
-        return this.shape;
-    }
-
-
-    @Override
     public ToolGroupComponent clone() {
         try {
-            return (Tool) super.clone();
+            Tool clone = (Tool) super.clone();
+            CloneShape s = new CloneShape(this.getShape());
+            clone.shape = s.getClone();
+            return clone;
         } catch (CloneNotSupportedException e) {
-            // si l'objet ne peut pas être cloné
+            e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public IShape getShape() {
+        return this.shape;
     }
 
 

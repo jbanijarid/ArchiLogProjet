@@ -60,8 +60,28 @@ public class Composite implements IShape {
     }
 
     @Override
+    public double getRadius() {
+        return 0;
+    }
+
+    @Override
+    public double getNbSides() {
+        return 0;
+    }
+
+    @Override
     public boolean IsArea(double mousseX, double mousseY) {
         return false;
+    }
+
+    @Override
+    public void setRenderer(IRenderer r) {
+
+    }
+
+    @Override
+    public IRenderer getIRenderer() {
+        return null;
     }
 
 

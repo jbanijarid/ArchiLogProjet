@@ -3,6 +3,7 @@ package com.xshape.vue.awt;
 import com.xshape.modele.Goupage.Tool;
 import com.xshape.modele.Goupage.ToolGroupComponent;
 import com.xshape.modele.IRenderer;
+import com.xshape.modele.IShape;
 import com.xshape.modele.Polygone;
 import com.xshape.modele.Rectangle;
 import com.xshape.modele.awt.AwtRenderer;
@@ -70,8 +71,8 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
 
 
         for(ToolGroupComponent tool: this.tools){
-            tool.get().setPosition(tool.get().getPositionX(), current_y);
-            tool.draw();
+            tool.getShape().setPosition(tool.getShape().getPositionX(),  current_y);
+            tool.getShape().draw();
             current_y += 75;
         }
 

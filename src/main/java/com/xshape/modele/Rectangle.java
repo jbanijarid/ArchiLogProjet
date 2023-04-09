@@ -64,12 +64,32 @@ public class Rectangle extends SimpleShape {
     }
 
     @Override
+    public double getRadius() {
+        return 0;
+    }
+
+    @Override
+    public double getNbSides() {
+        return 0;
+    }
+
+    @Override
     public boolean IsArea(double mouseX, double mouseY) {
         if (mouseX < this.x || mouseX > this.x + this.width || mouseY < this.y || mouseY > this.y + this.height) {
             return false;
         } else {
             return true;
         }
+    }
+
+    @Override
+    public void setRenderer(IRenderer r) {
+        _renderer = r;
+    }
+
+    @Override
+    public IRenderer getIRenderer() {
+        return _renderer;
     }
 
 

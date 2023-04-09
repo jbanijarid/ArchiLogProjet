@@ -1,5 +1,8 @@
 package com.xshape.vue.awt;
 
+import com.xshape.modele.IShape;
+import com.xshape.modele.awt.AwtRenderer;
+
 import java.awt.*;
 
 class AwtAbstractWhiteBoard extends Panel {
@@ -13,6 +16,8 @@ class AwtAbstractWhiteBoard extends Panel {
         setBounds(x, y, width, height);
 
     }
+
+
 
 
 

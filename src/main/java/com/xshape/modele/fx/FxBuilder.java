@@ -11,6 +11,8 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
+import java.awt.event.MouseEvent;
+
 public class FxBuilder implements IBuilder, Event {
 
     private Composite toolbar;
@@ -97,6 +99,11 @@ public class FxBuilder implements IBuilder, Event {
 
     @Override
     public void whiteBoard() {
+
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
 
     }
 

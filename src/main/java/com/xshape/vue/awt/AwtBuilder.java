@@ -2,22 +2,22 @@ package com.xshape.vue.awt;
 
 import com.xshape.modele.Goupage.ToolGroupComponent;
 import com.xshape.modele.IBuilder;
-import com.xshape.modele.Rectangle;
+import com.xshape.modele.IShape;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 public class AwtBuilder implements IBuilder, MouseListener {
 
     AwtApplication app;
-
     private AwtConcreteToolBar toolBar;
     private JToolBar menuBar;
     private AwtConcreteWhiteBoard whiteBoard;
     private ToolGroupComponent selectedTool;
-    private ToolGroupComponent draggedTool;
+
 
 
     public AwtBuilder(AwtApplication awtApplication){
@@ -38,7 +38,6 @@ public class AwtBuilder implements IBuilder, MouseListener {
         JToolBar awtM = new AwtMenuBar(this.app, 0,23,800,60);
         menuBar = awtM;
         this.app.add(awtM);
-
     }
 
     @Override
@@ -48,6 +47,7 @@ public class AwtBuilder implements IBuilder, MouseListener {
         whiteBoard.addMouseListener(this);
         this.app.add(awtB);
     }
+
 
     @Override
     public void mouseEntered(MouseEvent e) {
@@ -62,52 +62,75 @@ public class AwtBuilder implements IBuilder, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        /*
         for (ToolGroupComponent tool : toolBar.getTools()) {
-            // Vérifie si la souris est dans la zone de la forme
-            if (tool.get().IsArea(e.getX(), e.getY())) {
-                System.out.println(tool.get().IsArea(e.getX(), e.getY()));
-                System.out.println(tool.get());
-                // Si la forme est cliquée, elle devient le selectedtool
-                this.selectedTool = tool;
-                System.out.println("entreeeeeeeeeeeeeeeeeeee");
+            if (tool.getShape().IsArea(e.getX(), e.getY())) {
+                selectedTool = tool;
                 break;
             }
         }
+
+         */
     }
+
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        /*
+        if (selectedShape != null) {
+            int dx = e.getX() - lastMouseX;
+            int dy = e.getY() - lastMouseY;
+            selectedShape.move(dx, dy);
+            whiteBoard.repaint();
+            lastMouseX = e.getX();
+            lastMouseY = e.getY();
+        }
+
+         */
+    }
+
 
     @Override
     public void mousePressed(MouseEvent e) {
-        for (ToolGroupComponent tool : toolBar.getTools()) {
-            // Vérifie si la souris est dans la zone de la forme
-            if (tool.get().IsArea(e.getX(), e.getY())) {
-                if (selectedTool != null) {
-                    draggedTool = selectedTool.clone();
-                    draggedTool.get().setPosition(e.getX(), e.getY());
-                    // Ajouter la forme au panneau blanc
-                    whiteBoard.add(draggedTool);
-                    // Actualiser le panneau blanc pour afficher la nouvelle forme
+        if(selectedTool==null) {
+            for (ToolGroupComponent tool : toolBar.getTools()) {
+                if (tool.getShape().IsArea(e.getX(), e.getY())) {
+                    selectedTool = tool;
+                    break;
                 }
             }
         }
+        if (selectedTool != null) {
+            System.out.println(selectedTool.getShape());
+        }
     }
-
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (draggedTool != null) {
-            // Réinitialiser la forme qui est en train d'être déplacée
-            draggedTool = null;
+        System.out.println(selectedTool+" 111111111111111111111");
+        if (selectedTool != null) {
+            System.out.println("222222222222222222222");
+                // Si la forme est survolée, ajoute la forme à la position de la souris
+                //whiteBoard.add(selectedTool.get().cloneAt(e.getX(), e.getY()));
+                ToolGroupComponent clone = selectedTool.clone();
+                clone.getShape().setPosition(e.getX(), e.getY());
+                whiteBoard.addShape(clone.getShape());
+
+            selectedTool = null;
         }
     }
 
 
 
-    public void build(){
+    public void build() {
         toolBar();
         menuBar();
         whiteBoard();
-
+        //whiteBoard.setBuilder(this);
     }
+
+
+
 
     public Panel getToolBar() {
         return toolBar;

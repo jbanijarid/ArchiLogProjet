@@ -74,6 +74,16 @@ public class Polygone extends SimpleShape {
     }
 
     @Override
+    public double getRadius() {
+        return this.radius;
+    }
+
+    @Override
+    public double getNbSides() {
+        return this.nbSides;
+    }
+
+    @Override
     public boolean IsArea(double mouseX, double mouseY) {
         double angle = 2 * Math.PI / nbSides;
         double apothem = radius * Math.cos(angle / 2);
@@ -124,6 +134,16 @@ public class Polygone extends SimpleShape {
         return false;
     }
 
+    @Override
+    public void setRenderer(IRenderer r) {
+        _renderer = r;
+    }
+
+    @Override
+    public IRenderer getIRenderer() {
+        return _renderer;
+    }
+
     // Calcule la distance de la souris à une ligne spécifiée
     private double distanceToLineSegment(double x, double y, double x1, double y1, double x2, double y2) {
         double A = x - x1;
@@ -152,5 +172,6 @@ public class Polygone extends SimpleShape {
         double dy = y - yy;
         return Math.sqrt(dx * dx + dy * dy);
     }
+
 
 }
