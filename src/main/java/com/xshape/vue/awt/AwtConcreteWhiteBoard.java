@@ -16,11 +16,51 @@ import java.util.ArrayList;
 public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
 
  ArrayList<IShape> MyShapes = new ArrayList<>();
+    private IShape selectedShape;
+    private int prevX, prevY;
 
 
     public AwtConcreteWhiteBoard(AwtApplication app, int x, int y, int width, int height) {
         super(app, x, y, width, height);
         app.add(this);
+
+        addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if(selectedShape==null){
+                    for (IShape shape : MyShapes) {
+                        if (shape.IsArea(e.getX(),e.getY())) {
+                            selectedShape = shape;
+                            prevX = e.getX();
+                            prevY = e.getY();
+                            break;
+                        }
+                    }
+                }
+            }
+
+            public void mouseReleased(MouseEvent e) {
+                if (selectedShape!=null){
+                    selectedShape.setPosition(e.getX(), e.getY());
+                    selectedShape = null;
+                    repaint();
+                }
+            }
+        });
+
+        addMouseMotionListener(new MouseAdapter() {
+            public void mouseDragged(MouseEvent e) {
+                /*
+                if (selectedShape != null) {
+                    int dx = e.getX() - prevX;
+                    int dy = e.getY() - prevY;
+                    selectedShape.setPosition(dx, dy);
+                    prevX = e.getX();
+                    prevY = e.getY();
+                    repaint();
+                }
+                 */
+            }
+        });
     }
 
 
@@ -42,6 +82,8 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
         this.MyShapes.add(shape);
         repaint();
     }
+
+
 
     public ArrayList<IShape> getShapes(){
         return this.MyShapes;
