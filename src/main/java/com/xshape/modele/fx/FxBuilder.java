@@ -11,6 +11,8 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
+import java.util.Stack;
+
 public class FxBuilder implements IBuilder, Event {
 
     private Composite toolbar;
@@ -23,6 +25,9 @@ public class FxBuilder implements IBuilder, Event {
     public static FxWhiteBoard _whiteBoard;
     private IFactory factory = new FxFactory();
 
+    private static Stack<Command> undoStack = new Stack<>();
+    private static Stack<Command> redoStack = new Stack<>();
+
 
 
     public FxBuilder(BorderPane borderPane) {
@@ -32,38 +37,6 @@ public class FxBuilder implements IBuilder, Event {
         this._canvas = new Canvas(800, 600);
         borderPane.setBottom(_canvas);
         this._renderer = new FxRenderer(_canvas);
-
-        /*
-        _canvas.setOnDragOver(event -> {
-            if (event.getGestureSource() != _canvas && event.getDragboard().hasString()) {
-                event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-            }
-            event.consume();
-        });
-
-        _canvas.setOnDragDropped(event -> {
-            Dragboard db = event.getDragboard();
-            boolean success = false;
-            if (db.hasString()) {
-                if (db.getString().equals("Rectangle")) {
-                    double x = event.getX();
-                    double y = event.getY();
-                    factory = new FxFactory();
-                    IShape rect = factory.createRectangle(100, 200, 50, 40, _renderer);
-                    rect.draw();
-                    System.out.println("helloo");
-                    //Command drawCommand = new DrawRectangleCommand(_factory, x, y);
-                    //undoStack.push(drawCommand);
-                    //drawCommand.execute();
-                    //redoStack.clear();
-                    success = true;
-                }
-            }
-            event.setDropCompleted(success);
-            event.consume();
-        });
-
-         */
     }
 
     @Override
@@ -83,15 +56,36 @@ public class FxBuilder implements IBuilder, Event {
     public void menuBar() {
         ToolBar toolBar = new ToolBar();
 
-        Button button1 = factory.createButton("Undo");
-        toolBar.getItems().add(button1);
+        //Boutton undo
+        Button undoButton = factory.createButton("Undo");
+        undoButton.setOnAction(event -> {
+            if (!undoStack.empty()) {
+                Command command = undoStack.pop();
+                command.undo();
+                redoStack.push(command);
+                redrawCanvas();
+            }
+        });
 
-        Button button2 = factory.createButton("Redo");
-        toolBar.getItems().add(button2);
+        toolBar.getItems().add(undoButton);
+
+        // Boutton redo
+        Button redoButton = factory.createButton("Redo");
+
+        redoButton.setOnAction(event -> {
+            if (!redoStack.empty()) {
+                Command command = redoStack.pop();
+                command.execute();
+                undoStack.push(command);
+                redrawCanvas();
+            }
+        });
+
+        toolBar.getItems().add(redoButton);
 
         HBox hBox = new HBox();
         hBox.setSpacing(5);
-        hBox.getChildren().addAll(button1,button2);
+        hBox.getChildren().addAll(undoButton,redoButton);
         borderPane.setTop(hBox);
     }
 
@@ -128,20 +122,36 @@ public class FxBuilder implements IBuilder, Event {
                         double deltaY = releaseEvent.getY() - mouseY;
                         _canvas.setOnMouseDragged(null);
                         if (deltaX > 100){
-                            //shape.setPosition(shape.getPositionX() + deltaX, shape.getPositionY() + deltaY);
-                            IShape newShape = shape;
-                            newShape.setPosition(shape.getPositionX() + deltaX, shape.getPositionY() + deltaY);
-                            System.out.println("helloobbbbbbbbbbbbbb");
-                            newShape.draw();
+                            //IShape newShape = shape;
+                            //newShape.setPosition(releaseEvent.getX(), releaseEvent.getY());
+                            //newShape.draw();
+                            Command command = new DrawShapeCommand(shape, releaseEvent.getX(), releaseEvent.getY() );
+                            undoStack.push(command);
+                            command.execute();
+                            redoStack.clear();
                         }
                     });
                 }
             }
         });
+
     }
 
     @Override
     public void whiteBoardEvents(IWhiteBoard whiteBoard) {
 
     }
+
+    private void redrawCanvas() {
+
+        // Effacer le canvas
+        _canvas.getGraphicsContext2D().clearRect(0, 0, 800, 600);
+
+
+        // Redessiner tous les éléments de la pile undo
+        for (Command command : undoStack) {
+            command.execute();
+        }
+    }
+
 }
