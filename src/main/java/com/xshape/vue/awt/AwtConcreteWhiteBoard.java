@@ -49,16 +49,14 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
 
         addMouseMotionListener(new MouseAdapter() {
             public void mouseDragged(MouseEvent e) {
-                /*
                 if (selectedShape != null) {
                     int dx = e.getX() - prevX;
                     int dy = e.getY() - prevY;
-                    selectedShape.setPosition(dx, dy);
+                    selectedShape.setPosition(e.getX(), e.getY()); // mettre à jour la position de la forme
                     prevX = e.getX();
                     prevY = e.getY();
                     repaint();
                 }
-                 */
             }
         });
     }
