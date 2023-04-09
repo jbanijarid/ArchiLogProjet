@@ -64,13 +64,11 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
 
     @Override
     public void paint(Graphics g) {
-        System.out.println("ahhhhhhhhhhhhhhh");
         IRenderer r = new AwtRenderer(g);
         super.paint(g);
         for (IShape s : this.MyShapes) {
             s.setRenderer(r);
             s.draw();
-            System.out.println(s);
         }
     }
 
