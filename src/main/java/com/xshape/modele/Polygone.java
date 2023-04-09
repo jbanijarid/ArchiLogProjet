@@ -6,7 +6,7 @@ public class Polygone extends SimpleShape {
     double centerY;
     double radius;
     double nbSides;
-    private int color=200;
+    private int color=0;
 
     public Polygone(double centerX, double centerY, double radius, double nbSides, IRenderer renderer) {
         super(renderer);
@@ -41,8 +41,6 @@ public class Polygone extends SimpleShape {
                 _renderer.drawLine(xPoints[i], yPoints[i], xPoints[0], yPoints[0]);
             }
         }
-
-
 
         // Remplit le polygone avec la couleur
         _renderer.fillPolygon(xPoints, yPoints, (int) nbSides);
