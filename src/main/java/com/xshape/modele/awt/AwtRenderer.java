@@ -35,6 +35,6 @@ public class AwtRenderer implements IRenderer {
         for (int i = 0; i < yPoints.length; i++) {
             yInt[i] = (int) yPoints[i];
         }
-        g.fillPolygon(xInt, yInt, cote);
+        g.fillPolygon(xInt, yInt, xPoints.length);
     }
 }

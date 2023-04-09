@@ -3,7 +3,7 @@ package com.xshape.modele;
 public class Rectangle extends SimpleShape {
 
     private double x, y, width, height;
-    private int color=100;
+    private int color=200;
 
     public Rectangle(double x, double y, double width, double height, IRenderer renderer) {
         super(renderer);

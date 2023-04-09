@@ -6,7 +6,7 @@ public class Polygone extends SimpleShape {
     double centerY;
     double radius;
     double nbSides;
-    private int color=50;
+    private int color=200;
 
     public Polygone(double centerX, double centerY, double radius, double nbSides, IRenderer renderer) {
         super(renderer);
