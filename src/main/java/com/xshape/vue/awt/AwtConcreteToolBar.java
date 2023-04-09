@@ -3,15 +3,11 @@ package com.xshape.vue.awt;
 import com.xshape.modele.Goupage.Tool;
 import com.xshape.modele.Goupage.ToolGroupComponent;
 import com.xshape.modele.IRenderer;
-import com.xshape.modele.IShape;
 import com.xshape.modele.Polygone;
 import com.xshape.modele.Rectangle;
 import com.xshape.modele.awt.AwtRenderer;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;

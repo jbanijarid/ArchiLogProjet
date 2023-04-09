@@ -113,7 +113,7 @@ public class AwtBuilder implements IBuilder, MouseListener {
                 // Si la forme est survolée, ajoute la forme à la position de la souris
                 //whiteBoard.add(selectedTool.get().cloneAt(e.getX(), e.getY()));
                 ToolGroupComponent clone = selectedTool.clone();
-                clone.getShape().setPosition(e.getX(), e.getY());
+                clone.getShape().setPosition(e.getX()-toolBar.getWidthT(), e.getY());
                 whiteBoard.addShape(clone.getShape());
 
             selectedTool = null;

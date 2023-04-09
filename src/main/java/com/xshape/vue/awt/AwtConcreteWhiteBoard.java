@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
 
- ArrayList<IShape> MyShapes = new ArrayList<>();
+    ArrayList<IShape> MyShapes = new ArrayList<>();
     private IShape selectedShape;
     private int prevX, prevY;
 
