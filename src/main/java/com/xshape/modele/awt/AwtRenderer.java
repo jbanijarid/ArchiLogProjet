@@ -24,4 +24,17 @@ public class AwtRenderer implements IRenderer {
     public void setColor(int color) {
         g.setColor(new Color(color));
     }
+
+    @Override
+    public void fillPolygon(double[] xPoints, double[] yPoints, int cote) {
+        int[] xInt = new int[xPoints.length];
+        for (int i = 0; i < xPoints.length; i++) {
+            xInt[i] = (int) xPoints[i];
+        }
+        int[] yInt = new int[yPoints.length];
+        for (int i = 0; i < yPoints.length; i++) {
+            yInt[i] = (int) yPoints[i];
+        }
+        g.fillPolygon(xInt, yInt, cote);
+    }
 }

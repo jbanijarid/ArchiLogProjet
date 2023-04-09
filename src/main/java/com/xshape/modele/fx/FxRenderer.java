@@ -22,10 +22,11 @@ public class FxRenderer implements IRenderer {
 
     @Override
     public void setColor(int color) {
-        _gc.setFill(Color.RED);
-
-
+        _gc.setFill(Color.BLUE);
     }
 
-
+    @Override
+    public void fillPolygon(double[] xPoints, double[] yPoints, int cote) {
+        _gc.fillPolygon(xPoints,yPoints,cote);
+    }
 }

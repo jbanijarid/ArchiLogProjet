@@ -84,6 +84,13 @@ public class Composite implements IShape {
         return null;
     }
 
+    @Override
+    public void translate(double dx, double dy) {
+        for(IShape shape : shaps){
+            shape.translate(dx, dy);
+        }
+    }
+
 
     public List<IShape> getShaps(){
         return shaps;

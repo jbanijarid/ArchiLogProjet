@@ -13,4 +13,6 @@ public interface IShape {
     boolean IsArea(double mouseX, double mouseY);
     void setRenderer(IRenderer r);
     IRenderer getIRenderer();
+
+    void translate(double dx, double dy);
 }

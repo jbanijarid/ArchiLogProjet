@@ -19,23 +19,34 @@ public class Polygone extends SimpleShape {
     @Override
     public void draw() {
         _renderer.setColor(this.color);
-        double angle = 2 * Math.PI / nbSides; // Angle entre deux sommets consécutifs du pentagone
-        double x, y;
+        double angle = 2 * Math.PI / nbSides; // Angle entre deux sommets consécutifs du polygone
+        double[] xPoints = new double[(int) nbSides];
+        double[] yPoints = new double[(int) nbSides];
 
         // Coordonnées du premier sommet
-        x = centerX + radius * Math.cos(0);
-        y = centerY + radius * Math.sin(0);
+        xPoints[0] = centerX + radius * Math.cos(0);
+        yPoints[0] = centerY + radius * Math.sin(0);
 
-        // Dessine les cinq côtés du pentagone
-        for (int i = 1; i <= nbSides; i++) {
+        // Dessine les côtés du polygone et enregistre les coordonnées de chaque sommet
+        for (int i = 1; i < nbSides; i++) {
             double nextX = centerX + radius * Math.cos(i * angle);
             double nextY = centerY + radius * Math.sin(i * angle);
 
-            _renderer.drawLine(x, y, nextX, nextY);
+            _renderer.drawLine(xPoints[i-1], yPoints[i-1], nextX, nextY);
 
-            x = nextX;
-            y = nextY;
+            xPoints[i] = nextX;
+            yPoints[i] = nextY;
+
+            if(i == nbSides - 1){
+                _renderer.drawLine(xPoints[i], yPoints[i], xPoints[0], yPoints[0]);
+            }
         }
+
+
+
+        // Remplit le polygone avec la couleur
+        _renderer.fillPolygon(xPoints, yPoints, (int) nbSides);
+
     }
 
     @Override
@@ -142,6 +153,12 @@ public class Polygone extends SimpleShape {
     @Override
     public IRenderer getIRenderer() {
         return _renderer;
+    }
+
+    @Override
+    public void translate(double dx, double dy) {
+        centerX += dx;
+        centerY += dy;
     }
 
     // Calcule la distance de la souris à une ligne spécifiée

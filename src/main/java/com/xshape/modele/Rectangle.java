@@ -3,7 +3,7 @@ package com.xshape.modele;
 public class Rectangle extends SimpleShape {
 
     private double x, y, width, height;
-    private int color=50;
+    private int color=100;
 
     public Rectangle(double x, double y, double width, double height, IRenderer renderer) {
         super(renderer);
@@ -29,6 +29,10 @@ public class Rectangle extends SimpleShape {
 
         // Ligne verticale de gauche
         _renderer.drawLine(x, y + height, x, y);
+
+        double[] xPoints = {x, x + width, x + width, x};
+        double[] yPoints = {y, y, y + height, y + height};
+        _renderer.fillPolygon(xPoints, yPoints, 4);
     }
 
     @Override
@@ -90,6 +94,12 @@ public class Rectangle extends SimpleShape {
     @Override
     public IRenderer getIRenderer() {
         return _renderer;
+    }
+
+    @Override
+    public void translate(double dx, double dy) {
+        x += dx;
+        y += dy;
     }
 
 
