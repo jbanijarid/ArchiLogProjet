@@ -1,19 +1,16 @@
 package com.xshape.vue.awt;
 
-import com.xshape.vue.awt.AwtApplication;
-
+import com.xshape.modele.Command;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
+
 
 class AwtMenuBar extends JToolBar {
 
-    public AwtMenuBar(AwtApplication app, int x, int y, int width, int height) {
+
+    public AwtMenuBar(AwtApplication app, int x, int y, int width, int height, AwtBuilder awtBuilder) {
 
         setBackground(Color.gray);
         setBounds(x,y,width,height);
@@ -47,14 +44,27 @@ class AwtMenuBar extends JToolBar {
         undoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("ehhhhhhhhhhhhhhhh");
+                if (!awtBuilder.undoStackAwt.empty()) {
+                    Command command = awtBuilder.undoStackAwt.pop();
+                    command.undo();
+                    System.out.println("ahhhhhhhhhhhhhhhhhh");
+                    awtBuilder.redoStackAwt.push(command);
+                    AwtConcreteWhiteBoard w= (AwtConcreteWhiteBoard) awtBuilder.getWhiteBoard();
+                    w.repaint();
+                }
             }
         });
 
         redoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if (!awtBuilder.redoStackAwt.empty()) {
+                    Command command = awtBuilder.redoStackAwt.pop();
+                    command.execute();
+                    awtBuilder.undoStackAwt.push(command);
+                    AwtConcreteWhiteBoard w= (AwtConcreteWhiteBoard) awtBuilder.getWhiteBoard();
+                    w.repaint();
+                }
             }
         });
 

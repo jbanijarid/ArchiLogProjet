@@ -3,11 +3,14 @@ package com.xshape.vue.awt;
 import com.xshape.modele.Goupage.Tool;
 import com.xshape.modele.Goupage.ToolGroupComponent;
 import com.xshape.modele.IRenderer;
+import com.xshape.modele.IShape;
 import com.xshape.modele.Polygone;
 import com.xshape.modele.Rectangle;
 import com.xshape.modele.awt.AwtRenderer;
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -15,21 +18,18 @@ import java.util.ArrayList;
 
 public class AwtConcreteToolBar extends AwtAbstractToolBar{
 
-    int pos_x = 30;
-    int pos_y = 10;
-    int width = 50;
-    int height = 30;
-    int radious = 25;
+    private int pos_x = 30;
+    private int pos_y = 10;
+    private int width = 50;
+    private int height = 30;
+    private int radious = 25;
     private int current_y = pos_y;
     ArrayList<ToolGroupComponent> tools = new ArrayList<>();
     private Image trashLabel;
-    private boolean clicked;
-    private ToolGroupComponent selectedTool = null;
 
 
     AwtConcreteToolBar(AwtApplication app, int x, int y, int width, int height){
         super(app, x, y, width, height);
-        clicked = false;
 
         try {
             URL imageUrl = new URL("file:src/main/resources/com/xshape/delete.png");

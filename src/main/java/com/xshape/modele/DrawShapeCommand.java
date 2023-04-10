@@ -2,6 +2,7 @@ package com.xshape.modele;
 
 public class DrawShapeCommand implements Command{
 
+
     private IShape copy;
     private double x;
     private double y;
@@ -26,5 +27,9 @@ public class DrawShapeCommand implements Command{
     @Override
     public void redo() {
 
+    }
+
+    public IShape getCopy() {
+        return copy;
     }
 }

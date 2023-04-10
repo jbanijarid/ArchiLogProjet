@@ -1,38 +1,37 @@
 package com.xshape.vue.awt;
 
 
-import com.xshape.modele.IRenderer;
-import com.xshape.modele.IShape;
-import com.xshape.modele.Polygone;
-import com.xshape.modele.Rectangle;
+import com.xshape.modele.*;
 import com.xshape.modele.awt.AwtRenderer;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.util.Stack;
 
 
 public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
 
-    ArrayList<IShape> MyShapes = new ArrayList<>();
     private IShape selectedShape;
     private int prevX, prevY;
+    Stack<Command> undoStackAwt;
 
 
-    public AwtConcreteWhiteBoard(AwtApplication app, int x, int y, int width, int height) {
+    public AwtConcreteWhiteBoard(AwtApplication app, int x, int y, int width, int height, Stack<Command> undoStackAwt, Stack<Command> redoStackAwt) {
         super(app, x, y, width, height);
         app.add(this);
-
+        this.undoStackAwt=undoStackAwt;
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if(selectedShape==null){
-                    for (IShape shape : MyShapes) {
-                        if (shape.IsArea(e.getX(),e.getY())) {
-                            selectedShape = shape;
-                            prevX = e.getX();
-                            prevY = e.getY();
-                            break;
+                    for (Command c : undoStackAwt) {
+                        if(c instanceof DrawShapeCommand){
+                            if (((DrawShapeCommand) c).getCopy().IsArea(e.getX(),e.getY())) {
+                                selectedShape = ((DrawShapeCommand) c).getCopy();
+                                prevX = e.getX();
+                                prevY = e.getY();
+                                break;
+                            }
                         }
                     }
                 }
@@ -41,6 +40,9 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
             public void mouseReleased(MouseEvent e) {
                 if (selectedShape!=null){
                     selectedShape.setPosition(e.getX(), e.getY());
+                    Command command = new DrawShapeCommand(selectedShape, e.getX(), e.getY());
+                    undoStackAwt.push(command);
+                    redoStackAwt.clear();
                     selectedShape = null;
                     repaint();
                 }
@@ -66,22 +68,12 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
     public void paint(Graphics g) {
         IRenderer r = new AwtRenderer(g);
         super.paint(g);
-        for (IShape s : this.MyShapes) {
-            s.setRenderer(r);
-            s.draw();
+        for (Command c : undoStackAwt) {
+            if(c instanceof DrawShapeCommand){
+                ((DrawShapeCommand) c).getCopy().setRenderer(r);
+                ((DrawShapeCommand) c).getCopy().draw();
+            }
         }
     }
 
-    public void addShape(IShape shape) {
-        IRenderer r = new AwtRenderer(getGraphics());
-        shape.setRenderer(r);
-        this.MyShapes.add(shape);
-        repaint();
-    }
-
-
-
-    public ArrayList<IShape> getShapes(){
-        return this.MyShapes;
-    }
 }
