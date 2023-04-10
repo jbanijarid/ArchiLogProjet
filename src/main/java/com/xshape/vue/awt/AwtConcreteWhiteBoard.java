@@ -2,6 +2,7 @@ package com.xshape.vue.awt;
 
 
 import com.xshape.modele.*;
+import com.xshape.modele.Goupage.ToolGroupComponent;
 import com.xshape.modele.awt.AwtRenderer;
 
 import java.awt.*;
@@ -15,6 +16,7 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
     private IShape selectedShape;
     private int prevX, prevY;
     Stack<Command> undoStackAwt;
+    private ToolGroupComponent selectedTool;
 
 
     public AwtConcreteWhiteBoard(AwtApplication app, int x, int y, int width, int height, Stack<Command> undoStackAwt, Stack<Command> redoStackAwt) {
@@ -40,7 +42,7 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
             public void mouseReleased(MouseEvent e) {
                 if (selectedShape!=null){
                     selectedShape.setPosition(e.getX(), e.getY());
-                    Command command = new DrawShapeCommand(selectedShape, e.getX(), e.getY());
+                    Command command = new DrawShapeCommand(selectedShape, e.getX(), e.getY(), selectedTool);
                     undoStackAwt.push(command);
                     redoStackAwt.clear();
                     selectedShape = null;
