@@ -1,18 +1,14 @@
 package com.xshape.modele.fx;
 
-import com.sun.scenario.effect.impl.sw.java.JSWBlend_REDPeer;
 import com.xshape.modele.*;
 import com.xshape.modele.Goupage.Tool;
 import com.xshape.modele.Goupage.ToolGroupComponent;
 import com.xshape.modele.Goupage.ToolGroupComposite;
-import javafx.scene.Camera;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
@@ -33,6 +29,7 @@ public class FxBuilder implements IBuilder, Event {
 
     public static FxWhiteBoard _whiteBoard;
     private IFactory factory = new FxFactory();
+    private boolean fromToolBar = false;
 
     private static Stack<Command> undoStack = new Stack<>();
     private static Stack<Command> redoStack = new Stack<>();
@@ -170,8 +167,21 @@ public class FxBuilder implements IBuilder, Event {
             if (selectedShape == null){
                 for (ToolGroupComponent shape: this.toolbar.getShapes()) {
                     if (shape.getShape().IsArea(mouseX, mouseY)) {
-                        System.out.println("hellooooox");
+                        System.out.println("shape from toolbar");
+                        fromToolBar = true;
                         selectedShape = shape.clone().getShape();
+                        System.out.println(selectedShape);
+                        System.out.println(shape);
+                        System.out.print("shape is selectet");
+                        break;
+                    }
+                }
+                for (ToolGroupComponent shape: this.whiteBoard.getShapes()) {
+                    if (shape.getShape().IsArea(mouseX, mouseY)) {
+                        System.out.println("shape from white board");
+                        selectedShape = shape.getShape();
+                        whiteBoard.remove(shape);
+                        fromToolBar = false;
                         System.out.println(selectedShape);
                         System.out.println(shape);
                         System.out.print("shape is selectet");
@@ -187,22 +197,77 @@ public class FxBuilder implements IBuilder, Event {
             if (selectedShape != null){
                 double deltaX = releaseEvent.getX();
                 double deltaY = releaseEvent.getY();
-                if (deltaX > 100){
-                    System.out.println("Je dessine le new shape");
+                if (deltaX > 100 && fromToolBar) {
+                    System.out.println("Je dessine le new shape sur la white board");
                     //newShape.draw();
-                    ToolGroupComponent selectedTool = new Tool(selectedShape);
-                    whiteBoard.add(selectedTool);
-                    Command command = new DrawShapeCommand(selectedShape, releaseEvent.getX(), releaseEvent.getY());
+                    //ToolGroupComponent selectedTool = new Tool(selectedShape);
+                    //whiteBoard.add(selectedTool);
+                    Command command = new DrawShapeCommand(selectedShape, releaseEvent.getX(), releaseEvent.getY(), whiteBoard);
                     undoStack.push(command);
                     command.execute();
                     selectedShape = null;
                     System.out.println("je met selected shape a null");
                     _canvas.setOnMouseDragged(null);
                     redoStack.clear();
+                    redraw();
+                } else if (deltaX > 100 && !fromToolBar){
+                    //ToolGroupComponent selectedTool = new Tool(selectedShape);
+                    //whiteBoard.add(selectedTool);
+                    System.out.println("la j'ai selectionne un shape du white board");
+                    Command command = new DrawShapeCommand(selectedShape, releaseEvent.getX(), releaseEvent.getY(), whiteBoard);
+                    undoStack.push(command);
+                    command.execute();
+                    redoStack.clear();
+                    //selectedShape.setPosition(releaseEvent.getX(), releaseEvent.getY());
+                    //_canvas.getGraphicsContext2D().clearRect(0, 0, 800, 600);
+                    System.out.println("Je supprime tout, et je redessine");
+                    //whiteBoard.draw();
+                    redraw();
+                    _canvas.setOnMouseDragged(null);
+                    //toolBar();
+                    selectedShape = null;
+                } else {
+                    //ToolGroupComponent selectedTool = new Tool(selectedShape);
+                    //toolbar.add(selectedTool);
+                    Command command = new DrawShapeCommand(selectedShape, 50, releaseEvent.getY(), toolbar);
+                    undoStack.push(command);
+                    command.execute();
+                    selectedShape = null;
+                    //drawToolBar();
+                    //_canvas.getGraphicsContext2D().clearRect(0, 0, 800, 600);
+                    //redrawCanvas();
+                    redraw();
+                    System.out.println("je met selected shape a null");
+                    _canvas.setOnMouseDragged(null);
+                    redoStack.clear();
                 }
+                fromToolBar = false;
             }
         });
     }
+
+    void redraw(){
+        _canvas.getGraphicsContext2D().clearRect(0, 0, 800, 600);
+        _renderer.drawLine(100, 10, 100, 600);
+        _renderer.drawLine(10, 10, 10, 600);
+        _renderer.drawLine(10, 10, 100, 10);
+        _renderer.drawLine(10, 600, 100, 600);
+        drawToolBar();
+        whiteBoard.draw();
+    }
+
+
+    void drawToolBar(){
+        double current_y = 40;
+        for(ToolGroupComponent tool: this.toolbar.getShapes()){
+            tool.getShape().setPosition(50,  current_y);
+            tool.getShape().draw();
+            current_y += 75;
+        }
+    }
+
+
+
 
     @Override
     public void whiteBoardEvents() {
@@ -213,7 +278,7 @@ public class FxBuilder implements IBuilder, Event {
 
         // Effacer le canvas
         _canvas.getGraphicsContext2D().clearRect(0, 0, 800, 600);
-
+        toolBar();
 
         // Redessiner tous les éléments de la pile undo
         for (Command command : undoStack) {
