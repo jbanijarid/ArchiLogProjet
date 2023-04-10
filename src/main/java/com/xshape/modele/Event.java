@@ -4,7 +4,7 @@ public interface Event {
 
     public void groupDarggable(Composite group);
 
-    public void toolBarEvents(Composite toolBar);
+    public void toolBarEvents();
 
-    public void whiteBoardEvents(IWhiteBoard whiteBoard);
+    public void whiteBoardEvents();
 }

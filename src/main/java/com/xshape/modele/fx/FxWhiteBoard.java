@@ -18,7 +18,7 @@ public class FxWhiteBoard extends BorderPane implements IWhiteBoard {
         setWidth(height);
         _canvasElements = canvasElements;
         _libraryEvents = libraryEvents;
-        _libraryEvents.whiteBoardEvents(this);
+        //_libraryEvents.whiteBoardEvents(this);
 
     }
 

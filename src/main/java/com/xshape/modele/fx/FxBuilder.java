@@ -2,6 +2,9 @@ package com.xshape.modele.fx;
 
 import com.sun.scenario.effect.impl.sw.java.JSWBlend_REDPeer;
 import com.xshape.modele.*;
+import com.xshape.modele.Goupage.Tool;
+import com.xshape.modele.Goupage.ToolGroupComponent;
+import com.xshape.modele.Goupage.ToolGroupComposite;
 import javafx.scene.Camera;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -19,12 +22,14 @@ import java.util.Stack;
 
 public class FxBuilder implements IBuilder, Event {
 
-    private Composite toolbar;
+    private ToolGroupComponent toolbar;
+
+    private ToolGroupComponent whiteBoard;
     private Composite whiteboard;
     private BorderPane borderPane;
     private IRenderer _renderer;
     private Canvas _canvas;
-    //IShape selectedShape = null;
+    IShape selectedShape = null;
 
     public static FxWhiteBoard _whiteBoard;
     private IFactory factory = new FxFactory();
@@ -35,25 +40,33 @@ public class FxBuilder implements IBuilder, Event {
 
 
     public FxBuilder(BorderPane borderPane) {
-        this.toolbar = new Composite();
+        //this.toolbar = new Composite();
+        this.toolbar = new ToolGroupComposite();
         //this.whiteboard = whiteboard;
         this.borderPane = borderPane;
         this._canvas = new Canvas(800, 600);
         borderPane.setBottom(_canvas);
         this._renderer = new FxRenderer(_canvas);
+        this.whiteBoard = new ToolGroupComposite();
     }
 
     @Override
     public void toolBar() {
+
         _renderer.drawLine(100, 10, 100, 600);
         _renderer.drawLine(10, 10, 10, 600);
         _renderer.drawLine(10, 10, 100, 10);
         _renderer.drawLine(10, 600, 100, 600);
         IShape rect = factory.createRectangle(25, 40, 50, 40, _renderer);
         IShape poly = factory.createPolygone(50, 120, 30, 6, _renderer);
-        toolbar.add(rect);
-        toolbar.add(poly);
+        ToolGroupComponent rectTool = new Tool(rect);
+        ToolGroupComponent polyTool = new Tool(poly);
+        toolbar.add(rectTool);
+        toolbar.add(polyTool);
         toolbar.draw();
+        //toolbar.add(rect);
+        //toolbar.add(poly);
+        //toolbar.draw();
     }
 
 
@@ -139,7 +152,7 @@ public class FxBuilder implements IBuilder, Event {
         toolBar();
         menuBar();
         whiteBoard();
-        toolBarEvents(toolbar);
+        toolBarEvents();
 
         return borderPane;
     }
@@ -148,38 +161,51 @@ public class FxBuilder implements IBuilder, Event {
     public void groupDarggable(Composite group) {
     }
 
+
     @Override
-    public void toolBarEvents(Composite toolBar) {
+    public void toolBarEvents() {
         _canvas.setOnMousePressed(event -> {
             double mouseX = event.getX();
             double mouseY = event.getY();
-            for (IShape shape : toolbar.getShaps()){
-                if (shape.IsArea(mouseX, mouseY)){
-                    System.out.println("hellooooox");
-                    _canvas.setOnMouseDragged(dragEvent -> {
-                    });
-                    _canvas.setOnMouseReleased(releaseEvent -> {
-                        double deltaX = releaseEvent.getX() - mouseX;
-                        double deltaY = releaseEvent.getY() - mouseY;
-                        _canvas.setOnMouseDragged(null);
-                        if (deltaX > 100){
-                            //IShape newShape = shape;
-                            //newShape.setPosition(releaseEvent.getX(), releaseEvent.getY());
-                            //newShape.draw();
-                            Command command = new DrawShapeCommand(shape, releaseEvent.getX(), releaseEvent.getY() );
-                            undoStack.push(command);
-                            command.execute();
-                            redoStack.clear();
-                        }
-                    });
+            if (selectedShape == null){
+                for (ToolGroupComponent shape: this.toolbar.getShapes()) {
+                    if (shape.getShape().IsArea(mouseX, mouseY)) {
+                        System.out.println("hellooooox");
+                        selectedShape = shape.clone().getShape();
+                        System.out.println(selectedShape);
+                        System.out.println(shape);
+                        System.out.print("shape is selectet");
+                        break;
+                    }
+                }
+            }
+            System.out.println("fin 1");
+        });
+        _canvas.setOnMouseDragged(dragEvent -> {
+        });
+        _canvas.setOnMouseReleased(releaseEvent -> {
+            if (selectedShape != null){
+                double deltaX = releaseEvent.getX();
+                double deltaY = releaseEvent.getY();
+                if (deltaX > 100){
+                    System.out.println("Je dessine le new shape");
+                    //newShape.draw();
+                    ToolGroupComponent selectedTool = new Tool(selectedShape);
+                    whiteBoard.add(selectedTool);
+                    Command command = new DrawShapeCommand(selectedShape, releaseEvent.getX(), releaseEvent.getY());
+                    undoStack.push(command);
+                    command.execute();
+                    selectedShape = null;
+                    System.out.println("je met selected shape a null");
+                    _canvas.setOnMouseDragged(null);
+                    redoStack.clear();
                 }
             }
         });
-
     }
 
     @Override
-    public void whiteBoardEvents(IWhiteBoard whiteBoard) {
+    public void whiteBoardEvents() {
 
     }
 

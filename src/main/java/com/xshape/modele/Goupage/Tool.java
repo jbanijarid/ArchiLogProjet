@@ -5,6 +5,8 @@ import com.xshape.modele.IShape;
 import com.xshape.modele.Polygone;
 import com.xshape.modele.Rectangle;
 
+import java.util.ArrayList;
+
 public class Tool implements ToolGroupComponent, Cloneable{
 
     IShape shape;
@@ -13,6 +15,14 @@ public class Tool implements ToolGroupComponent, Cloneable{
         this.shape = shape;
     }
 
+    public void draw(){
+        this.shape.draw();
+    }
+
+    @Override
+    public ArrayList<ToolGroupComponent> getShapes() {
+        return null;
+    }
 
     @Override
     public void add(ToolGroupComponent tool) {

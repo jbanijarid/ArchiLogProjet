@@ -37,5 +37,17 @@ public class ToolGroupComposite implements ToolGroupComponent, Cloneable {
         return null;
     }
 
+    @Override
+    public ArrayList<ToolGroupComponent> getShapes(){
+        return tools;
+    }
+
+    @Override
+    public void draw() {
+        for (ToolGroupComponent tool : tools) {
+            tool.draw();
+        }
+    }
+
 
 }
