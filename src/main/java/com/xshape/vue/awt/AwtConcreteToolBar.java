@@ -58,8 +58,8 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
     @Override
     public void paint(Graphics g) {
         IRenderer renderer = new AwtRenderer(g);
-        com.xshape.modele.Rectangle r = factory.createRectangle(this.pos_x, this.pos_y, this.width, this.height, renderer);
-        Polygone p = factory.createPolygone(this.pos_x+ this.radious, this.pos_y, this.radious, 6, renderer);
+        IShape r = factory.createRectangle(this.pos_x, this.pos_y, this.width, this.height, renderer);
+        IShape p = factory.createPolygone(this.pos_x+ this.radious, this.pos_y, this.radious, 6, renderer);
         ToolGroupComponent recTool = new Tool(r);
         ToolGroupComponent polyTool = new Tool(p);
         addTool(recTool);
