@@ -18,7 +18,7 @@ public class Polygone extends SimpleShape {
 
     @Override
     public void draw() {
-        _renderer.setColor(this.color);
+        renderer.setColor(this.color);
         double angle = 2 * Math.PI / nbSides; // Angle entre deux sommets consécutifs du polygone
         double[] xPoints = new double[(int) nbSides];
         double[] yPoints = new double[(int) nbSides];
@@ -32,18 +32,18 @@ public class Polygone extends SimpleShape {
             double nextX = centerX + radius * Math.cos(i * angle);
             double nextY = centerY + radius * Math.sin(i * angle);
 
-            _renderer.drawLine(xPoints[i-1], yPoints[i-1], nextX, nextY);
+            renderer.drawLine(xPoints[i-1], yPoints[i-1], nextX, nextY);
 
             xPoints[i] = nextX;
             yPoints[i] = nextY;
 
             if(i == nbSides - 1){
-                _renderer.drawLine(xPoints[i], yPoints[i], xPoints[0], yPoints[0]);
+                renderer.drawLine(xPoints[i], yPoints[i], xPoints[0], yPoints[0]);
             }
         }
 
         // Remplit le polygone avec la couleur
-        _renderer.fillPolygon(xPoints, yPoints, (int) nbSides);
+        renderer.fillPolygon(xPoints, yPoints, (int) nbSides);
 
     }
 
@@ -145,12 +145,12 @@ public class Polygone extends SimpleShape {
 
     @Override
     public void setRenderer(IRenderer r) {
-        _renderer = r;
+        renderer = r;
     }
 
     @Override
     public IRenderer getIRenderer() {
-        return _renderer;
+        return renderer;
     }
 
     @Override

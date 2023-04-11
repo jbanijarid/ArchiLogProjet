@@ -1,9 +1,24 @@
 package com.xshape.modele;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+
 public class Rectangle extends SimpleShape {
 
     private double x, y, width, height;
     private int color=0;
+
+    private EventHandler<MouseEvent> onMouseClickedEventHandler;
+
+    public void setOnMouseClicked(EventHandler<MouseEvent> eventHandler) {
+        this.onMouseClickedEventHandler = eventHandler;
+    }
+
+    public void handleMouseClicked(MouseEvent event) {
+        if (onMouseClickedEventHandler != null) {
+            onMouseClickedEventHandler.handle(event);
+        }
+    }
 
     public Rectangle(double x, double y, double width, double height, IRenderer renderer) {
         super(renderer);
@@ -16,23 +31,23 @@ public class Rectangle extends SimpleShape {
     @Override
     public void draw() {
         //_renderer.drawRectangle(x, y, width, height);
-        _renderer.setColor(this.color);
+        renderer.setColor(this.color);
 
         // Ligne horizontale du haut
-        _renderer.drawLine(x, y, x + width, y);
+        renderer.drawLine(x, y, x + width, y);
 
         // Ligne verticale de droite
-        _renderer.drawLine(x + width, y, x + width, y + height);
+        renderer.drawLine(x + width, y, x + width, y + height);
 
         // Ligne horizontale du bas
-        _renderer.drawLine(x + width, y + height, x, y + height);
+        renderer.drawLine(x + width, y + height, x, y + height);
 
         // Ligne verticale de gauche
-        _renderer.drawLine(x, y + height, x, y);
+        renderer.drawLine(x, y + height, x, y);
 
         double[] xPoints = {x, x + width, x + width, x};
         double[] yPoints = {y, y, y + height, y + height};
-        _renderer.fillPolygon(xPoints, yPoints, 4);
+        renderer.fillPolygon(xPoints, yPoints, 4);
     }
 
     @Override
@@ -88,12 +103,12 @@ public class Rectangle extends SimpleShape {
 
     @Override
     public void setRenderer(IRenderer r) {
-        _renderer = r;
+        renderer = r;
     }
 
     @Override
     public IRenderer getIRenderer() {
-        return _renderer;
+        return renderer;
     }
 
     @Override

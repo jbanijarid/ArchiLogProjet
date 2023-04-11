@@ -5,12 +5,10 @@ import com.xshape.modele.Goupage.Tool;
 import com.xshape.modele.Goupage.ToolGroupComponent;
 import com.xshape.modele.Goupage.ToolGroupComposite;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 
 import java.awt.event.MouseEvent;
 import java.io.InputStream;
@@ -23,12 +21,13 @@ public class FxBuilder implements IBuilder, Event {
     private ToolGroupComponent whiteBoard;
     private Composite whiteboard;
     private BorderPane borderPane;
-    private IRenderer _renderer;
-    private Canvas _canvas;
+    private IRenderer renderer;
+    private Canvas canvas;
     IShape selectedShape = null;
 
     public static FxWhiteBoard _whiteBoard;
-    private IFactory factory = new FxFactory();
+    private IFactory factory = new Factory();
+    private IButton factoryButton = new FxFactoryButton();
     private boolean fromToolBar = false;
 
     private static Stack<Command> undoStack = new Stack<>();
@@ -41,21 +40,21 @@ public class FxBuilder implements IBuilder, Event {
         this.toolbar = new ToolGroupComposite();
         //this.whiteboard = whiteboard;
         this.borderPane = borderPane;
-        this._canvas = new Canvas(800, 600);
-        borderPane.setBottom(_canvas);
-        this._renderer = new FxRenderer(_canvas);
+        this.canvas = new Canvas(800, 600);
+        borderPane.setBottom(canvas);
+        this.renderer = new FxRenderer(canvas);
         this.whiteBoard = new ToolGroupComposite();
     }
 
     @Override
     public void toolBar() {
 
-        _renderer.drawLine(100, 10, 100, 600);
-        _renderer.drawLine(10, 10, 10, 600);
-        _renderer.drawLine(10, 10, 100, 10);
-        _renderer.drawLine(10, 600, 100, 600);
-        IShape rect = factory.createRectangle(25, 40, 50, 40, _renderer);
-        IShape poly = factory.createPolygone(50, 120, 30, 6, _renderer);
+        renderer.drawLine(100, 10, 100, 600);
+        renderer.drawLine(10, 10, 10, 600);
+        renderer.drawLine(10, 10, 100, 10);
+        renderer.drawLine(10, 600, 100, 600);
+        IShape rect = factory.createRectangle(25, 40, 50, 40, renderer);
+        IShape poly = factory.createPolygone(50, 120, 30, 6, renderer);
         ToolGroupComponent rectTool = new Tool(rect);
         ToolGroupComponent polyTool = new Tool(poly);
         toolbar.add(rectTool);
@@ -66,27 +65,12 @@ public class FxBuilder implements IBuilder, Event {
         //toolbar.draw();
     }
 
-
-    public ImageView imgView(String s){
-        InputStream inputStream = getClass().getResourceAsStream(s);
-        Image image = new Image(inputStream);
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(20);
-        imageView.setFitHeight(20);
-
-        return imageView;
-    }
-
     @Override
     public void menuBar() {
         ToolBar toolBar = new ToolBar();
 
-        ImageView imgUndo = imgView("/com/xshape/undo.png");
-
         //Boutton undo
-        Button undoButton = factory.createButton("");
-        undoButton.setGraphic(imgUndo);
-
+        FxAdapterButton undoButton = (FxAdapterButton) factoryButton.createButton("","/com/xshape/undo.png",24,24);
         undoButton.setOnAction(event -> {
             if (!undoStack.empty()) {
                 Command command = undoStack.pop();
@@ -96,14 +80,8 @@ public class FxBuilder implements IBuilder, Event {
             }
         });
 
-        toolBar.getItems().add(undoButton);
-
-
-        ImageView imgRedo = imgView("/com/xshape/redo.png");
         // Boutton redo
-        Button redoButton = factory.createButton("");
-        redoButton.setGraphic(imgRedo);
-
+        FxAdapterButton redoButton = (FxAdapterButton)factoryButton.createButton("","/com/xshape/redo.png",24,24);
         redoButton.setOnAction(event -> {
             if (!redoStack.empty()) {
                 Command command = redoStack.pop();
@@ -113,26 +91,15 @@ public class FxBuilder implements IBuilder, Event {
             }
         });
 
-        toolBar.getItems().add(redoButton);
-
-
-        ImageView imgSave = imgView("/com/xshape/save.png");
         // Boutton save
-        Button saveButton = factory.createButton("");
-        saveButton.setGraphic(imgSave);
-        toolBar.getItems().add(saveButton);
+        FxAdapterButton saveButton = (FxAdapterButton) factoryButton.createButton("","/com/xshape/save.png",24,24);
+        //saveButton.setGraphic(imgSave);
 
-        ImageView imgLoad = imgView("/com/xshape/load.png");
-        // Boutton redo
-        Button loadButton = factory.createButton("");
-        loadButton.setGraphic(imgLoad);
-        toolBar.getItems().add(loadButton);
+        // Boutton load
+        FxAdapterButton loadButton = (FxAdapterButton)factoryButton.createButton("","/com/xshape/load.png",24,24);
 
-
-        HBox hBox = new HBox();
-        hBox.setSpacing(5);
-        hBox.getChildren().addAll(undoButton,redoButton,saveButton,loadButton);
-        borderPane.setTop(hBox);
+        toolBar.getItems().addAll(undoButton,redoButton,saveButton,loadButton);
+        borderPane.setTop(toolBar);
     }
 
     @Override
@@ -161,7 +128,7 @@ public class FxBuilder implements IBuilder, Event {
 
     @Override
     public void toolBarEvents() {
-        _canvas.setOnMousePressed(event -> {
+        canvas.setOnMousePressed(event -> {
             double mouseX = event.getX();
             double mouseY = event.getY();
             if (selectedShape == null){
@@ -191,9 +158,9 @@ public class FxBuilder implements IBuilder, Event {
             }
             System.out.println("fin 1");
         });
-        _canvas.setOnMouseDragged(dragEvent -> {
+        canvas.setOnMouseDragged(dragEvent -> {
         });
-        _canvas.setOnMouseReleased(releaseEvent -> {
+        canvas.setOnMouseReleased(releaseEvent -> {
             if (selectedShape != null){
                 double deltaX = releaseEvent.getX();
                 double deltaY = releaseEvent.getY();
@@ -207,7 +174,7 @@ public class FxBuilder implements IBuilder, Event {
                     command.execute();
                     selectedShape = null;
                     System.out.println("je met selected shape a null");
-                    _canvas.setOnMouseDragged(null);
+                    canvas.setOnMouseDragged(null);
                     redoStack.clear();
                     redraw();
                 } else if (deltaX > 100 && !fromToolBar){
@@ -223,7 +190,7 @@ public class FxBuilder implements IBuilder, Event {
                     System.out.println("Je supprime tout, et je redessine");
                     //whiteBoard.draw();
                     redraw();
-                    _canvas.setOnMouseDragged(null);
+                    canvas.setOnMouseDragged(null);
                     //toolBar();
                     selectedShape = null;
                 } else {
@@ -238,7 +205,7 @@ public class FxBuilder implements IBuilder, Event {
                     //redrawCanvas();
                     redraw();
                     System.out.println("je met selected shape a null");
-                    _canvas.setOnMouseDragged(null);
+                    canvas.setOnMouseDragged(null);
                     redoStack.clear();
                 }
                 fromToolBar = false;
@@ -247,11 +214,11 @@ public class FxBuilder implements IBuilder, Event {
     }
 
     void redraw(){
-        _canvas.getGraphicsContext2D().clearRect(0, 0, 800, 600);
-        _renderer.drawLine(100, 10, 100, 600);
-        _renderer.drawLine(10, 10, 10, 600);
-        _renderer.drawLine(10, 10, 100, 10);
-        _renderer.drawLine(10, 600, 100, 600);
+        canvas.getGraphicsContext2D().clearRect(0, 0, 800, 600);
+        renderer.drawLine(100, 10, 100, 600);
+        renderer.drawLine(10, 10, 10, 600);
+        renderer.drawLine(10, 10, 100, 10);
+        renderer.drawLine(10, 600, 100, 600);
         drawToolBar();
         whiteBoard.draw();
     }
@@ -277,7 +244,7 @@ public class FxBuilder implements IBuilder, Event {
     private void redrawCanvas() {
 
         // Effacer le canvas
-        _canvas.getGraphicsContext2D().clearRect(0, 0, 800, 600);
+        canvas.getGraphicsContext2D().clearRect(0, 0, 800, 600);
         toolBar();
 
         // Redessiner tous les éléments de la pile undo

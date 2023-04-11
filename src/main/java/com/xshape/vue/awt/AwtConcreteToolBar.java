@@ -1,10 +1,8 @@
 package com.xshape.vue.awt;
 
+import com.xshape.modele.*;
 import com.xshape.modele.Goupage.Tool;
 import com.xshape.modele.Goupage.ToolGroupComponent;
-import com.xshape.modele.IRenderer;
-import com.xshape.modele.IShape;
-import com.xshape.modele.Polygone;
 import com.xshape.modele.Rectangle;
 import com.xshape.modele.awt.AwtRenderer;
 import javax.imageio.ImageIO;
@@ -26,6 +24,8 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
     private int current_y = pos_y;
     ArrayList<ToolGroupComponent> tools = new ArrayList<>();
     private Image trashLabel;
+
+    private IFactory factory = new Factory();
 
 
     AwtConcreteToolBar(AwtApplication app, int x, int y, int width, int height){
@@ -58,8 +58,8 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
     @Override
     public void paint(Graphics g) {
         IRenderer renderer = new AwtRenderer(g);
-        com.xshape.modele.Rectangle r = new Rectangle(this.pos_x, this.pos_y, this.width, this.height, renderer);
-        Polygone p = new Polygone(this.pos_x+ this.radious, this.pos_y, this.radious, 6, renderer);
+        com.xshape.modele.Rectangle r = factory.createRectangle(this.pos_x, this.pos_y, this.width, this.height, renderer);
+        Polygone p = factory.createPolygone(this.pos_x+ this.radious, this.pos_y, this.radious, 6, renderer);
         ToolGroupComponent recTool = new Tool(r);
         ToolGroupComponent polyTool = new Tool(p);
         addTool(recTool);

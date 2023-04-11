@@ -9,22 +9,22 @@ import javafx.scene.shape.Shape;
 
 public class FxWhiteBoard extends BorderPane implements IWhiteBoard {
 
-    Composite _canvasElements = null;
-    private Event _libraryEvents;
+    Composite canvasElements = null;
+    private Event libraryEvents;
 
     public FxWhiteBoard(Composite canvasElements, double width, double height,  Event libraryEvents){
         super();
         setHeight(width);
         setWidth(height);
-        _canvasElements = canvasElements;
-        _libraryEvents = libraryEvents;
+        this.canvasElements = canvasElements;
+        this.libraryEvents = libraryEvents;
         //_libraryEvents.whiteBoardEvents(this);
 
     }
 
     @Override
     public void addGroupComponent(IShape rec) {
-         _canvasElements.add(rec);
+         canvasElements.add(rec);
          getChildren().add((Shape) rec);
     }
 }

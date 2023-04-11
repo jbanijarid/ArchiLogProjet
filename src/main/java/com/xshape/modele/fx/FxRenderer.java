@@ -6,30 +6,30 @@ import javafx.scene.paint.Color;
 import  com.xshape.modele.*;
 public class FxRenderer implements IRenderer {
 
-    private GraphicsContext _gc;
-    private Canvas _canvas;
+    private GraphicsContext gc;
+    private Canvas canvas;
 
 
     public FxRenderer(Canvas canvas){
-        _canvas = canvas;
-        _gc = _canvas.getGraphicsContext2D();
+        this.canvas = canvas;
+        gc = this.canvas.getGraphicsContext2D();
     }
 
     @Override
     public void drawLine(double x1, double y1, double x2, double y2) {
-        _gc.strokeLine(x1, y1, x2, y2);
+        gc.strokeLine(x1, y1, x2, y2);
     }
 
     @Override
     public void setColor(int color) {
         Color fxColor = Color.rgb(color, color, color);
         //_gc.setFill(Color.BLUE);
-        _gc.setFill(fxColor);
+        gc.setFill(fxColor);
 
     }
 
     @Override
     public void fillPolygon(double[] xPoints, double[] yPoints, int cote) {
-        _gc.fillPolygon(xPoints,yPoints,cote);
+        gc.fillPolygon(xPoints,yPoints,cote);
     }
 }

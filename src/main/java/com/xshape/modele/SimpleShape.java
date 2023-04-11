@@ -4,10 +4,10 @@ public abstract class SimpleShape implements IShape {
 
 
 
-    IRenderer _renderer;
+    IRenderer renderer;
 
     public SimpleShape(IRenderer renderer){
-        _renderer = renderer;
+        this.renderer = renderer;
     }
 
 }

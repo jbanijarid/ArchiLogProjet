@@ -1,6 +1,10 @@
 package com.xshape.vue.awt;
 
 import com.xshape.modele.Command;
+import com.xshape.modele.IButton;
+import com.xshape.modele.awt.AwtAdapterButton;
+import com.xshape.modele.awt.AwtFactoryButton;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,28 +13,18 @@ import java.awt.event.ActionListener;
 
 class AwtMenuBar extends JToolBar {
 
+    private IButton factoryButton = new AwtFactoryButton();
+    private int iconWidth = 24; // largeur des icônes des boutons
+    private int iconHeight = 24; // hauteur des icônes des boutons
 
     public AwtMenuBar(AwtApplication app, int x, int y, int width, int height, AwtBuilder awtBuilder) {
 
         setBackground(Color.gray);
         setBounds(x,y,width,height);
-
-        ImageIcon undoIcon = new ImageIcon("src/main/resources/com/xshape/undo.png");
-        ImageIcon redoIcon = new ImageIcon("src/main/resources/com/xshape/redo.png");
-        ImageIcon saveIcon = new ImageIcon("./src/main/resources/com/xshape/save.png");
-        ImageIcon loadIcon = new ImageIcon("src/main/resources/com/xshape/load.png");
-
-        int iconWidth = 24; // largeur des icônes des boutons
-        int iconHeight = 24; // hauteur des icônes des boutons
-        undoIcon.setImage(undoIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
-        redoIcon.setImage(redoIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
-        saveIcon.setImage(saveIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
-        loadIcon.setImage(loadIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
-
-        JButton undoButton = new JButton(undoIcon);
-        JButton redoButton = new JButton(redoIcon);
-        JButton saveButton = new JButton(saveIcon);
-        JButton loadButton = new JButton(loadIcon);
+        AwtAdapterButton undoButton = (AwtAdapterButton)factoryButton.createButton("","src/main/resources/com/xshape/undo.png",iconHeight,iconWidth);
+        AwtAdapterButton redoButton = (AwtAdapterButton)factoryButton.createButton("","src/main/resources/com/xshape/redo.png",iconHeight,iconWidth);
+        AwtAdapterButton saveButton = (AwtAdapterButton)factoryButton.createButton("","src/main/resources/com/xshape/save.png",iconHeight,iconWidth);
+        AwtAdapterButton loadButton = (AwtAdapterButton)factoryButton.createButton("","src/main/resources/com/xshape/load.png",iconHeight,iconWidth);
 
         add(undoButton);
         add(redoButton);
