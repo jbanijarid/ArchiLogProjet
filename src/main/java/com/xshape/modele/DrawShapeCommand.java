@@ -34,7 +34,7 @@ public class DrawShapeCommand implements Command{
 
     @Override
     public void redo() {
-
+        execute();
     }
 
     public IShape getCopy() {
