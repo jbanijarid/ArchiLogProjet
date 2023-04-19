@@ -23,7 +23,7 @@ public class FxRenderer implements IRenderer {
     @Override
     public void setColor(int color) {
         Color fxColor = Color.rgb(color, color, color);
-        //_gc.setFill(Color.BLUE);
+        //gc.setFill(Color.BLUE);
         gc.setFill(fxColor);
 
     }
@@ -31,5 +31,10 @@ public class FxRenderer implements IRenderer {
     @Override
     public void fillPolygon(double[] xPoints, double[] yPoints, int cote) {
         gc.fillPolygon(xPoints,yPoints,cote);
+    }
+
+    @Override
+    public void fillRect(double x, double y, double width, double height) {
+        gc.fillRect(x,y,width,height);
     }
 }

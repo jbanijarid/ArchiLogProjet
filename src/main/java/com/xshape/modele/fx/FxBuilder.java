@@ -22,7 +22,7 @@ public class FxBuilder implements IBuilder, Event {
     private Canvas canvas;
     IShape selectedShape = null;
     private IFactory factory = new Factory();
-    private IButton factoryButton = new FxFactoryButton();
+    private IButtonFactory factoryButton = new FxButtonFactory();
     private boolean fromToolBar = false;
     private Image image;
     private ToolGroupComponent selectedTool;
@@ -48,6 +48,18 @@ public class FxBuilder implements IBuilder, Event {
         IShape poly = factory.createPolygone(50, 120, 30, 6, renderer);
         ToolGroupComponent rectTool = new Tool(rect);
         ToolGroupComponent polyTool = new Tool(poly);
+
+        /*IShape rect1 = factory.createRectangle(150, 150, 50, 40, renderer);
+        IShape poly1 = factory.createPolygone(450, 420, 30, 6, renderer);
+        TranslateshapeCommand c = new TranslateshapeCommand(poly1,300, 300);
+        ColorShapeCommand co = new ColorShapeCommand(rect1,0);
+
+        c.execute();
+        //c.undo();
+        co.execute();
+        rect1.draw();
+        poly1.draw();*/
+
         toolbar.add(rectTool);
         toolbar.add(polyTool);
         toolbar.draw();

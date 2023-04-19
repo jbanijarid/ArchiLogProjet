@@ -1,9 +1,9 @@
 package com.xshape.vue.awt;
 
 import com.xshape.modele.Command;
-import com.xshape.modele.IButton;
+import com.xshape.modele.IButtonFactory;
 import com.xshape.modele.awt.AwtAdapterButton;
-import com.xshape.modele.awt.AwtFactoryButton;
+import com.xshape.modele.awt.AwtButtonFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 
 class AwtMenuBar extends JToolBar {
 
-    private IButton factoryButton = new AwtFactoryButton();
+    private IButtonFactory factoryButton = new AwtButtonFactory();
     private int iconWidth = 24; // largeur des icônes des boutons
     private int iconHeight = 24; // hauteur des icônes des boutons
 

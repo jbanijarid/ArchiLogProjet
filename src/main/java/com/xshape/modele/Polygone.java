@@ -6,7 +6,7 @@ public class Polygone extends SimpleShape {
     double centerY;
     double radius;
     double nbSides;
-    private int color=0;
+    private int color= 0;
 
     public Polygone(double centerX, double centerY, double radius, double nbSides, IRenderer renderer) {
         super(renderer);
@@ -32,13 +32,13 @@ public class Polygone extends SimpleShape {
             double nextX = centerX + radius * Math.cos(i * angle);
             double nextY = centerY + radius * Math.sin(i * angle);
 
-            renderer.drawLine(xPoints[i-1], yPoints[i-1], nextX, nextY);
+            //renderer.drawLine(xPoints[i-1], yPoints[i-1], nextX, nextY);
 
             xPoints[i] = nextX;
             yPoints[i] = nextY;
 
             if(i == nbSides - 1){
-                renderer.drawLine(xPoints[i], yPoints[i], xPoints[0], yPoints[0]);
+                //renderer.drawLine(xPoints[i], yPoints[i], xPoints[0], yPoints[0]);
             }
         }
 
@@ -50,6 +50,11 @@ public class Polygone extends SimpleShape {
     @Override
     public void setColor(int color) {
         this.color = color;
+    }
+
+    @Override
+    public int getColor() {
+        return color;
     }
 
     @Override

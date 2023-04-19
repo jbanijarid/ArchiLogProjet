@@ -5,4 +5,5 @@ public interface IRenderer {
     public void setColor(int color);
     //void drawRectangle(double x, double y, double width, double height);
     public void fillPolygon(double[] xPoints,double[] yPoints, int cote );
+    public void fillRect(double x, double y, double width, double height);
 }
