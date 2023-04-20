@@ -11,5 +11,6 @@ public interface ToolGroupComponent {
     IShape getShape();
 
     void draw();
+    void clear();
     ArrayList<ToolGroupComponent> getShapes();
 }

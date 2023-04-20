@@ -85,7 +85,7 @@ public class Rectangle extends SimpleShape {
 
     @Override
     public double getNbSides() {
-        return 0;
+        return 4;
     }
 
     @Override

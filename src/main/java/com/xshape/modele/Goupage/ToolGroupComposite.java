@@ -49,5 +49,10 @@ public class ToolGroupComposite implements ToolGroupComponent, Cloneable {
         }
     }
 
+    @Override
+    public void clear(){
+        this.tools.clear();
+    }
+
 
 }

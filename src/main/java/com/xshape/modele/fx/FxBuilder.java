@@ -4,13 +4,22 @@ import com.xshape.modele.*;
 import com.xshape.modele.Goupage.Tool;
 import com.xshape.modele.Goupage.ToolGroupComponent;
 import com.xshape.modele.Goupage.ToolGroupComposite;
+import com.xshape.vue.fx.FXApplication;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Stack;
 
@@ -29,6 +38,8 @@ public class FxBuilder implements IBuilder, Event {
     private static Stack<Command> undoStack = new Stack<>();
     private static Stack<Command> redoStack = new Stack<>();
 
+    private ToolGroupComponent group;
+
     public FxBuilder(BorderPane borderPane) {
         this.toolbar = new ToolGroupComposite();
         this.borderPane = borderPane;
@@ -36,6 +47,7 @@ public class FxBuilder implements IBuilder, Event {
         borderPane.setBottom(canvas);
         this.renderer = new FxRenderer(canvas);
         this.whiteBoard = new ToolGroupComposite();
+        this.group = new ToolGroupComposite();
     }
 
     @Override
@@ -97,11 +109,40 @@ public class FxBuilder implements IBuilder, Event {
 
         // Boutton save
         FxAdapterButton saveButton = (FxAdapterButton) factoryButton.createButton("","/com/xshape/save.png",24,24);
-        //saveButton.setGraphic(imgSave);
+
+        saveButton.setOnAction(event -> {
+            Stage dialog = new Stage();
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Sauvegarder le fichier");
+            File file = fileChooser.showSaveDialog(dialog);
+            if (file != null){
+                StrategyManager saveManager = new StrategyManager(new TextStrategy());
+                try {
+                    saveManager.save(this.toolbar, this.whiteBoard, file.getAbsolutePath());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
 
         // Boutton load
         FxAdapterButton loadButton = (FxAdapterButton)factoryButton.createButton("","/com/xshape/load.png",24,24);
-
+        loadButton.setOnAction(event -> {
+            Stage dialog = new Stage();
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("charger un fichier");
+            File file = fileChooser.showOpenDialog(dialog);
+            toolbar.clear();
+            if (file != null){
+                StrategyManager loadManager = new StrategyManager(new TextStrategy());
+                try {
+                    loadManager.load(this.toolbar, this.whiteBoard, renderer, file.getAbsolutePath());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                redraw();
+            }
+        });
         toolBar.getItems().addAll(undoButton,redoButton,saveButton,loadButton);
         borderPane.setTop(toolBar);
     }
@@ -141,6 +182,66 @@ public class FxBuilder implements IBuilder, Event {
 
     @Override
     public void toolBarEvents() {
+        /*
+        // Ajouter un événement de souris au whiteboard
+        canvas.setOnMousePressed(event -> {
+            // Si le bouton de la souris est appuyé et l'utilisateur a appuyé sur la touche CTRL, alors il a sélectionné un objet.
+            if (event.isPrimaryButtonDown() && event.isControlDown()) {
+                // Code pour ajouter l'objet sélectionné à une liste de sélection.
+                System.out.println("debut de la selection");
+            }
+        });
+
+        canvas.setOnMouseDragged(event -> {
+            // Si l'utilisateur fait un rectangle de sélection
+            if (event.isPrimaryButtonDown()) {
+                // Code pour dessiner le rectangle de sélection.
+                System.out.println("en cours de selection");
+            }
+        });
+
+        canvas.setOnMouseReleased(event -> {
+            // Si l'utilisateur termine la sélection multiple par rectangle de sélection
+            if (event.isPrimaryButtonDown()) {
+                // Code pour sélectionner tous les objets dans le rectangle de sélection
+                System.out.println("fin de la selection");
+            }
+        });
+
+         */
+
+        /*
+        canvas.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                // Créer un menu contextuel avec l'option "Group"
+                ContextMenu contextMenu = new ContextMenu();
+                MenuItem groupMenuItem = new MenuItem("Group");
+                MenuItem deGroupMenuItem = new MenuItem("DeGroup");
+                groupMenuItem.setOnAction(e -> {
+                    System.out.println("to be added");
+                    //groupSelectedObjects(selectedShapes);
+                    group.add();
+                });
+                contextMenu.getItems().addAll(groupMenuItem, deGroupMenuItem);
+
+                // Afficher le menu contextuel à l'emplacement du clic
+                contextMenu.show(canvas, event.getScreenX(), event.getScreenY());
+            }
+        });
+
+         */
+
+
+        /*
+        canvas.setOnMouseClicked(event -> {
+            Stage dialog = new Stage();
+            // Créer les éléments graphiques dans la fenêtre de dialogue
+            // pour permettre à l'utilisateur de modifier les propriétés du Shape.
+
+            dialog.showAndWait();
+        });
+
+         */
         canvas.setOnMousePressed(event -> {
             double mouseX = event.getX();
             double mouseY = event.getY();
@@ -154,12 +255,35 @@ public class FxBuilder implements IBuilder, Event {
                     }
                 }
                 for (ToolGroupComponent shape: this.whiteBoard.getShapes()) {
-                    if (shape.getShape().IsArea(mouseX, mouseY)) {
-                        selectedShape = shape.getShape();
-                        selectedTool = shape;
-                        whiteBoard.remove(shape);
-                        fromToolBar = false;
-                        break;
+                    if (event.getButton() == MouseButton.SECONDARY && shape.getShape().IsArea(mouseX, mouseY)) {
+                        // Créer un menu contextuel avec l'option "Group"
+                        ContextMenu contextMenu = new ContextMenu();
+                        MenuItem groupMenuItem = new MenuItem("Group");
+                        MenuItem deGroupMenuItem = new MenuItem("DeGroup");
+                        groupMenuItem.setOnAction(e -> {
+                            System.out.println("to be added");
+                            //groupSelectedObjects(selectedShapes);
+                            group.add(shape);
+                            System.out.println("groupe" + compterBis());
+                        });
+                        deGroupMenuItem.setOnAction(e -> {
+                            System.out.println("to be deleted");
+                            //groupSelectedObjects(selectedShapes);
+                            group.remove(shape);
+                            System.out.println("groupe" + compterBis());
+                        });
+                        contextMenu.getItems().addAll(groupMenuItem, deGroupMenuItem);
+
+                        // Afficher le menu contextuel à l'emplacement du clic
+                        contextMenu.show(canvas, event.getScreenX(), event.getScreenY());
+                    } else {
+                        if (shape.getShape().IsArea(mouseX, mouseY)) {
+                            selectedShape = shape.getShape();
+                            selectedTool = shape;
+                            whiteBoard.remove(shape);
+                            fromToolBar = false;
+                            break;
+                        }
                     }
                 }
             }
@@ -202,6 +326,15 @@ public class FxBuilder implements IBuilder, Event {
         }
         return nb;
     }
+
+    int compterBis(){
+        int nb = 0;
+        for (ToolGroupComponent tool : group.getShapes()){
+            nb++;
+        }
+        return nb;
+    }
+
     void redraw(){
         canvas.getGraphicsContext2D().clearRect(0, 0, 800, 600);
         renderer.drawLine(100, 10, 100, 600);
