@@ -92,6 +92,7 @@ class AwtMenuBar extends JToolBar {
                 if (fileName != null) {
                     String filePath = dialog.getDirectory() + fileName;
                     awtBuilder.toolBar.getTools().clear();
+                    awtBuilder.getWhiteBoard().getContentWhiteBoard().clear();
                     StrategyManager loadManager = new StrategyManager(new TextStrategy());
                     try {
                         loadManager.load(awtBuilder.toolBar.getTools(), awtBuilder.whiteBoard.getContentWhiteBoard(), awtBuilder.whiteBoard.getRenderer(), filePath);

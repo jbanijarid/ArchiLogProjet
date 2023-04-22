@@ -6,7 +6,6 @@ import com.xshape.modele.Goupage.ToolGroupComponent;
 import com.xshape.modele.IBuilder;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Stack;
@@ -91,6 +90,7 @@ public class AwtBuilder implements IBuilder, MouseListener {
                 }
             }
         }
+
         if(selectedToolWhiteboard==null) {
             for (ToolGroupComponent tool : whiteBoard.getContentWhiteBoard().getShapes()) {
                 if (tool.getShape().IsArea(e.getX(), e.getY())) {
@@ -112,14 +112,15 @@ public class AwtBuilder implements IBuilder, MouseListener {
                 redoStackAwt.clear();
                 whiteBoard.update(undoStackAwt, redoStackAwt);
         }
+
         if (selectedToolWhiteboard != null) {
-            System.out.println("yoyoyooooooooooooooo1111111111111111111111");
-            if (toolBar.getBounds().contains(e.getPoint())) {
-                System.out.println("yoyoyooooooooooooooo");
+            if (toolBar.getBounds().contains(e.getX()+toolBar.getWidthT(),e.getY())) {
                 toolBar.addTool(selectedToolWhiteboard);
-                toolBar.repaint();
+                System.out.println(toolBar.tools.getShapes().size());
+                selectedToolWhiteboard = null;
             }
         }
+
     }
 
 

@@ -25,16 +25,14 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
     private int prevX, prevY;
 
     private int current_y = pos_y;
-    private Point posMousse;
     private IShape selectedShape;
+    ToolGroupComponent selectedTool;
     ToolGroupComponent tools = new ToolGroupComposite();
     IRenderer renderer;
     private Image trashLabel;
     private IFactory factory = new Factory();
 
-    public Point getPosMousse() {
-        return posMousse;
-    }
+
 
 
     AwtConcreteToolBar(AwtApplication app, int x, int y, int width, int height){
@@ -62,6 +60,7 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
                     for (ToolGroupComponent c : tools.getShapes()) {
                         if (c.getShape().IsArea(e.getX(),e.getY())) {
                             selectedShape = c.getShape();
+                            selectedTool = c;
                             prevX = e.getX();
                             prevY = e.getY();
                             break;
@@ -72,14 +71,26 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
             }
 
             public void mouseReleased(MouseEvent e) {
-                posMousse = e.getPoint();
-                System.out.println(posMousse.getX() + "" + posMousse.getY());
 
                 if (selectedShape!=null && getBounds().contains(e.getPoint())){
                     selectedShape.setPosition(e.getX(), e.getY());
                     repaint();
-                    selectedShape = null;
                 }
+
+                // Supprime l'outil si la souris est relâchée sur l'image trashLabel
+                if (trashLabel != null && e.getX() >= (getWidth() - trashLabel.getWidth(null)) / 2
+                        && e.getX() <= (getWidth() - trashLabel.getWidth(null)) / 2 + trashLabel.getWidth(null)
+                        && e.getY() >= getHeight() - trashLabel.getHeight(null) - 10
+                        && e.getY() <= getHeight() - 10) {
+                    if (selectedTool != null) {
+                        tools.remove(selectedTool);
+                        selectedTool = null;
+                        repaint();
+                    }
+                }
+
+                selectedShape = null;
+                selectedTool = null;
 
             }
         });
@@ -119,8 +130,6 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
         IRenderer r = new AwtRenderer(g);
         this.renderer = r;
         super.paint(g);
-
-
         for (ToolGroupComponent c : this.getTools().getShapes()) {
             c.getShape().setRenderer(r);
             c.getShape().draw();

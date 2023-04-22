@@ -12,7 +12,7 @@ class AwtAbstractWhiteBoard extends Panel {
 
     public AwtAbstractWhiteBoard(AwtApplication app, int x, int y, int width, int height) {
 
-        setBackground(Color.white);
+        setBackground(Color.yellow);
         setBounds(x, y, width, height);
 
     }
