@@ -58,8 +58,6 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
                     undoStackAwt.push(command);
                     redoStackAwt.clear();
                     selectedShape = null;
-                    System.out.println("undoStackAwt size: " + undoStackAwt.size());
-                    System.out.println("redoStackAwt size: " + redoStackAwt.size());
                     update(undoStackAwt, redoStackAwt);
                 }
             }
@@ -94,11 +92,6 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
         }
         repaint();
     }
-
-
-
-
-
 
 
 

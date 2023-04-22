@@ -92,13 +92,12 @@ public class AwtBuilder implements IBuilder, MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         if (selectedTool != null) {
-                ToolGroupComponent clone = selectedTool.clone();
-                clone.getShape().setPosition(e.getX()-toolBar.getWidthT(), e.getY());
-                Command command = new DrawShapeCommand(clone.getShape(), e.getX()-toolBar.getWidthT(), e.getY(), selectedTool);
+                Command command = new DrawShapeCommand(selectedTool.clone().getShape(),e.getX()-toolBar.getWidthT(), e.getY(), whiteBoard.getContentWhiteBoard());
                 undoStackAwt.push(command);
+                command.execute();
+                selectedTool = null;
                 redoStackAwt.clear();
                 whiteBoard.update(undoStackAwt, redoStackAwt);
-                selectedTool = null;
 
         }
     }
