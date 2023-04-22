@@ -2,13 +2,19 @@ package com.xshape.vue.awt;
 
 import com.xshape.modele.Command;
 import com.xshape.modele.IButtonFactory;
+import com.xshape.modele.StrategyManager;
+import com.xshape.modele.TextStrategy;
 import com.xshape.modele.awt.AwtAdapterButton;
 import com.xshape.modele.awt.AwtButtonFactory;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 
 class AwtMenuBar extends JToolBar {
@@ -41,10 +47,8 @@ class AwtMenuBar extends JToolBar {
                 if (!awtBuilder.undoStackAwt.empty()) {
                     Command command = awtBuilder.undoStackAwt.pop();
                     command.undo();
-                    System.out.println("ahhhhhhhhhhhhhhhhhh");
                     awtBuilder.redoStackAwt.push(command);
-                    AwtConcreteWhiteBoard w= (AwtConcreteWhiteBoard) awtBuilder.getWhiteBoard();
-                    w.update(awtBuilder.undoStackAwt, awtBuilder.redoStackAwt);
+                    awtBuilder.whiteBoard.update(awtBuilder.undoStackAwt, awtBuilder.redoStackAwt);
                 }
             }
         });
@@ -54,10 +58,9 @@ class AwtMenuBar extends JToolBar {
             public void actionPerformed(ActionEvent e) {
                 if (!awtBuilder.redoStackAwt.empty()) {
                     Command command = awtBuilder.redoStackAwt.pop();
-                    command.execute();
+                    command.redo();
                     awtBuilder.undoStackAwt.push(command);
-                    AwtConcreteWhiteBoard w= (AwtConcreteWhiteBoard) awtBuilder.getWhiteBoard();
-                    w.update(awtBuilder.undoStackAwt, awtBuilder.redoStackAwt);
+                    awtBuilder.whiteBoard.update(awtBuilder.undoStackAwt, awtBuilder.redoStackAwt);
                 }
             }
         });
@@ -65,14 +68,38 @@ class AwtMenuBar extends JToolBar {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                FileDialog dialog = new FileDialog(new Frame(), "Sauvegarder le fichier", FileDialog.SAVE);
+                dialog.setVisible(true);
+                String fileName = dialog.getFile();
+                if (fileName != null) {
+                    String filePath = dialog.getDirectory() + fileName;
+                    StrategyManager saveManager = new StrategyManager(new TextStrategy());
+                    try {
+                        saveManager.save(awtBuilder.toolBar.getTools(), awtBuilder.whiteBoard.getContentWhiteBoard(), filePath);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
         });
 
         loadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                FileDialog dialog = new FileDialog(new Frame(), "Charger un fichier", FileDialog.LOAD);
+                dialog.setVisible(true);
+                String fileName = dialog.getFile();
+                if (fileName != null) {
+                    String filePath = dialog.getDirectory() + fileName;
+                    awtBuilder.toolBar.getTools().clear();
+                    StrategyManager loadManager = new StrategyManager(new TextStrategy());
+                    try {
+                        loadManager.load(awtBuilder.toolBar.getTools(), awtBuilder.whiteBoard.getContentWhiteBoard(), awtBuilder.whiteBoard.getRenderer(), filePath);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    awtBuilder.whiteBoard.update(awtBuilder.undoStackAwt, awtBuilder.redoStackAwt);
+                }
             }
         });
 

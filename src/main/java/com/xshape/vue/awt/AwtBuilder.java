@@ -66,38 +66,18 @@ public class AwtBuilder implements IBuilder, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        /*
-        for (ToolGroupComponent tool : toolBar.getTools()) {
-            if (tool.getShape().IsArea(e.getX(), e.getY())) {
-                selectedTool = tool;
-                break;
-            }
-        }
-
-         */
     }
 
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        /*
-        if (selectedShape != null) {
-            int dx = e.getX() - lastMouseX;
-            int dy = e.getY() - lastMouseY;
-            selectedShape.move(dx, dy);
-            whiteBoard.repaint();
-            lastMouseX = e.getX();
-            lastMouseY = e.getY();
-        }
-
-         */
     }
 
 
     @Override
     public void mousePressed(MouseEvent e) {
         if(selectedTool==null) {
-            for (ToolGroupComponent tool : toolBar.getTools()) {
+            for (ToolGroupComponent tool : toolBar.getTools().getShapes()) {
                 if (tool.getShape().IsArea(e.getX(), e.getY())) {
                     selectedTool = tool;
                     break;
@@ -119,6 +99,7 @@ public class AwtBuilder implements IBuilder, MouseListener {
                 redoStackAwt.clear();
                 whiteBoard.update(undoStackAwt, redoStackAwt);
                 selectedTool = null;
+
         }
     }
 

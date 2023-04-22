@@ -15,11 +15,22 @@ import java.util.Stack;
 
 public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
 
+
+    private IRenderer renderer;
     private IShape selectedShape;
     private int prevX, prevY;
     Stack<Command> undoStackAwt;
     Stack<Command> redoStackAwt;
     private ToolGroupComponent contentWhiteBoard = new ToolGroupComposite();
+
+
+    public IRenderer getRenderer() {
+        return renderer;
+    }
+
+    public ToolGroupComponent getContentWhiteBoard() {
+        return contentWhiteBoard;
+    }
 
 
     public AwtConcreteWhiteBoard(AwtApplication app, int x, int y, int width, int height) {
@@ -95,6 +106,7 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
     @Override
     public void paint(Graphics g) {
         IRenderer r = new AwtRenderer(g);
+        this.renderer = r;
         super.paint(g);
         for (ToolGroupComponent c : contentWhiteBoard.getShapes()) {
             c.getShape().setRenderer(r);

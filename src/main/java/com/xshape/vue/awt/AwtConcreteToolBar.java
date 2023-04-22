@@ -3,6 +3,7 @@ package com.xshape.vue.awt;
 import com.xshape.modele.*;
 import com.xshape.modele.Goupage.Tool;
 import com.xshape.modele.Goupage.ToolGroupComponent;
+import com.xshape.modele.Goupage.ToolGroupComposite;
 import com.xshape.modele.Rectangle;
 import com.xshape.modele.awt.AwtRenderer;
 import javax.imageio.ImageIO;
@@ -22,7 +23,7 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
     private int height = 30;
     private int radious = 25;
     private int current_y = pos_y;
-    ArrayList<ToolGroupComponent> tools = new ArrayList<>();
+    ToolGroupComponent tools = new ToolGroupComposite();
     private Image trashLabel;
 
     private IFactory factory = new Factory();
@@ -50,7 +51,7 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
     }
 
 
-    public ArrayList<ToolGroupComponent> getTools() {
+    public ToolGroupComponent getTools() {
         return tools;
     }
 
@@ -66,7 +67,7 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
         addTool(polyTool);
 
 
-        for(ToolGroupComponent tool: this.tools){
+        for(ToolGroupComponent tool: this.tools.getShapes()){
             tool.getShape().setPosition(tool.getShape().getPositionX(),  current_y);
             tool.getShape().draw();
             current_y += 75;
