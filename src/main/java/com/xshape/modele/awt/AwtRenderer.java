@@ -37,4 +37,9 @@ public class AwtRenderer implements IRenderer {
         }
         g.fillPolygon(xInt, yInt, xPoints.length);
     }
+
+    @Override
+    public void fillRect(double x, double y, double width, double height) {
+        g.fillRect((int) x, (int) y, (int) width, (int) height);
+    }
 }

@@ -8,17 +8,6 @@ public class Rectangle extends SimpleShape {
     private double x, y, width, height;
     private int color=0;
 
-    private EventHandler<MouseEvent> onMouseClickedEventHandler;
-
-    public void setOnMouseClicked(EventHandler<MouseEvent> eventHandler) {
-        this.onMouseClickedEventHandler = eventHandler;
-    }
-
-    public void handleMouseClicked(MouseEvent event) {
-        if (onMouseClickedEventHandler != null) {
-            onMouseClickedEventHandler.handle(event);
-        }
-    }
 
     public Rectangle(double x, double y, double width, double height, IRenderer renderer) {
         super(renderer);
@@ -31,10 +20,10 @@ public class Rectangle extends SimpleShape {
     @Override
     public void draw() {
         //_renderer.drawRectangle(x, y, width, height);
-        renderer.setColor(this.color);
+        renderer.setColor(color);
 
         // Ligne horizontale du haut
-        renderer.drawLine(x, y, x + width, y);
+        /*renderer.drawLine(x, y, x + width, y);
 
         // Ligne verticale de droite
         renderer.drawLine(x + width, y, x + width, y + height);
@@ -46,13 +35,20 @@ public class Rectangle extends SimpleShape {
         renderer.drawLine(x, y + height, x, y);
 
         double[] xPoints = {x, x + width, x + width, x};
-        double[] yPoints = {y, y, y + height, y + height};
-        renderer.fillPolygon(xPoints, yPoints, 4);
+        double[] yPoints = {y, y, y + height, y + height};*/
+        //renderer.fillPolygon(xPoints, yPoints, 4);
+
+        renderer.fillRect(x, y, width, height);
     }
 
     @Override
     public void setColor(int color) {
         this.color =color;
+    }
+
+    @Override
+    public int getColor() {
+        return color;
     }
 
 
@@ -89,7 +85,7 @@ public class Rectangle extends SimpleShape {
 
     @Override
     public double getNbSides() {
-        return 0;
+        return 4;
     }
 
     @Override
@@ -117,5 +113,5 @@ public class Rectangle extends SimpleShape {
         y += dy;
     }
 
-
 }
+

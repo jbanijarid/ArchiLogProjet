@@ -10,6 +10,7 @@ public interface ToolGroupComponent {
     ToolGroupComponent clone();
     IShape getShape();
     void draw();
+    void clear();
     ArrayList<ToolGroupComponent> getShapes();
     boolean contains(IShape shape);
 }

@@ -35,6 +35,11 @@ public class Composite implements IShape {
     }
 
     @Override
+    public int getColor() {
+        return 0;
+    }
+
+    @Override
     public void setPosition(double x, double y) {
 
     }

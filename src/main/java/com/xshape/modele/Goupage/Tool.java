@@ -53,6 +53,11 @@ public class Tool implements ToolGroupComponent, Cloneable{
     }
 
     @Override
+    public void clear(){
+
+    }
+
+    @Override
     public IShape getShape() {
         return this.shape;
     }

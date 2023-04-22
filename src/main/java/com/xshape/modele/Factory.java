@@ -11,13 +11,4 @@ public class Factory implements IFactory {
         return new Polygone(centerX,centerY,radius,nbSides,renderer);
     }
 
-    @Override
-    public IToolBar createToolBar(Composite toolBarElements, Composite canvasElements) {
-        return null;
-    }
-
-    @Override
-    public IWhiteBoard createWhiteBoard(Composite canvasElements, double width, double height) {
-        return null;
-    }
 }
