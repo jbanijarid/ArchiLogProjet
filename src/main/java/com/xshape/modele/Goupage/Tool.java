@@ -2,8 +2,6 @@ package com.xshape.modele.Goupage;
 
 import com.xshape.modele.CloneShape;
 import com.xshape.modele.IShape;
-import com.xshape.modele.Polygone;
-import com.xshape.modele.Rectangle;
 
 import java.util.ArrayList;
 

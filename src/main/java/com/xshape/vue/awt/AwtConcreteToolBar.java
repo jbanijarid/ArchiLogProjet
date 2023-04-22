@@ -22,15 +22,29 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
     private int width = 50;
     private int height = 30;
     private int radious = 25;
-    private int current_y = pos_y;
-    ToolGroupComponent tools = new ToolGroupComposite();
-    private Image trashLabel;
+    private int prevX, prevY;
 
+    private int current_y = pos_y;
+    private Point posMousse;
+    private IShape selectedShape;
+    ToolGroupComponent tools = new ToolGroupComposite();
+    IRenderer renderer;
+    private Image trashLabel;
     private IFactory factory = new Factory();
+
+    public Point getPosMousse() {
+        return posMousse;
+    }
 
 
     AwtConcreteToolBar(AwtApplication app, int x, int y, int width, int height){
         super(app, x, y, width, height);
+        IShape r = factory.createRectangle(this.pos_x, this.pos_y, this.width, this.height, this.renderer);
+        IShape p = factory.createPolygone(this.pos_x+ this.radious, this.pos_y, this.radious, 6, this.renderer);
+        ToolGroupComponent recTool = new Tool(r);
+        ToolGroupComponent polyTool = new Tool(p);
+        addTool(recTool);
+        addTool(polyTool);
 
         try {
             URL imageUrl = new URL("file:src/main/resources/com/xshape/delete.png");
@@ -42,12 +56,56 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
 
         app.add(this);
 
+        addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if(selectedShape==null){
+                    for (ToolGroupComponent c : tools.getShapes()) {
+                        if (c.getShape().IsArea(e.getX(),e.getY())) {
+                            selectedShape = c.getShape();
+                            prevX = e.getX();
+                            prevY = e.getY();
+                            break;
+                        }
+
+                    }
+                }
+            }
+
+            public void mouseReleased(MouseEvent e) {
+                posMousse = e.getPoint();
+                System.out.println(posMousse.getX() + "" + posMousse.getY());
+
+                if (selectedShape!=null && getBounds().contains(e.getPoint())){
+                    selectedShape.setPosition(e.getX(), e.getY());
+                    repaint();
+                    selectedShape = null;
+                }
+
+            }
+        });
+
+        addMouseMotionListener(new MouseAdapter() {
+            public void mouseDragged(MouseEvent e) {
+                if (selectedShape != null) {
+                    int dx = e.getX() - prevX;
+                    int dy = e.getY() - prevY;
+                    selectedShape.setPosition(e.getX(), e.getY()); // mettre à jour la position de la forme
+                    prevX = e.getX();
+                    prevY = e.getY();
+                    repaint();
+                }
+            }
+        });
+
     }
 
 
 
     void addTool(ToolGroupComponent tool){
+        tool.getShape().setPosition(tool.getShape().getPositionX(),  current_y);
+        current_y += 75;
         tools.add(tool);
+        repaint();
     }
 
 
@@ -58,19 +116,14 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
 
     @Override
     public void paint(Graphics g) {
-        IRenderer renderer = new AwtRenderer(g);
-        IShape r = factory.createRectangle(this.pos_x, this.pos_y, this.width, this.height, renderer);
-        IShape p = factory.createPolygone(this.pos_x+ this.radious, this.pos_y, this.radious, 6, renderer);
-        ToolGroupComponent recTool = new Tool(r);
-        ToolGroupComponent polyTool = new Tool(p);
-        addTool(recTool);
-        addTool(polyTool);
+        IRenderer r = new AwtRenderer(g);
+        this.renderer = r;
+        super.paint(g);
 
 
-        for(ToolGroupComponent tool: this.tools.getShapes()){
-            tool.getShape().setPosition(tool.getShape().getPositionX(),  current_y);
-            tool.getShape().draw();
-            current_y += 75;
+        for (ToolGroupComponent c : this.getTools().getShapes()) {
+            c.getShape().setRenderer(r);
+            c.getShape().draw();
         }
 
 

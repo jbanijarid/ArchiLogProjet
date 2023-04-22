@@ -66,8 +66,6 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
         addMouseMotionListener(new MouseAdapter() {
             public void mouseDragged(MouseEvent e) {
                 if (selectedShape != null) {
-                    int dx = e.getX() - prevX;
-                    int dy = e.getY() - prevY;
                     selectedShape.setPosition(e.getX(), e.getY()); // mettre à jour la position de la forme
                     prevX = e.getX();
                     prevY = e.getY();
@@ -78,9 +76,9 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
     }
 
     public void update(Stack<Command> undoStackAwt, Stack<Command> redoStackAwt) {
-        System.out.println("pfffffffffffffff");
         this.undoStackAwt = undoStackAwt;
         this.redoStackAwt = redoStackAwt;
+
         for (Command c : undoStackAwt) {
             System.out.println(((DrawShapeCommand) c).getCopy());
             if (c instanceof DrawShapeCommand) {

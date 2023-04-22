@@ -99,6 +99,7 @@ class AwtMenuBar extends JToolBar {
                         ex.printStackTrace();
                     }
                     awtBuilder.whiteBoard.update(awtBuilder.undoStackAwt, awtBuilder.redoStackAwt);
+                    awtBuilder.toolBar.repaint();
                 }
             }
         });
