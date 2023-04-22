@@ -17,7 +17,6 @@ import java.util.Stack;
 public class FxBuilder implements IBuilder, Event {
 
     private ToolGroupComponent toolbar;
-
     private ToolGroupComponent whiteBoard;
     private Composite whiteboard;
     private BorderPane borderPane;

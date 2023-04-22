@@ -9,7 +9,7 @@ public interface ToolGroupComponent {
     void remove(ToolGroupComponent tool);
     ToolGroupComponent clone();
     IShape getShape();
-
     void draw();
     ArrayList<ToolGroupComponent> getShapes();
+    boolean contains(IShape shape);
 }

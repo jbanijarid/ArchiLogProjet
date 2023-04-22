@@ -25,6 +25,11 @@ public class Tool implements ToolGroupComponent, Cloneable{
     }
 
     @Override
+    public boolean contains(IShape shape) {
+        return false;
+    }
+
+    @Override
     public void add(ToolGroupComponent tool) {
 
     }
@@ -51,6 +56,8 @@ public class Tool implements ToolGroupComponent, Cloneable{
     public IShape getShape() {
         return this.shape;
     }
+
+
 
 
 }

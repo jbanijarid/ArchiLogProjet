@@ -44,7 +44,7 @@ class AwtMenuBar extends JToolBar {
                     System.out.println("ahhhhhhhhhhhhhhhhhh");
                     awtBuilder.redoStackAwt.push(command);
                     AwtConcreteWhiteBoard w= (AwtConcreteWhiteBoard) awtBuilder.getWhiteBoard();
-                    w.repaint();
+                    w.update(awtBuilder.undoStackAwt, awtBuilder.redoStackAwt);
                 }
             }
         });
@@ -57,7 +57,7 @@ class AwtMenuBar extends JToolBar {
                     command.execute();
                     awtBuilder.undoStackAwt.push(command);
                     AwtConcreteWhiteBoard w= (AwtConcreteWhiteBoard) awtBuilder.getWhiteBoard();
-                    w.repaint();
+                    w.update(awtBuilder.undoStackAwt, awtBuilder.redoStackAwt);
                 }
             }
         });

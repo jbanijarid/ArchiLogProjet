@@ -37,9 +37,18 @@ public class ToolGroupComposite implements ToolGroupComponent, Cloneable {
         return null;
     }
 
+
     @Override
     public ArrayList<ToolGroupComponent> getShapes(){
         return tools;
+    }
+
+    @Override
+    public boolean contains(IShape shape) {
+        for (ToolGroupComponent c: tools){
+            if(c.getShape() == shape) return true;
+        }
+        return false;
     }
 
     @Override

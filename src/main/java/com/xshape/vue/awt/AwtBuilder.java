@@ -45,7 +45,8 @@ public class AwtBuilder implements IBuilder, MouseListener {
 
     @Override
     public void whiteBoard() {
-        AwtConcreteWhiteBoard awtB = new AwtConcreteWhiteBoard(this.app, app.getWidth() - 650, app.getHeight() - 518, 650, 540, undoStackAwt, redoStackAwt);
+        AwtConcreteWhiteBoard awtB = new AwtConcreteWhiteBoard(this.app, app.getWidth() - 650, app.getHeight() - 518, 650, 540);
+        awtB.update(undoStackAwt, redoStackAwt);
         whiteBoard = awtB;
         whiteBoard.addMouseListener(this);
         this.app.add(awtB);
@@ -116,7 +117,7 @@ public class AwtBuilder implements IBuilder, MouseListener {
                 Command command = new DrawShapeCommand(clone.getShape(), e.getX()-toolBar.getWidthT(), e.getY(), selectedTool);
                 undoStackAwt.push(command);
                 redoStackAwt.clear();
-                whiteBoard.repaint();
+                whiteBoard.update(undoStackAwt, redoStackAwt);
                 selectedTool = null;
         }
     }
