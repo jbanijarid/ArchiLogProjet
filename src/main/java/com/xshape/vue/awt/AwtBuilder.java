@@ -3,6 +3,7 @@ package com.xshape.vue.awt;
 import com.xshape.modele.Command;
 import com.xshape.modele.DrawShapeCommand;
 import com.xshape.modele.Goupage.ToolGroupComponent;
+import com.xshape.modele.Goupage.ToolGroupComposite;
 import com.xshape.modele.IBuilder;
 
 import javax.swing.*;
@@ -20,6 +21,8 @@ public class AwtBuilder implements IBuilder, MouseListener {
     private ToolGroupComponent selectedToolWhiteboard;
     protected static Stack<Command> undoStackAwt = new Stack<>();
     protected static Stack<Command> redoStackAwt = new Stack<>();
+    private double prevX, prevY;
+
 
     public AwtBuilder(AwtApplication awtApplication){
         this.app = awtApplication;
@@ -86,6 +89,8 @@ public class AwtBuilder implements IBuilder, MouseListener {
             for (ToolGroupComponent tool : toolBar.getTools().getShapes()) {
                 if (tool.getShape().IsArea(e.getX(), e.getY())) {
                     selectedToolToolbar = tool;
+                    prevX=selectedToolToolbar.getShape().getPositionX();
+                    prevY=selectedToolToolbar.getShape().getPositionY();
                     break;
                 }
             }
@@ -105,19 +110,27 @@ public class AwtBuilder implements IBuilder, MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         if (selectedToolToolbar != null) {
-                Command command = new DrawShapeCommand(selectedToolToolbar.clone().getShape(),e.getX()-toolBar.getWidthT(), e.getY(), whiteBoard.getContentWhiteBoard());
+                Command command = new DrawShapeCommand(selectedToolToolbar.clone().getShape(), e.getX() - toolBar.getWidthT(), e.getY(), whiteBoard.getContentWhiteBoard());
                 undoStackAwt.push(command);
                 command.execute();
-                selectedToolToolbar = null;
+
                 redoStackAwt.clear();
                 whiteBoard.update(undoStackAwt, redoStackAwt);
+
+                if (whiteBoard.getBounds().contains(e.getX()- toolBar.getWidthT(),e.getY())) {
+                    selectedToolToolbar.getShape().setPosition(prevX, prevY);
+                    toolBar.repaint();
+                }
+                selectedToolToolbar = null;
         }
 
         if (selectedToolWhiteboard != null) {
-            if (toolBar.getBounds().contains(e.getX()+toolBar.getWidthT(),e.getY())) {
-                toolBar.addTool(selectedToolWhiteboard);
+            if (toolBar.getBounds().contains(e.getX()+toolBar.getWidthT()+10,e.getY())) {
+                toolBar.addTool( selectedToolWhiteboard.clone());
+                whiteBoard.getContentWhiteBoard().remove(selectedToolWhiteboard);
                 System.out.println(toolBar.tools.getShapes().size());
                 selectedToolWhiteboard = null;
+                whiteBoard.repaint();
             }
         }
 

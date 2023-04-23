@@ -5,6 +5,9 @@ public interface IShape {
     void setColor(int color);
     int getColor();
     void setPosition(double x, double y);
+    void setHeight(double height);
+    void setWidth(double width);
+    void setRadius(double radius);
     double getPositionX();
     double getPositionY();
     double getWidth();

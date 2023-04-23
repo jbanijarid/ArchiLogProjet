@@ -45,6 +45,21 @@ public class Composite implements IShape {
     }
 
     @Override
+    public void setHeight(double height) {
+
+    }
+
+    @Override
+    public void setWidth(double width) {
+
+    }
+
+    @Override
+    public void setRadius(double radius) {
+
+    }
+
+    @Override
     public double getPositionX() {
         return 0;
     }

@@ -52,7 +52,7 @@ public class Tool implements ToolGroupComponent, Cloneable{
 
     @Override
     public void clear(){
-
+        remove(this);
     }
 
     @Override

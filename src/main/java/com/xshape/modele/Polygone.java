@@ -64,6 +64,21 @@ public class Polygone extends SimpleShape {
     }
 
     @Override
+    public void setHeight(double height) {
+
+    }
+
+    @Override
+    public void setWidth(double width) {
+
+    }
+
+    @Override
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    @Override
     public double getPositionX() {
         return this.centerX;
     }

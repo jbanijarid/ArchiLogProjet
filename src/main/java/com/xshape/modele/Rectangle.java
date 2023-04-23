@@ -59,6 +59,20 @@ public class Rectangle extends SimpleShape {
     }
 
     @Override
+    public void setHeight(double height) {
+        this.height=height;
+    }
+
+    @Override
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    @Override
+    public void setRadius(double radius) {
+    }
+
+    @Override
     public double getPositionX() {
         return this.x;
     }

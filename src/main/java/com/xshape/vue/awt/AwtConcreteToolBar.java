@@ -76,6 +76,10 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
                     selectedShape.setPosition(e.getX(), e.getY());
                     repaint();
                 }
+                if (selectedShape!=null && !getBounds().contains(e.getPoint())) {
+                    selectedShape.setPosition(prevX, prevY);
+                    repaint();
+                }
 
                 // Supprime l'outil si la souris est relâchée sur l'image trashLabel
                 if (trashLabel != null && e.getX() >= (getWidth() - trashLabel.getWidth(null)) / 2
@@ -85,6 +89,7 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
                     if (selectedTool != null) {
                         tools.remove(selectedTool);
                         selectedTool = null;
+                        current_y -= 75;
                         repaint();
                     }
                 }
@@ -98,8 +103,6 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
         addMouseMotionListener(new MouseAdapter() {
             public void mouseDragged(MouseEvent e) {
                 if (selectedShape != null) {
-                    int dx = e.getX() - prevX;
-                    int dy = e.getY() - prevY;
                     selectedShape.setPosition(e.getX(), e.getY()); // mettre à jour la position de la forme
                     prevX = e.getX();
                     prevY = e.getY();
@@ -113,7 +116,14 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
 
 
     void addTool(ToolGroupComponent tool){
-        tool.getShape().setPosition(tool.getShape().getPositionX(),  current_y);
+        tool.getShape().setPosition(this.pos_x,  current_y);
+        if(tool.getShape() instanceof  Rectangle){
+            tool.getShape().setHeight(this.height);
+            tool.getShape().setWidth(this.width);
+        }
+        if(tool.getShape() instanceof  Polygone){
+            tool.getShape().setRadius(this.radious);
+        }
         current_y += 75;
         tools.add(tool);
         repaint();
