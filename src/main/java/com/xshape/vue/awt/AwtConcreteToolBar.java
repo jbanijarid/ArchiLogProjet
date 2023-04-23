@@ -90,6 +90,7 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
                         tools.remove(selectedTool);
                         selectedTool = null;
                         current_y -= 75;
+                        repositionTools();
                         repaint();
                     }
                 }
@@ -116,22 +117,30 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
 
 
     void addTool(ToolGroupComponent tool){
-        tool.getShape().setPosition(this.pos_x,  current_y);
-        if(tool.getShape() instanceof  Rectangle){
-            tool.getShape().setHeight(this.height);
-            tool.getShape().setWidth(this.width);
-        }
-        if(tool.getShape() instanceof  Polygone){
-            tool.getShape().setRadius(this.radious);
-        }
-        current_y += 75;
         tools.add(tool);
+        repositionTools();
         repaint();
     }
 
 
     public ToolGroupComponent getTools() {
         return tools;
+    }
+
+    private void repositionTools() {
+        current_y = pos_y;
+        for (ToolGroupComponent tool : tools.getShapes()) {
+            if (tool.getShape() instanceof Rectangle) {
+                tool.getShape().setPosition(pos_x, current_y);
+                tool.getShape().setHeight(height);
+                tool.getShape().setWidth(width);
+            }
+            if (tool.getShape() instanceof Polygone) {
+                tool.getShape().setPosition(pos_x + 20, current_y);
+                tool.getShape().setRadius(radious);
+            }
+            current_y += 75;
+        }
     }
 
 
