@@ -6,7 +6,7 @@ import javafx.scene.input.MouseEvent;
 public class Rectangle extends SimpleShape {
 
     private double x, y, width, height;
-    private int color=0;
+    private int color=16770764;
 
 
     public Rectangle(double x, double y, double width, double height, IRenderer renderer) {

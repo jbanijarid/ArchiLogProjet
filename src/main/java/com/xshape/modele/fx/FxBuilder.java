@@ -5,26 +5,30 @@ import com.xshape.modele.Goupage.Tool;
 import com.xshape.modele.Goupage.ToolGroupComponent;
 import com.xshape.modele.Goupage.ToolGroupComposite;
 import com.xshape.vue.fx.FXApplication;
+import javafx.geometry.Side;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ToolBar;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 import java.util.Stack;
 
 public class FxBuilder implements IBuilder, Event {
-    private ToolGroupComponent toolbar;
+    //private ToolGroupComponent toolbar;
+    private ToolBarMemento mytoolbar;
+    IShape selectionshape;
     private ToolGroupComponent whiteBoard;
     private BorderPane borderPane;
     private IRenderer renderer;
@@ -41,11 +45,12 @@ public class FxBuilder implements IBuilder, Event {
     private ToolGroupComponent group;
 
     public FxBuilder(BorderPane borderPane) {
-        this.toolbar = new ToolGroupComposite();
-        this.borderPane = borderPane;
+        //this.toolbar = new ToolGroupComposite();
         this.canvas = new Canvas(800, 600);
-        borderPane.setBottom(canvas);
         this.renderer = new FxRenderer(canvas);
+        this.mytoolbar = new ToolBarMemento(renderer);
+        this.borderPane = borderPane;
+        borderPane.setBottom(canvas);
         this.whiteBoard = new ToolGroupComposite();
         this.group = new ToolGroupComposite();
     }
@@ -56,29 +61,54 @@ public class FxBuilder implements IBuilder, Event {
         renderer.drawLine(10, 10, 10, 600);
         renderer.drawLine(10, 10, 100, 10);
         renderer.drawLine(10, 600, 100, 600);
-        IShape rect = factory.createRectangle(25, 40, 50, 40, renderer);
-        IShape poly = factory.createPolygone(50, 120, 30, 6, renderer);
-        ToolGroupComponent rectTool = new Tool(rect);
-        ToolGroupComponent polyTool = new Tool(poly);
 
-        /*IShape rect1 = factory.createRectangle(150, 150, 50, 40, renderer);
+        //IShape rect = factory.createRectangle(25, 40, 50, 40, renderer);
+        //IShape poly = factory.createPolygone(50, 120, 30, 6, renderer);
+        //ToolGroupComponent rectTool = new Tool(rect);
+        //ToolGroupComponent polyTool = new Tool(poly);
+
+        try {
+            mytoolbar.loadStateFromFile();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        //mytoolbar.getFormes().add(rectTool);
+        //mytoolbar.getFormes().add(polyTool);
+        mytoolbar.getFormes().draw();
+
+
+        /*
+
+        */
+
+
+        /*
+        IShape rect1 = factory.createRectangle(150, 150, 50, 40, renderer);
         IShape poly1 = factory.createPolygone(450, 420, 30, 6, renderer);
+
         TranslateshapeCommand c = new TranslateshapeCommand(poly1,300, 300);
-        ColorShapeCommand co = new ColorShapeCommand(rect1,0);
+        ColorShapeCommand co = new ColorShapeCommand(rect1,255);
 
         c.execute();
         //c.undo();
         co.execute();
+
+
         rect1.draw();
         poly1.draw();*/
-
+    /*
         toolbar.add(rectTool);
         toolbar.add(polyTool);
         toolbar.draw();
+        */
 
         image = new Image("/com/xshape/delete.png");
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.drawImage(image, 25, 500, 50, 50);
+
+
     }
 
     @Override
@@ -118,7 +148,7 @@ public class FxBuilder implements IBuilder, Event {
             if (file != null){
                 StrategyManager saveManager = new StrategyManager(new TextStrategy());
                 try {
-                    saveManager.save(this.toolbar, this.whiteBoard, file.getAbsolutePath());
+                    saveManager.save(this.mytoolbar.getFormes(), this.whiteBoard, file.getAbsolutePath());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -132,11 +162,12 @@ public class FxBuilder implements IBuilder, Event {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("charger un fichier");
             File file = fileChooser.showOpenDialog(dialog);
-            toolbar.clear();
+            mytoolbar.getFormes().clear();
+            whiteBoard.clear();
             if (file != null){
                 StrategyManager loadManager = new StrategyManager(new TextStrategy());
                 try {
-                    loadManager.load(this.toolbar, this.whiteBoard, renderer, file.getAbsolutePath());
+                    loadManager.load(this.mytoolbar.getFormes(), this.whiteBoard, renderer, file.getAbsolutePath());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -170,18 +201,41 @@ public class FxBuilder implements IBuilder, Event {
     public void groupDarggable(Composite group) {
     }
 
-    private void executeCommand(Command command){
+    private void executeCommand(Command command) throws IOException {
         undoStack.push(command);
         command.execute();
         selectedShape = null;
         System.out.println(compter());
         canvas.setOnMouseDragged(null);
         redoStack.clear();
+        mytoolbar.saveStateToFile();
+        System.out.println("j'enregistre ds le fichier");
         redraw();
     }
 
     @Override
     public void toolBarEvents() {
+        /*
+        canvas.setOnMousePressed(event -> {
+            double x1 = event.getX();
+            double y1 = event.getY();
+            selectionshape = new Rectangle(0, 0, x1, y1, renderer);
+            System.out.println("je crée le rectangle de selection");
+        });
+
+        canvas.setOnMouseDragged(event -> {
+            System.out.println("je drag ");
+        });
+
+        canvas.setOnMouseReleased(event -> {
+            selectionshape.setWidth(event.getX() - selectionshape.getWidth());
+            selectionshape.setHeight(event.getY() - selectionshape.getHeight());
+            System.out.println("je dessine");
+            selectionshape.draw();
+        });
+
+         */
+
         /*
         // Ajouter un événement de souris au whiteboard
         canvas.setOnMousePressed(event -> {
@@ -246,7 +300,7 @@ public class FxBuilder implements IBuilder, Event {
             double mouseX = event.getX();
             double mouseY = event.getY();
             if (selectedShape == null){
-                for (ToolGroupComponent shape: this.toolbar.getShapes()) {
+                for (ToolGroupComponent shape: this.mytoolbar.getFormes().getShapes()) {
                     if (shape.getShape().IsArea(mouseX, mouseY)) {
                         fromToolBar = true;
                         selectedTool = shape;
@@ -260,19 +314,111 @@ public class FxBuilder implements IBuilder, Event {
                         ContextMenu contextMenu = new ContextMenu();
                         MenuItem groupMenuItem = new MenuItem("Group");
                         MenuItem deGroupMenuItem = new MenuItem("DeGroup");
+                        MenuItem edit = new MenuItem("Edit");
+                        edit.setOnAction(e -> {
+                            System.out.println("le client change de paramètre");
+                            ContextMenu menuEdit = new ContextMenu();
+                            MenuItem colorEditItem = new MenuItem("edit color");
+                            MenuItem positionEditItem = new MenuItem("edit position");
+                            menuEdit.getItems().addAll(colorEditItem, positionEditItem);
+                            menuEdit.show(canvas, event.getScreenX(), event.getScreenY());
+
+                            //couleur
+                            ColorPicker colorPicker = new ColorPicker();
+
+// Ajoutez un événement pour afficher la boîte de dialogue de sélection de couleur lorsque l'utilisateur sélectionne l'option "Edit color"
+                            colorEditItem.setOnAction(eventColor -> {
+                                // Créez une boîte de dialogue
+                                Dialog<Color> dialog = new Dialog<>();
+                                dialog.setTitle("Select a color");
+
+                                // Ajoutez les boutons "OK" et "Cancel" à la boîte de dialogue
+                                ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+                                ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                                dialog.getDialogPane().getButtonTypes().addAll(okButtonType, cancelButtonType);
+
+                                // Ajoutez le ColorPicker à la boîte de dialogue
+                                dialog.getDialogPane().setContent(colorPicker);
+
+                                // Attachez un gestionnaire d'événements au bouton "OK" pour retourner la couleur sélectionnée
+                                dialog.setResultConverter(dialogButton -> {
+                                    if (dialogButton == okButtonType) {
+                                        return colorPicker.getValue();
+                                    }
+                                    return null;
+                                });
+
+                                // Affichez la boîte de dialogue et attendez qu'elle se ferme
+                                Optional<Color> result = dialog.showAndWait();
+
+                                // Si l'utilisateur a sélectionné une couleur, utilisez-la pour mettre à jour l'apparence du shape
+                                if (result.isPresent()) {
+                                    Color selectedColor = colorPicker.getValue();
+                                    System.out.println(selectedColor);
+                                    String couleur = selectedColor.toString();
+                                    String couleurFinal = couleur.substring(0, couleur.length() - 2);
+                                    System.out.println("la couleur final" + couleurFinal);
+                                    int i = Integer.parseInt(couleurFinal.substring(2), 16);
+                                    System.out.println("notre i : "+ i);
+                                    ColorShapeCommand co = new ColorShapeCommand(shape.getShape(),i);
+
+                                    try {
+                                        executeCommand(co);
+                                    } catch (IOException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+
+
+                                    //double blue = selectedColor.getBlue()*255;
+                                    //double red = selectedColor.getRed()*255;
+                                    //double green = selectedColor.getGreen()*255;
+                                    //System.out.println(blue);
+                                    //System.out.println(red);
+                                    //System.out.println(green);
+                                    //System.out.println((blue + red + green)/3 );
+
+                                    //System.out.println(((int)red << 16) + ((int)green << 8) + blue);
+
+                                    // Mettez à jour l'apparence du shape avec la nouvelle couleur
+                                }
+                            });
+
+                        });
                         groupMenuItem.setOnAction(e -> {
-                            System.out.println("to be added");
+
                             //groupSelectedObjects(selectedShapes);
-                            group.add(shape);
-                            System.out.println("groupe" + compterBis());
+                            //Label label = new Label("Group");
+                            //label.setLayoutX(100);
+                            //label.setLayoutY(100);
+                            //label.setTextFill(Color.RED);
+                            //borderPane.getChildren().add(label);
+                            /*
+                            Command co = new ColorShapeCommand(shape.getShape(),255);
+                            //co.execute();
+                            try {
+                                executeCommand(co);
+                            } catch (IOException ex) {
+                                throw new RuntimeException(ex);
+                            }
+
+                             */
+                            if (!group.contains(shape.getShape())){
+                                group.add(shape);
+
+                                System.out.println("Ce shape a été ajouté au groupe, nb de shapes actuel dans le groupe : " + compterBis());
+                            } else {
+                                System.out.println("le shape existe déja dans le groupe");
+                            }
+                            redraw();
+
                         });
                         deGroupMenuItem.setOnAction(e -> {
                             System.out.println("to be deleted");
                             //groupSelectedObjects(selectedShapes);
                             group.remove(shape);
-                            System.out.println("groupe" + compterBis());
+                            System.out.println("Ce shape a été enlevé du groupe, nb de shapes actuel dans le groupe : " + compterBis());
                         });
-                        contextMenu.getItems().addAll(groupMenuItem, deGroupMenuItem);
+                        contextMenu.getItems().addAll(groupMenuItem, deGroupMenuItem, edit);
 
                         // Afficher le menu contextuel à l'emplacement du clic
                         contextMenu.show(canvas, event.getScreenX(), event.getScreenY());
@@ -296,27 +442,48 @@ public class FxBuilder implements IBuilder, Event {
                 double deltaY = releaseEvent.getY();
                 if (deltaX >= 25 && deltaX < 25 + 50 && deltaY >= 500 && deltaY < 500+50){
                     if (fromToolBar){
-                        Command command = new DeleteShapeCommand(selectedTool, toolbar);
-                        executeCommand(command);
+                        Command command = new DeleteShapeCommand(selectedTool, mytoolbar.getFormes());
+                        try {
+                            executeCommand(command);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     } else {
                         Command command = new DeleteShapeCommand(selectedTool, whiteBoard);
-                        executeCommand(command);
+                        try {
+                            executeCommand(command);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 } else {
                     if (deltaX > 100 && fromToolBar) {
                         Command command = new DrawShapeCommand(selectedShape, releaseEvent.getX(), releaseEvent.getY(), whiteBoard);
-                        executeCommand(command);
+                        try {
+                            executeCommand(command);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     } else if (deltaX > 100 && !fromToolBar) {
                         Command command = new DragShapCommand(selectedTool, releaseEvent.getX(), releaseEvent.getY(), whiteBoard);
-                        executeCommand(command);
+                        try {
+                            executeCommand(command);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     } else {
-                        Command command = new DrawShapeCommand(selectedShape, 50, releaseEvent.getY(), toolbar);
-                        executeCommand(command);
+                        Command command = new DrawShapeCommand(selectedShape, 50, releaseEvent.getY(), mytoolbar.getFormes());
+                        try {
+                            executeCommand(command);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                     fromToolBar = false;
                 }
             }
         });
+
     }
 
     int compter(){
@@ -351,7 +518,7 @@ public class FxBuilder implements IBuilder, Event {
 
     void drawToolBar(){
         double current_y = 40;
-        for(ToolGroupComponent tool: this.toolbar.getShapes()){
+        for(ToolGroupComponent tool: this.mytoolbar.getFormes().getShapes()){
             tool.getShape().setPosition(50,  current_y);
             tool.getShape().draw();
             current_y += 75;

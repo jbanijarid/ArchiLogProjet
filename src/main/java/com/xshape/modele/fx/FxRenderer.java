@@ -22,10 +22,14 @@ public class FxRenderer implements IRenderer {
 
     @Override
     public void setColor(int color) {
-        Color fxColor = Color.rgb(color, color, color);
+        int red = (color >> 16) & 0xFF;
+        int green = (color >> 8) & 0xFF;
+        int blue = color & 0xFF;
+        //Color fxColor = Color.grayRgb(color);
+        Color fxColor = Color.rgb(red, green, blue);
         //gc.setFill(Color.BLUE);
-        gc.setFill(fxColor);
 
+        gc.setFill(fxColor);
     }
 
     @Override
