@@ -23,7 +23,6 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
     private int height = 30;
     private int radious = 25;
     private int prevX, prevY;
-
     private int current_y = pos_y;
     private IShape selectedShape;
     ToolGroupComponent selectedTool;
@@ -31,6 +30,15 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
     IRenderer renderer;
     private Image trashLabel;
     private IFactory factory = new Factory();
+
+
+    public int getCurrent_y() {
+        return current_y;
+    }
+
+    public void setCurrent_y(int current_y) {
+        this.current_y = current_y;
+    }
 
 
 
@@ -74,27 +82,14 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
 
                 if (selectedShape!=null && getBounds().contains(e.getPoint())){
                     selectedShape.setPosition(e.getX(), e.getY());
-                    repaint();
                 }
                 if (selectedShape!=null && !getBounds().contains(e.getPoint())) {
                     selectedShape.setPosition(prevX, prevY);
-                    repaint();
+
                 }
 
-                // Supprime l'outil si la souris est relâchée sur l'image trashLabel
-                if (trashLabel != null && e.getX() >= (getWidth() - trashLabel.getWidth(null)) / 2
-                        && e.getX() <= (getWidth() - trashLabel.getWidth(null)) / 2 + trashLabel.getWidth(null)
-                        && e.getY() >= getHeight() - trashLabel.getHeight(null) - 10
-                        && e.getY() <= getHeight() - 10) {
-                    if (selectedTool != null) {
-                        tools.remove(selectedTool);
-                        selectedTool = null;
-                        current_y -= 75;
-                        repositionTools();
-                        repaint();
-                    }
-                }
 
+                repaint();
                 selectedShape = null;
                 selectedTool = null;
 
@@ -114,6 +109,15 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
 
     }
 
+    public boolean inTrashLabel(int ex, int ey){
+        if (trashLabel != null && ex >= (getWidth() - trashLabel.getWidth(null)) / 2
+                && ex <= (getWidth() - trashLabel.getWidth(null)) / 2 + trashLabel.getWidth(null)
+                && ey >= getHeight() - trashLabel.getHeight(null) - 10
+                && ey <= getHeight() - 10) {
+            return true;
+        }
+        return false;
+    }
 
 
     void addTool(ToolGroupComponent tool){
@@ -127,7 +131,7 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
         return tools;
     }
 
-    private void repositionTools() {
+    public void repositionTools() {
         current_y = pos_y;
         for (ToolGroupComponent tool : tools.getShapes()) {
             if (tool.getShape() instanceof Rectangle) {

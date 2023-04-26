@@ -59,6 +59,7 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
                     redoStackAwt.clear();
                     selectedShape = null;
                     update(undoStackAwt, redoStackAwt);
+
                 }
             }
         });
@@ -80,7 +81,6 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
         this.redoStackAwt = redoStackAwt;
 
         for (Command c : undoStackAwt) {
-            System.out.println(((DrawShapeCommand) c).getCopy());
             if (c instanceof DrawShapeCommand) {
                 IShape shape = ((DrawShapeCommand) c).getCopy();
                 if (!contentWhiteBoard.contains(shape)) {
