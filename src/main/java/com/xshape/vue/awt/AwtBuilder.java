@@ -136,7 +136,7 @@ public class AwtBuilder implements IBuilder, MouseListener {
 
         if (selectedToolWhiteboard != null) {
             if (toolBar.getBounds().contains(e.getX()+toolBar.getWidthT()+10,e.getY())) {
-                if(toolBar.inTrashLabel(e.getX(), e.getY())){
+                if(toolBar.inTrashLabel(e.getX()+toolBar.getWidthT()+10, e.getY())){
                     Command c = new DeleteShapeCommand(selectedToolWhiteboard, whiteBoard.getContentWhiteBoard());
                     executeCommand(c);
                 }
