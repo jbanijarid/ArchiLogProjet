@@ -106,8 +106,6 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
         for (ToolGroupComponent tool : this.builder.toolbarContent.getFormes().getShapes()) {
             if (tool.getShape() instanceof Rectangle) {
                 tool.getShape().setPosition(pos_x, current_y);
-                tool.getShape().setHeight(height);
-                tool.getShape().setWidth(width);
             }
             if (tool.getShape() instanceof Polygone) {
                 tool.getShape().setPosition(pos_x + 20, current_y);
