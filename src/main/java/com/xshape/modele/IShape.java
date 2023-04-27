@@ -14,9 +14,9 @@ public interface IShape {
     double getHeight();
     double getRadius();
     double getNbSides();
+    void setNbSides(double nbSides);
     boolean IsArea(double mouseX, double mouseY);
     void setRenderer(IRenderer r);
     IRenderer getIRenderer();
-
     void translate(double dx, double dy);
 }

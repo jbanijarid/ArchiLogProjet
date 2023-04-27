@@ -148,10 +148,6 @@ public class FxBuilder implements IBuilder, Event {
         return borderPane;
     }
 
-    @Override
-    public void groupDarggable(Composite group) {
-    }
-
     private void executeCommand(Command command) throws IOException {
         undoStack.push(command);
         command.execute();
@@ -184,7 +180,8 @@ public class FxBuilder implements IBuilder, Event {
                         MenuItem groupMenuItem = new MenuItem("Group");
                         MenuItem deGroupMenuItem = new MenuItem("DeGroup");
                         MenuItem edit = new MenuItem("Edit");
-                        edit.setOnAction(e -> {
+                        editeDialog(edit, event, shape);
+                        /*edit.setOnAction(e -> {
                             System.out.println("le client change de paramètre");
                             ContextMenu menuEdit = new ContextMenu();
                             MenuItem colorEditItem = new MenuItem("edit color");
@@ -246,7 +243,7 @@ public class FxBuilder implements IBuilder, Event {
                                     }
                                 }
                             });
-                        });
+                        });*/
                         groupMenuItem.setOnAction(e -> {
                             if (!group.contains(shape.getShape())){
                                 group.add(shape);
@@ -330,6 +327,120 @@ public class FxBuilder implements IBuilder, Event {
             }
         });
     }
+    private void editeDialog(MenuItem edit, javafx.scene.input.MouseEvent event, ToolGroupComponent shape) {
+        edit.setOnAction(e -> {
+            ContextMenu menuEdit = new ContextMenu();
+            MenuItem colorEditItem = new MenuItem("edit color");
+            MenuItem positionEditItem = new MenuItem("edit radius");
+            MenuItem slideEditItem = new MenuItem("edit slides");
+            MenuItem heightEditItem = new MenuItem("edit heigth");
+            MenuItem widthEditItem = new MenuItem("edit width");
+            menuEdit.getItems().addAll(colorEditItem, positionEditItem,slideEditItem,heightEditItem,widthEditItem);
+            menuEdit.show(canvas, event.getScreenX(), event.getScreenY());
+
+            if(shape.getShape() instanceof Polygone){
+                positionEditItem.setOnAction(eventPosition ->{
+                    aux("Radius",shape);
+                });
+                slideEditItem.setOnAction(eventSlide ->{
+                    aux("Slide",shape);
+                });
+            }
+            else if(shape.getShape() instanceof  Rectangle){
+                heightEditItem.setOnAction(eventHeight ->{
+                    aux("Height",shape);
+                });
+                widthEditItem.setOnAction(eventWidth->{
+                    aux("Width", shape);
+                });
+            }
+            colorEditItem.setOnAction(eventColor -> {
+                ColorPicker colorPicker = new ColorPicker();
+                Dialog<Color> dialog = new Dialog<>();
+                dialog.setTitle("Select a color");
+                ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+                ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                dialog.getDialogPane().getButtonTypes().addAll(okButtonType, cancelButtonType);
+                dialog.getDialogPane().setContent(colorPicker);
+                dialog.setResultConverter(dialogButton -> {
+                    if (dialogButton == okButtonType) {
+                        return colorPicker.getValue();
+                    }
+                    return null;
+                });
+                Optional<Color> result = dialog.showAndWait();
+                if (result.isPresent()) {
+                    Color selectedColor = colorPicker.getValue();
+                    String couleur = selectedColor.toString();
+                    String couleurFinal = couleur.substring(0, couleur.length() - 2);
+                    int i = Integer.parseInt(couleurFinal.substring(2), 16);
+                    ColorShapeCommand co = new ColorShapeCommand(shape.getShape(), i);
+                    try {
+                        executeCommand(co);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });
+        });
+    }
+
+    private void aux(String txt,ToolGroupComponent shape){
+        TextInputDialog dialog = new TextInputDialog("0");
+        dialog.setTitle("Set " + txt);
+        dialog.setContentText(txt);
+        Optional<String> result = dialog.showAndWait();
+
+        if(result.isPresent() && isNumeric(result.get())){
+            switch (txt){
+                case "Slide" :
+                    SlidePolygoneCommand t = new SlidePolygoneCommand( shape.getShape(),Double.parseDouble(result.get()));
+                    try {
+                        executeCommand(t);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    break;
+                case "Radius" :
+                    RadiusPolygoneCommand r = new RadiusPolygoneCommand( shape.getShape(),Double.parseDouble(result.get()));
+                    try {
+                        executeCommand(r);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    break;
+                case "Height" :
+                    HeightRectangleCommand h = new HeightRectangleCommand( shape.getShape(),Double.parseDouble(result.get()));
+                    try {
+                        executeCommand(h);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    break;
+                case "Width" :
+                    WidthRectangleCommand w = new WidthRectangleCommand( shape.getShape(),Double.parseDouble(result.get()));
+                    try {
+                        executeCommand(w);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    break;
+            }
+        }
+    }
+
+    private boolean isNumeric(String txt){
+        if (txt == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(txt);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
 
     int compter(){
         int nb = 0;
@@ -369,8 +480,5 @@ public class FxBuilder implements IBuilder, Event {
         }
     }
 
-    @Override
-    public void whiteBoardEvents() {
-    }
 
 }

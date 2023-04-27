@@ -113,6 +113,11 @@ public class Polygone extends SimpleShape {
     }
 
     @Override
+    public void setNbSides(double nbSides) {
+        this.nbSides = nbSides;
+    }
+
+    @Override
     public boolean IsArea(double mouseX, double mouseY) {
         double angle = 2 * Math.PI / nbSides;
         double apothem = radius * Math.cos(angle / 2);
