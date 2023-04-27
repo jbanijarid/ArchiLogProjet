@@ -62,11 +62,21 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
                                     String couleur = Integer.toHexString(selectedColor.getRGB()).substring(2);
                                     System.out.println("la couleur final" + couleur);
                                     //Command co = new ColorShapeCommand(c.getShape(), Integer.parseInt(couleur, 16));
-                                    ChangeColorGroupCommand co = new ChangeColorGroupCommand(group, Integer.parseInt(couleur, 16));
-                                    try {
-                                        builder.executeCommand(co);
-                                    } catch (IOException ex) {
-                                        ex.printStackTrace();
+                                    if (group.contains(c.getShape())) {
+                                        ChangeColorGroupCommand co = new ChangeColorGroupCommand(group, Integer.parseInt(couleur, 16));
+                                        try {
+                                            builder.executeCommand(co);
+                                        } catch (IOException ex) {
+                                            ex.printStackTrace();
+                                        }
+                                    }
+                                    else{
+                                        Command co = new ColorShapeCommand(c.getShape(), Integer.parseInt(couleur, 16));
+                                        try {
+                                            builder.executeCommand(co);
+                                        } catch (IOException ex) {
+                                            throw new RuntimeException(ex);
+                                        }
                                     }
                                 }
                             });
