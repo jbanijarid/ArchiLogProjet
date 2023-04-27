@@ -21,23 +21,18 @@ class AwtMenuBar extends JToolBar {
     private int iconHeight = 24; // hauteur des icônes des boutons
 
     public AwtMenuBar(AwtApplication app, int x, int y, int width, int height, AwtBuilder awtBuilder) {
-
         setBackground(Color.gray);
         setBounds(x,y,width,height);
         AwtAdapterButton undoButton = (AwtAdapterButton)factoryButton.createButton("","src/main/resources/com/xshape/undo.png",iconHeight,iconWidth);
         AwtAdapterButton redoButton = (AwtAdapterButton)factoryButton.createButton("","src/main/resources/com/xshape/redo.png",iconHeight,iconWidth);
         AwtAdapterButton saveButton = (AwtAdapterButton)factoryButton.createButton("","src/main/resources/com/xshape/save.png",iconHeight,iconWidth);
         AwtAdapterButton loadButton = (AwtAdapterButton)factoryButton.createButton("","src/main/resources/com/xshape/load.png",iconHeight,iconWidth);
-
         add(undoButton);
         add(redoButton);
         add(saveButton);
         add(loadButton);
-
         addSeparator();
-
         app.add(this, BorderLayout.NORTH);
-
         undoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -50,7 +45,6 @@ class AwtMenuBar extends JToolBar {
                 }
             }
         });
-
         redoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,7 +57,6 @@ class AwtMenuBar extends JToolBar {
                 }
             }
         });
-
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -103,8 +96,5 @@ class AwtMenuBar extends JToolBar {
                 }
             }
         });
-
     }
-
-
 }

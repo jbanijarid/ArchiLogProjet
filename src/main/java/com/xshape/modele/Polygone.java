@@ -1,7 +1,6 @@
 package com.xshape.modele;
 
 public class Polygone extends SimpleShape {
-
     double centerX;
     double centerY;
     double radius;
@@ -22,31 +21,17 @@ public class Polygone extends SimpleShape {
         double angle = 2 * Math.PI / nbSides; // Angle entre deux sommets consécutifs du polygone
         double[] xPoints = new double[(int) nbSides];
         double[] yPoints = new double[(int) nbSides];
-
-        // Coordonnées du premier sommet
         xPoints[0] = centerX + radius * Math.cos(0);
         yPoints[0] = centerY + radius * Math.sin(0);
-
-        // Dessine les côtés du polygone et enregistre les coordonnées de chaque sommet
         for (int i = 1; i < nbSides; i++) {
             double nextX = centerX + radius * Math.cos(i * angle);
             double nextY = centerY + radius * Math.sin(i * angle);
-
-            //renderer.drawLine(xPoints[i-1], yPoints[i-1], nextX, nextY);
-
             xPoints[i] = nextX;
             yPoints[i] = nextY;
-
-            if(i == nbSides - 1){
-                //renderer.drawLine(xPoints[i], yPoints[i], xPoints[0], yPoints[0]);
-            }
         }
-
-        // Remplit le polygone avec la couleur
         renderer.fillPolygon(xPoints, yPoints, (int) nbSides);
 
     }
-
     @Override
     public void setColor(int color) {
         this.color = color;
@@ -123,19 +108,12 @@ public class Polygone extends SimpleShape {
         double apothem = radius * Math.cos(angle / 2);
         double centerX = this.centerX;
         double centerY = this.centerY;
-
-        // Point de départ
         double x = centerX + radius;
         double y = centerY;
-
-        // Initialise les variables pour trouver le minimum et le maximum des coordonnées X et Y
         double minX = x, maxX = x, minY = y, maxY = y;
-
-        // Trouve les coordonnées de chaque sommet et met à jour les variables minX, maxX, minY, maxY
         for (int i = 1; i <= nbSides; i++) {
             double nextX = centerX + radius * Math.cos(i * angle);
             double nextY = centerY + radius * Math.sin(i * angle);
-
             if (nextX < minX) {
                 minX = nextX;
             }
@@ -148,23 +126,16 @@ public class Polygone extends SimpleShape {
             if (nextY > maxY) {
                 maxY = nextY;
             }
-
             double dist = distanceToLineSegment(mouseX, mouseY, x, y, nextX, nextY);
-
-            // Si la distance de la souris à la ligne est inférieure ou égale à 2 pixels, retourne vrai
             if (dist <= 2) {
                 return true;
             }
-
             x = nextX;
             y = nextY;
         }
-
-        // Si la souris est dans le rectangle englobant, retourne vrai
         if (mouseX >= minX && mouseX <= maxX && mouseY >= minY && mouseY <= maxY) {
             return true;
         }
-
         return false;
     }
 
@@ -183,8 +154,6 @@ public class Polygone extends SimpleShape {
         centerX += dx;
         centerY += dy;
     }
-
-    // Calcule la distance de la souris à une ligne spécifiée
     private double distanceToLineSegment(double x, double y, double x1, double y1, double x2, double y2) {
         double A = x - x1;
         double B = y - y1;
@@ -207,11 +176,9 @@ public class Polygone extends SimpleShape {
             xx = x1 + param * C;
             yy = y1 + param * D;
         }
-
         double dx = x - xx;
         double dy = y - yy;
         return Math.sqrt(dx * dx + dy * dy);
     }
-
 
 }

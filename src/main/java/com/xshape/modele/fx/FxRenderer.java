@@ -9,7 +9,6 @@ public class FxRenderer implements IRenderer {
     private GraphicsContext gc;
     private Canvas canvas;
 
-
     public FxRenderer(Canvas canvas){
         this.canvas = canvas;
         gc = this.canvas.getGraphicsContext2D();

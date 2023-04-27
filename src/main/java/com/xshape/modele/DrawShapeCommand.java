@@ -4,12 +4,9 @@ import com.xshape.modele.Goupage.Tool;
 import com.xshape.modele.Goupage.ToolGroupComponent;
 
 public class DrawShapeCommand implements Command{
-
-
     private IShape copy;
     private double x;
     private double y;
-
     private int color;
     private ToolGroupComponent whiteBoard;
     private ToolGroupComponent selectedTool;

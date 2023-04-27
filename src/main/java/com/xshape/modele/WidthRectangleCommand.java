@@ -1,11 +1,9 @@
 package com.xshape.modele;
 
 public class WidthRectangleCommand implements Command{
-
     private IShape shape;
     private double oldW;
     private double newW;
-
 
     public WidthRectangleCommand(IShape shape, double newW) {
         this.shape = shape;

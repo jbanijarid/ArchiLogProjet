@@ -2,7 +2,6 @@ package com.xshape.modele;
 
 public class CloneShape {
     IShape clone = null;
-
     public CloneShape(IShape s){
         this.clone = s;
     }

@@ -16,7 +16,6 @@ import java.io.IOException;
 
 public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
 
-
     private IRenderer renderer;
     private IShape selectedShape;
     private ToolGroupComponent selectedTool;
@@ -24,26 +23,16 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
     private ToolGroupComponent group;
     AwtBuilder builder;
 
-
-    public IRenderer getRenderer() {
-        return renderer;
-    }
-
-
-
     public AwtConcreteWhiteBoard(AwtApplication app, int x, int y, int width, int height, AwtBuilder builder) {
         super(app, x, y, width, height);
         app.add(this);
         this.builder=builder;
         this.group = new ToolGroupComposite();
         addMouseListener(new MouseAdapter() {
-
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON3) {
-                    System.out.println("ohhhhhhhhhhhhhhhhhhhhhhhh");
                     for (ToolGroupComponent c : builder.whiteboardContent.getShapes()) {
                         if (c.getShape().IsArea(e.getX(), e.getY())) {
-                            // Créer un menu contextuel avec l'option "Group"
                             PopupMenu popupMenu = new PopupMenu();
                             MenuItem groupMenuItem = new MenuItem("Group");
                             MenuItem deGroupMenuItem = new MenuItem("DeGroup");
@@ -104,24 +93,16 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
                                     }
                                 });
                             });
-                            /*add(popupMenu);
-                            popupMenu.show(e.getComponent(), e.getX(), e.getY());*/
-
                             groupMenuItem.addActionListener(a->{
                                 if (!group.contains(c.getShape())){
                                     group.add(c);
-                                } else {
-                                    System.out.println("le shape existe déja dans le groupe");
                                 }
                                 repaint();
                             });
                             deGroupMenuItem.addActionListener(a->{
-                                System.out.println("to be deleted");
-                                //groupSelectedObjects(selectedShapes);
                                 group.remove(c);
                                 repaint();
                             });
-
                             popupMenu.add(groupMenuItem);
                             popupMenu.add(deGroupMenuItem);
                             popupMenu.add(editMenuItem);
@@ -132,7 +113,6 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
                     }
                 }
             }
-
             public void mousePressed(MouseEvent e) {
                 if(selectedShape==null){
                     for (ToolGroupComponent c : builder.whiteboardContent.getShapes()) {
@@ -141,11 +121,9 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
                             selectedShape = c.getShape();
                             break;
                         }
-
                     }
                 }
             }
-
             public void mouseReleased(MouseEvent e) {
                 if (selectedShape!=null){
                     selectedShape.setPosition(e.getX(), e.getY());
@@ -160,7 +138,6 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
                 }
             }
         });
-
         addMouseMotionListener(new MouseAdapter() {
             public void mouseDragged(MouseEvent e) {
                 if (selectedShape != null) {
@@ -170,9 +147,6 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
             }
         });
     }
-
-
-
 
     @Override
     public void paint(Graphics g) {
@@ -185,7 +159,9 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
         }
     }
 
-
+    public IRenderer getRenderer() {
+        return renderer;
+    }
 
     private void aux(String txt, ToolGroupComponent shape) {
         String value = JOptionPane.showInputDialog("Set " + txt);

@@ -6,7 +6,6 @@ import com.xshape.modele.IShape;
 import java.util.ArrayList;
 
 public class Tool implements ToolGroupComponent, Cloneable{
-
     IShape shape;
 
     public Tool(IShape shape){

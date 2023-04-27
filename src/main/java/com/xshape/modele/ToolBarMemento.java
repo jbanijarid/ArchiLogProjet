@@ -16,8 +16,6 @@ public class ToolBarMemento{
     private IFactory factory = new Factory();
 
     public ToolBarMemento(IRenderer renderer) {
-        //this.formes = new ArrayList<>();
-        //Ajouter les shapes par defaut.
         formes = new ToolGroupComposite();
         this._renderer = renderer;
     }
@@ -54,7 +52,6 @@ public class ToolBarMemento{
         } else {
             String s = scanner.nextLine();
             int nbToolBar = Integer.parseInt(s);
-            System.out.println(nbToolBar);
             for (int i = 0; i < nbToolBar; i++){
                 String positionX = scanner.nextLine();
                 String positionY = scanner.nextLine();
@@ -82,33 +79,4 @@ public class ToolBarMemento{
             }
         }
     }
-
-
-    /*
-    public void ajouterForme(ToolGroupComponent forme) {
-        this.formes.add(forme);
-    }
-
-    public void supprimerForme(ToolGroupComponent forme) {
-        this.formes.remove(forme);
-    }
-
-
-
-    public void setFormes(ToolGroupComponent formes) {
-        this.formes = formes;
-    }
-    */
-
-
-    /*
-    public ToolbarMemento createMemento() {
-        return new ToolbarMemento(this.formes);
-    }
-
-    public void restoreMemento(ToolbarMemento memento) {
-        this.formes = memento.getFormes();
-    }
-
-     */
 }

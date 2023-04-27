@@ -30,18 +30,6 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
     private IFactory factory = new Factory();
     AwtBuilder builder;
 
-
-    public int getCurrent_y() {
-        return current_y;
-    }
-
-    public void setCurrent_y(int current_y) {
-        this.current_y = current_y;
-    }
-
-
-
-
     AwtConcreteToolBar(AwtApplication app, int x, int y, int width, int height, AwtBuilder builder){
         super(app, x, y, width, height);
         this.builder = builder;
@@ -49,7 +37,6 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
         IShape p = factory.createPolygone(this.pos_x+ this.radious, this.pos_y, this.radious, 6, this.renderer);
         ToolGroupComponent recTool = new Tool(r);
         ToolGroupComponent polyTool = new Tool(p);
-
         try {
             URL imageUrl = new URL("file:src/main/resources/com/xshape/delete.png");
             BufferedImage bufferedImage = ImageIO.read(imageUrl);
@@ -57,9 +44,7 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         app.add(this);
-
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if(selectedShape==null){
@@ -71,11 +56,9 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
                             prevY = e.getY();
                             break;
                         }
-
                     }
                 }
             }
-
             public void mouseReleased(MouseEvent e) {
 
                 if (selectedShape!=null && getBounds().contains(e.getPoint())){
@@ -83,17 +66,12 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
                 }
                 if (selectedShape!=null && !getBounds().contains(e.getPoint())) {
                     selectedShape.setPosition(prevX, prevY);
-
                 }
-
-
                 repaint();
                 selectedShape = null;
                 selectedTool = null;
-
             }
         });
-
         addMouseMotionListener(new MouseAdapter() {
             public void mouseDragged(MouseEvent e) {
                 if (selectedShape != null) {
@@ -117,13 +95,11 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
         return false;
     }
 
-
     void addTool(ToolGroupComponent tool){
         builder.toolbarContent.getFormes().add(tool);
         repositionTools();
         repaint();
     }
-
 
     public void repositionTools() {
         current_y = pos_y;
@@ -141,7 +117,6 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
         }
     }
 
-
     @Override
     public void paint(Graphics g) {
         IRenderer r = new AwtRenderer(g);
@@ -151,9 +126,14 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
             c.getShape().setRenderer(r);
             c.getShape().draw();
         }
-
         if (trashLabel != null) {
             g.drawImage(trashLabel, (getWidth() - trashLabel.getWidth(null)) / 2, getHeight() - trashLabel.getHeight(null) - 10, null);
         }
+    }
+    public int getCurrent_y() {
+        return current_y;
+    }
+    public void setCurrent_y(int current_y) {
+        this.current_y = current_y;
     }
 }

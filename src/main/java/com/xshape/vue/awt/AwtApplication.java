@@ -10,12 +10,11 @@ import java.awt.event.WindowEvent;
 
 public class AwtApplication extends Frame {
     public AwtApplication() {
-        super("Titre de la fenêtre");
+        super("Mini Editeur de Formes");
         setLayout(null);
         setSize(800, 600);
         AwtBuilder awtb = new AwtBuilder(this);
         awtb.build();
-
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent evt) {
@@ -25,9 +24,6 @@ public class AwtApplication extends Frame {
         });
 
         setVisible(true);
-
-
-
     }
 
     public static void main(String[] args) {

@@ -4,10 +4,8 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
 public class Rectangle extends SimpleShape {
-
     private double x, y, width, height;
     private int color=16770764;
-
 
     public Rectangle(double x, double y, double width, double height, IRenderer renderer) {
         super(renderer);
@@ -19,25 +17,7 @@ public class Rectangle extends SimpleShape {
 
     @Override
     public void draw() {
-        //_renderer.drawRectangle(x, y, width, height);
         renderer.setColor(color);
-
-        // Ligne horizontale du haut
-        /*renderer.drawLine(x, y, x + width, y);
-
-        // Ligne verticale de droite
-        renderer.drawLine(x + width, y, x + width, y + height);
-
-        // Ligne horizontale du bas
-        renderer.drawLine(x + width, y + height, x, y + height);
-
-        // Ligne verticale de gauche
-        renderer.drawLine(x, y + height, x, y);
-
-        double[] xPoints = {x, x + width, x + width, x};
-        double[] yPoints = {y, y, y + height, y + height};*/
-        //renderer.fillPolygon(xPoints, yPoints, 4);
-
         renderer.fillRect(x, y, width, height);
     }
 
@@ -104,7 +84,6 @@ public class Rectangle extends SimpleShape {
 
     @Override
     public void setNbSides(double nbSides) {
-
     }
 
     @Override
