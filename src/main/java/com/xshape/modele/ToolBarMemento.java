@@ -70,10 +70,12 @@ public class ToolBarMemento{
                 int c = Integer.parseInt(color);
                 if (nb == 4){
                     IShape shape = new Rectangle(x, y, w, h, _renderer);
+                    shape.setColor(c);
                     ToolGroupComponent tool = new Tool(shape);
                     formes.add(tool);
                 } else {
                     IShape shape = new Polygone(x, y, w, nb, _renderer);
+                    shape.setColor(c);
                     ToolGroupComponent tool = new Tool(shape);
                     formes.add(tool);
                 }
