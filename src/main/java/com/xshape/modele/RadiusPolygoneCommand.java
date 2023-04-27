@@ -24,6 +24,6 @@ public class RadiusPolygoneCommand implements Command{
 
     @Override
     public void redo() {
-
+        execute();
     }
 }

@@ -25,6 +25,6 @@ public class WidthRectangleCommand implements Command{
 
     @Override
     public void redo() {
-
+        execute();
     }
 }

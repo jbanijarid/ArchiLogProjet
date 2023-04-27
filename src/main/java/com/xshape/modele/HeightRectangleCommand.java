@@ -23,6 +23,6 @@ public class HeightRectangleCommand implements Command{
 
     @Override
     public void redo() {
-
+        execute();
     }
 }

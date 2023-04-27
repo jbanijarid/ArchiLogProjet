@@ -24,6 +24,6 @@ public class SlidePolygoneCommand implements Command{
 
     @Override
     public void redo() {
-
+        execute();
     }
 }

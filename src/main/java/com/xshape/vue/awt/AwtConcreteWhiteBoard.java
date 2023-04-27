@@ -86,11 +86,20 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
                                     Color color = JColorChooser.showDialog(null, "Select a color", null);
                                     if (color != null) {
                                         int rgb = color.getRGB();
-                                        ColorShapeCommand co = new ColorShapeCommand(c.getShape(), rgb);
-                                        try {
-                                            builder.executeCommand(co);
-                                        } catch (IOException ex) {
-                                            ex.printStackTrace();
+                                        if (group.contains(c.getShape())){
+                                            ChangeColorGroupCommand co = new ChangeColorGroupCommand(group, rgb);
+                                            try {
+                                                builder.executeCommand(co);
+                                            } catch (IOException ex) {
+                                                throw new RuntimeException(ex);
+                                            }
+                                        } else {
+                                            ColorShapeCommand co = new ColorShapeCommand(c.getShape(),rgb);
+                                            try {
+                                                builder.executeCommand(co);
+                                            } catch (IOException ex) {
+                                                throw new RuntimeException(ex);
+                                            }
                                         }
                                     }
                                 });

@@ -25,10 +25,7 @@ public class FxRenderer implements IRenderer {
         int red = (color >> 16) & 0xFF;
         int green = (color >> 8) & 0xFF;
         int blue = color & 0xFF;
-        //Color fxColor = Color.grayRgb(color);
         Color fxColor = Color.rgb(red, green, blue);
-        //gc.setFill(Color.BLUE);
-
         gc.setFill(fxColor);
     }
 

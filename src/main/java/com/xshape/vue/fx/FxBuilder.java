@@ -1,8 +1,11 @@
-package com.xshape.modele.fx;
+package com.xshape.vue.fx;
 
 import com.xshape.modele.*;
 import com.xshape.modele.Goupage.ToolGroupComponent;
 import com.xshape.modele.Goupage.ToolGroupComposite;
+import com.xshape.modele.fx.FxAdapterButton;
+import com.xshape.modele.fx.FxButtonFactory;
+import com.xshape.modele.fx.FxRenderer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
@@ -374,11 +377,20 @@ public class FxBuilder implements IBuilder, Event {
                     String couleur = selectedColor.toString();
                     String couleurFinal = couleur.substring(0, couleur.length() - 2);
                     int i = Integer.parseInt(couleurFinal.substring(2), 16);
-                    ColorShapeCommand co = new ColorShapeCommand(shape.getShape(), i);
-                    try {
-                        executeCommand(co);
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
+                    if (group.contains(shape.getShape())){
+                        ChangeColorGroupCommand co = new ChangeColorGroupCommand(group, i);
+                        try {
+                            executeCommand(co);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    } else {
+                        ColorShapeCommand co = new ColorShapeCommand(shape.getShape(),i);
+                        try {
+                            executeCommand(co);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
                 }
             });

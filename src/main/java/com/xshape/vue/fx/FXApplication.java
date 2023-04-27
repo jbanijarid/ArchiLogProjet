@@ -1,7 +1,5 @@
 package com.xshape.vue.fx;
 
-import com.xshape.modele.fx.FxBuilder;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;

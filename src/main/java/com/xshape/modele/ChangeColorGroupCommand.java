@@ -27,6 +27,7 @@ public class ChangeColorGroupCommand implements Command{
 
     @Override
     public void undo() {
+
     }
 
     @Override
