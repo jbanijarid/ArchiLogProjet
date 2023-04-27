@@ -6,14 +6,11 @@ import com.xshape.modele.StrategyManager;
 import com.xshape.modele.TextStrategy;
 import com.xshape.modele.awt.AwtAdapterButton;
 import com.xshape.modele.awt.AwtButtonFactory;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 
 
@@ -48,7 +45,8 @@ class AwtMenuBar extends JToolBar {
                     Command command = awtBuilder.undoStackAwt.pop();
                     command.undo();
                     awtBuilder.redoStackAwt.push(command);
-                    awtBuilder.whiteBoard.update(awtBuilder.undoStackAwt, awtBuilder.redoStackAwt);
+                    awtBuilder.toolBar.repaint();
+                    awtBuilder.whiteBoard.repaint();
                 }
             }
         });
@@ -60,7 +58,8 @@ class AwtMenuBar extends JToolBar {
                     Command command = awtBuilder.redoStackAwt.pop();
                     command.redo();
                     awtBuilder.undoStackAwt.push(command);
-                    awtBuilder.whiteBoard.update(awtBuilder.undoStackAwt, awtBuilder.redoStackAwt);
+                    awtBuilder.toolBar.repaint();
+                    awtBuilder.whiteBoard.repaint();
                 }
             }
         });
@@ -75,7 +74,7 @@ class AwtMenuBar extends JToolBar {
                     String filePath = dialog.getDirectory() + fileName;
                     StrategyManager saveManager = new StrategyManager(new TextStrategy());
                     try {
-                        saveManager.save(awtBuilder.toolBar.getTools(), awtBuilder.whiteBoard.getContentWhiteBoard(), filePath);
+                        saveManager.save(awtBuilder.toolbarContent, awtBuilder.whiteboardContent, filePath);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -91,15 +90,15 @@ class AwtMenuBar extends JToolBar {
                 String fileName = dialog.getFile();
                 if (fileName != null) {
                     String filePath = dialog.getDirectory() + fileName;
-                    awtBuilder.toolBar.getTools().clear();
-                    awtBuilder.getWhiteBoard().getContentWhiteBoard().clear();
+                    awtBuilder.toolbarContent.clear();
+                    awtBuilder.whiteboardContent.clear();
                     StrategyManager loadManager = new StrategyManager(new TextStrategy());
                     try {
-                        loadManager.load(awtBuilder.toolBar.getTools(), awtBuilder.whiteBoard.getContentWhiteBoard(), awtBuilder.whiteBoard.getRenderer(), filePath);
+                        loadManager.load(awtBuilder.toolbarContent, awtBuilder.whiteboardContent, awtBuilder.whiteBoard.getRenderer(), filePath);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-                    awtBuilder.whiteBoard.update(awtBuilder.undoStackAwt, awtBuilder.redoStackAwt);
+                    awtBuilder.whiteBoard.repaint();
                     awtBuilder.toolBar.repaint();
                 }
             }

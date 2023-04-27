@@ -18,7 +18,7 @@ class AwtAbstractToolBar extends Panel {
 
 
     public AwtAbstractToolBar(AwtApplication app, int x, int y, int width, int height) {
-        setBackground(Color.CYAN);
+        setBackground(Color.LIGHT_GRAY);
         setBounds(x, y, width, height);
         widthT = width;
         heightT = height;

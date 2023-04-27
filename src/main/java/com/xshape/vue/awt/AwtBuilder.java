@@ -1,46 +1,44 @@
 package com.xshape.vue.awt;
 
-import com.xshape.modele.Command;
-import com.xshape.modele.DeleteShapeCommand;
-import com.xshape.modele.DrawShapeCommand;
+import com.xshape.modele.*;
 import com.xshape.modele.Goupage.ToolGroupComponent;
 import com.xshape.modele.Goupage.ToolGroupComposite;
-import com.xshape.modele.IBuilder;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.Stack;
 
 public class AwtBuilder implements IBuilder, MouseListener {
-
     AwtApplication app;
     protected AwtConcreteToolBar toolBar;
     protected JToolBar menuBar;
     protected AwtConcreteWhiteBoard whiteBoard;
+
     private ToolGroupComponent selectedToolToolbar;
     private ToolGroupComponent selectedToolWhiteboard;
+
     protected static Stack<Command> undoStackAwt = new Stack<>();
     protected static Stack<Command> redoStackAwt = new Stack<>();
+    private ToolBarMemento mytoolbar;
     private double prevX, prevY;
+
+    ToolGroupComponent toolbarContent;
+    ToolGroupComponent whiteboardContent;
 
 
     public AwtBuilder(AwtApplication awtApplication){
         this.app = awtApplication;
+        toolbarContent = new ToolGroupComposite();
+        whiteboardContent = new ToolGroupComposite();
     }
 
-    public AwtConcreteToolBar getToolBar() {
-        return toolBar;
-    }
-
-    public AwtConcreteWhiteBoard getWhiteBoard() {
-        return whiteBoard;
-    }
 
 
     @Override
     public void toolBar() {
-        AwtConcreteToolBar awtT = new AwtConcreteToolBar(this.app, 12, 82, 135, app.getHeight()-82);
+        AwtConcreteToolBar awtT = new AwtConcreteToolBar(this.app, 12, 82, 135, app.getHeight()-82, this);
         toolBar = awtT;
         toolBar.addMouseListener(this);
         this.app.add(awtT);
@@ -55,50 +53,39 @@ public class AwtBuilder implements IBuilder, MouseListener {
 
     @Override
     public void whiteBoard() {
-        AwtConcreteWhiteBoard awtB = new AwtConcreteWhiteBoard(this.app, app.getWidth() - 650, app.getHeight() - 518, 650, 540);
-        awtB.update(undoStackAwt, redoStackAwt);
+        AwtConcreteWhiteBoard awtB = new AwtConcreteWhiteBoard(this.app, app.getWidth() - 650, app.getHeight() - 518, 650, 540, this);
+        awtB.repaint();
         whiteBoard = awtB;
         whiteBoard.addMouseListener(this);
         this.app.add(awtB);
     }
 
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
+    public void executeCommand(Command command) throws IOException {
+        undoStackAwt.push(command);
+        command.execute();
+        redoStackAwt.clear();
+        //mytoolbar.saveStateToFile();
+        System.out.println("j'enregistre ds le fichier");
+        toolBar.repaint();
+        whiteBoard.repaint();
     }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-    }
-
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-    }
-
 
     @Override
     public void mousePressed(MouseEvent e) {
         if(selectedToolToolbar==null) {
-            for (ToolGroupComponent tool : toolBar.getTools().getShapes()) {
+            for (ToolGroupComponent tool : toolbarContent.getShapes()) {
                 if (tool.getShape().IsArea(e.getX(), e.getY())) {
                     selectedToolToolbar = tool;
                     prevX=selectedToolToolbar.getShape().getPositionX();
                     prevY=selectedToolToolbar.getShape().getPositionY();
+                    System.out.println("aiiiiiiiiiiiiiiiiiiiiiiiiii");
                     break;
                 }
             }
         }
 
         if(selectedToolWhiteboard==null) {
-            for (ToolGroupComponent tool : whiteBoard.getContentWhiteBoard().getShapes()) {
+            for (ToolGroupComponent tool : whiteboardContent.getShapes()) {
                 if (tool.getShape().IsArea(e.getX(), e.getY())) {
                     selectedToolWhiteboard = tool;
                     break;
@@ -107,13 +94,6 @@ public class AwtBuilder implements IBuilder, MouseListener {
         }
     }
 
-    private void executeCommand(Command command){
-        undoStackAwt.push(command);
-        command.execute();
-        redoStackAwt.clear();
-        toolBar.repaint();
-        whiteBoard.update(undoStackAwt, redoStackAwt);
-    }
 
 
 
@@ -121,13 +101,22 @@ public class AwtBuilder implements IBuilder, MouseListener {
     public void mouseReleased(MouseEvent e) {
         if (selectedToolToolbar != null) {
             if(toolBar.inTrashLabel(e.getX(), e.getY())){
-                Command c = new DeleteShapeCommand(selectedToolToolbar, toolBar.getTools());
-                executeCommand(c);
+                selectedToolToolbar.getShape().setPosition(prevX, prevY);
+                Command c = new DeleteShapeCommand(selectedToolToolbar, toolbarContent);
+                try {
+                    executeCommand(c);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 toolBar.setCurrent_y(toolBar.getCurrent_y()-75);
                 toolBar.repositionTools();
             }else{
-                Command command = new DrawShapeCommand(selectedToolToolbar.clone().getShape(), e.getX() - toolBar.getWidthT(), e.getY(), whiteBoard.getContentWhiteBoard());
-                executeCommand( command);
+                Command command = new DrawShapeCommand(selectedToolToolbar.clone().getShape(), e.getX() - toolBar.getWidthT(), e.getY(), whiteboardContent);
+                try {
+                    executeCommand( command);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 selectedToolToolbar.getShape().setPosition(prevX, prevY);
             }
             selectedToolToolbar = null;
@@ -137,13 +126,17 @@ public class AwtBuilder implements IBuilder, MouseListener {
         if (selectedToolWhiteboard != null) {
             if (toolBar.getBounds().contains(e.getX()+toolBar.getWidthT()+10,e.getY())) {
                 if(toolBar.inTrashLabel(e.getX()+toolBar.getWidthT()+10, e.getY())){
-                    Command c = new DeleteShapeCommand(selectedToolWhiteboard, whiteBoard.getContentWhiteBoard());
-                    executeCommand(c);
+                    Command c = new DeleteShapeCommand(selectedToolWhiteboard, whiteboardContent);
+                    try {
+                        executeCommand(c);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
                 else{
                     toolBar.addTool( selectedToolWhiteboard.clone());
-                    whiteBoard.getContentWhiteBoard().remove(selectedToolWhiteboard);
-                    System.out.println(toolBar.tools.getShapes().size());
+                    whiteboardContent.remove(selectedToolWhiteboard);
+                    System.out.println(toolbarContent.getShapes().size());
                 }
 
             }
@@ -159,8 +152,6 @@ public class AwtBuilder implements IBuilder, MouseListener {
 
     }
 
-
-
     public void build() {
         toolBar();
         whiteBoard();
@@ -168,10 +159,28 @@ public class AwtBuilder implements IBuilder, MouseListener {
     }
 
 
+    @Override
+    public void mouseEntered(MouseEvent e) {
 
-
-    public JToolBar getMenuBar() {
-        return menuBar;
     }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+    }
+
+
+
+
 
 }

@@ -3,7 +3,6 @@ package com.xshape.vue.awt;
 import com.xshape.modele.*;
 import com.xshape.modele.Goupage.Tool;
 import com.xshape.modele.Goupage.ToolGroupComponent;
-import com.xshape.modele.Goupage.ToolGroupComposite;
 import com.xshape.modele.Rectangle;
 import com.xshape.modele.awt.AwtRenderer;
 import javax.imageio.ImageIO;
@@ -13,7 +12,6 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class AwtConcreteToolBar extends AwtAbstractToolBar{
 
@@ -26,10 +24,10 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
     private int current_y = pos_y;
     private IShape selectedShape;
     ToolGroupComponent selectedTool;
-    ToolGroupComponent tools = new ToolGroupComposite();
     IRenderer renderer;
     private Image trashLabel;
     private IFactory factory = new Factory();
+    AwtBuilder builder;
 
 
     public int getCurrent_y() {
@@ -43,8 +41,9 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
 
 
 
-    AwtConcreteToolBar(AwtApplication app, int x, int y, int width, int height){
+    AwtConcreteToolBar(AwtApplication app, int x, int y, int width, int height, AwtBuilder builder){
         super(app, x, y, width, height);
+        this.builder = builder;
         IShape r = factory.createRectangle(this.pos_x, this.pos_y, this.width, this.height, this.renderer);
         IShape p = factory.createPolygone(this.pos_x+ this.radious, this.pos_y, this.radious, 6, this.renderer);
         ToolGroupComponent recTool = new Tool(r);
@@ -65,7 +64,7 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if(selectedShape==null){
-                    for (ToolGroupComponent c : tools.getShapes()) {
+                    for (ToolGroupComponent c : builder.toolbarContent.getShapes()) {
                         if (c.getShape().IsArea(e.getX(),e.getY())) {
                             selectedShape = c.getShape();
                             selectedTool = c;
@@ -121,19 +120,15 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
 
 
     void addTool(ToolGroupComponent tool){
-        tools.add(tool);
+        builder.toolbarContent.add(tool);
         repositionTools();
         repaint();
     }
 
 
-    public ToolGroupComponent getTools() {
-        return tools;
-    }
-
     public void repositionTools() {
         current_y = pos_y;
-        for (ToolGroupComponent tool : tools.getShapes()) {
+        for (ToolGroupComponent tool : this.builder.toolbarContent.getShapes()) {
             if (tool.getShape() instanceof Rectangle) {
                 tool.getShape().setPosition(pos_x, current_y);
                 tool.getShape().setHeight(height);
@@ -153,11 +148,10 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
         IRenderer r = new AwtRenderer(g);
         this.renderer = r;
         super.paint(g);
-        for (ToolGroupComponent c : this.getTools().getShapes()) {
+        for (ToolGroupComponent c : this.builder.toolbarContent.getShapes()) {
             c.getShape().setRenderer(r);
             c.getShape().draw();
         }
-
 
         if (trashLabel != null) {
             g.drawImage(trashLabel, (getWidth() - trashLabel.getWidth(null)) / 2, getHeight() - trashLabel.getHeight(null) - 10, null);
