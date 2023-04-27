@@ -228,12 +228,21 @@ public class FxBuilder implements IBuilder, Event {
                                     System.out.println("la couleur final" + couleurFinal);
                                     int i = Integer.parseInt(couleurFinal.substring(2), 16);
                                     System.out.println("notre i : "+ i);
-                                    ColorShapeCommand co = new ColorShapeCommand(shape.getShape(),i);
-
-                                    try {
-                                        executeCommand(co);
-                                    } catch (IOException ex) {
-                                        throw new RuntimeException(ex);
+                                    //ColorShapeCommand co = new ColorShapeCommand(shape.getShape(),i);
+                                    if (group.contains(shape.getShape())){
+                                        ChangeColorGroupCommand co = new ChangeColorGroupCommand(group, i);
+                                        try {
+                                            executeCommand(co);
+                                        } catch (IOException ex) {
+                                            throw new RuntimeException(ex);
+                                        }
+                                    } else {
+                                        ColorShapeCommand co = new ColorShapeCommand(shape.getShape(),i);
+                                        try {
+                                            executeCommand(co);
+                                        } catch (IOException ex) {
+                                            throw new RuntimeException(ex);
+                                        }
                                     }
                                 }
                             });
