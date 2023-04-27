@@ -74,7 +74,7 @@ class AwtMenuBar extends JToolBar {
                     String filePath = dialog.getDirectory() + fileName;
                     StrategyManager saveManager = new StrategyManager(new TextStrategy());
                     try {
-                        saveManager.save(awtBuilder.toolbarContent, awtBuilder.whiteboardContent, filePath);
+                        saveManager.save(awtBuilder.toolbarContent.getFormes(), awtBuilder.whiteboardContent, filePath);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -90,11 +90,11 @@ class AwtMenuBar extends JToolBar {
                 String fileName = dialog.getFile();
                 if (fileName != null) {
                     String filePath = dialog.getDirectory() + fileName;
-                    awtBuilder.toolbarContent.clear();
+                    awtBuilder.toolbarContent.getFormes().clear();
                     awtBuilder.whiteboardContent.clear();
                     StrategyManager loadManager = new StrategyManager(new TextStrategy());
                     try {
-                        loadManager.load(awtBuilder.toolbarContent, awtBuilder.whiteboardContent, awtBuilder.whiteBoard.getRenderer(), filePath);
+                        loadManager.load(awtBuilder.toolbarContent.getFormes(), awtBuilder.whiteboardContent, awtBuilder.whiteBoard.getRenderer(), filePath);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }

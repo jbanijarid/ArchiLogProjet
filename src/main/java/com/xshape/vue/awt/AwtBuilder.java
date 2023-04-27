@@ -7,6 +7,7 @@ import com.xshape.modele.Goupage.ToolGroupComposite;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Stack;
 
@@ -24,13 +25,12 @@ public class AwtBuilder implements IBuilder, MouseListener {
     private ToolBarMemento mytoolbar;
     private double prevX, prevY;
 
-    ToolGroupComponent toolbarContent;
+    ToolBarMemento toolbarContent;
     ToolGroupComponent whiteboardContent;
 
 
     public AwtBuilder(AwtApplication awtApplication){
         this.app = awtApplication;
-        toolbarContent = new ToolGroupComposite();
         whiteboardContent = new ToolGroupComposite();
     }
 
@@ -42,6 +42,13 @@ public class AwtBuilder implements IBuilder, MouseListener {
         toolBar = awtT;
         toolBar.addMouseListener(this);
         this.app.add(awtT);
+        toolbarContent = new ToolBarMemento(toolBar.renderer);
+        try {
+            toolbarContent.loadStateFromFile();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -73,7 +80,7 @@ public class AwtBuilder implements IBuilder, MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if(selectedToolToolbar==null) {
-            for (ToolGroupComponent tool : toolbarContent.getShapes()) {
+            for (ToolGroupComponent tool : toolbarContent.getFormes().getShapes()) {
                 if (tool.getShape().IsArea(e.getX(), e.getY())) {
                     selectedToolToolbar = tool;
                     prevX=selectedToolToolbar.getShape().getPositionX();
@@ -102,7 +109,7 @@ public class AwtBuilder implements IBuilder, MouseListener {
         if (selectedToolToolbar != null) {
             if(toolBar.inTrashLabel(e.getX(), e.getY())){
                 selectedToolToolbar.getShape().setPosition(prevX, prevY);
-                Command c = new DeleteShapeCommand(selectedToolToolbar, toolbarContent);
+                Command c = new DeleteShapeCommand(selectedToolToolbar, toolbarContent.getFormes());
                 try {
                     executeCommand(c);
                 } catch (IOException ex) {
@@ -136,7 +143,7 @@ public class AwtBuilder implements IBuilder, MouseListener {
                 else{
                     toolBar.addTool( selectedToolWhiteboard.clone());
                     whiteboardContent.remove(selectedToolWhiteboard);
-                    System.out.println(toolbarContent.getShapes().size());
+                    System.out.println(toolbarContent.getFormes().getShapes().size());
                 }
 
             }

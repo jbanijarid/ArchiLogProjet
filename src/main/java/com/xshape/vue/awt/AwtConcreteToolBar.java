@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 
@@ -48,8 +49,6 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
         IShape p = factory.createPolygone(this.pos_x+ this.radious, this.pos_y, this.radious, 6, this.renderer);
         ToolGroupComponent recTool = new Tool(r);
         ToolGroupComponent polyTool = new Tool(p);
-        addTool(recTool);
-        addTool(polyTool);
 
         try {
             URL imageUrl = new URL("file:src/main/resources/com/xshape/delete.png");
@@ -64,7 +63,7 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if(selectedShape==null){
-                    for (ToolGroupComponent c : builder.toolbarContent.getShapes()) {
+                    for (ToolGroupComponent c : builder.toolbarContent.getFormes().getShapes()) {
                         if (c.getShape().IsArea(e.getX(),e.getY())) {
                             selectedShape = c.getShape();
                             selectedTool = c;
@@ -120,7 +119,7 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
 
 
     void addTool(ToolGroupComponent tool){
-        builder.toolbarContent.add(tool);
+        builder.toolbarContent.getFormes().add(tool);
         repositionTools();
         repaint();
     }
@@ -128,7 +127,7 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
 
     public void repositionTools() {
         current_y = pos_y;
-        for (ToolGroupComponent tool : this.builder.toolbarContent.getShapes()) {
+        for (ToolGroupComponent tool : this.builder.toolbarContent.getFormes().getShapes()) {
             if (tool.getShape() instanceof Rectangle) {
                 tool.getShape().setPosition(pos_x, current_y);
                 tool.getShape().setHeight(height);
@@ -148,7 +147,7 @@ public class AwtConcreteToolBar extends AwtAbstractToolBar{
         IRenderer r = new AwtRenderer(g);
         this.renderer = r;
         super.paint(g);
-        for (ToolGroupComponent c : this.builder.toolbarContent.getShapes()) {
+        for (ToolGroupComponent c : this.builder.toolbarContent.getFormes().getShapes()) {
             c.getShape().setRenderer(r);
             c.getShape().draw();
         }
