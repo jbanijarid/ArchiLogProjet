@@ -55,10 +55,12 @@ public class TextStrategy implements IStrategy {
             int c = Integer.parseInt(color);
             if (nb == 4){
                 IShape shape = new Rectangle(x, y, w, h, renderer);
+                shape.setColor(c);
                 ToolGroupComponent tool = new Tool(shape);
                 toolbar.add(tool);
             } else {
                 IShape shape = new Polygone(x, y, w, nb, renderer);
+                shape.setColor(c);
                 ToolGroupComponent tool = new Tool(shape);
                 toolbar.add(tool);
             }
@@ -81,10 +83,12 @@ public class TextStrategy implements IStrategy {
             int c = Integer.parseInt(color);
             if (nb == 4){
                 IShape shape = new Rectangle(x, y, w, h, renderer);
+                shape.setColor(c);
                 ToolGroupComponent tool = new Tool(shape);
                 whiteboard.add(tool);
             } else {
                 IShape shape = new Polygone(x, y, w, nb, renderer);
+                shape.setColor(c);
                 ToolGroupComponent tool = new Tool(shape);
                 whiteboard.add(tool);
             }

@@ -28,6 +28,6 @@ public class ColorShapeCommand implements Command {
 
     @Override
     public void redo() {
-
+        shape.setColor(newColor);
     }
 }
