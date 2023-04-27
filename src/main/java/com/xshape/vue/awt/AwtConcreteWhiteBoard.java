@@ -3,6 +3,7 @@ package com.xshape.vue.awt;
 
 import com.xshape.modele.*;
 import com.xshape.modele.Goupage.ToolGroupComponent;
+import com.xshape.modele.Goupage.ToolGroupComposite;
 import com.xshape.modele.awt.AwtRenderer;
 
 import javax.swing.*;
@@ -18,6 +19,8 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
     private IRenderer renderer;
     private IShape selectedShape;
     private ToolGroupComponent selectedTool;
+
+    private ToolGroupComponent group;
     AwtBuilder builder;
 
 
@@ -31,6 +34,7 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
         super(app, x, y, width, height);
         app.add(this);
         this.builder=builder;
+        this.group = new ToolGroupComposite();
         addMouseListener(new MouseAdapter() {
 
             public void mouseClicked(MouseEvent e) {
@@ -57,7 +61,8 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
                                     System.out.println(selectedColor);
                                     String couleur = Integer.toHexString(selectedColor.getRGB()).substring(2);
                                     System.out.println("la couleur final" + couleur);
-                                    Command co = new ColorShapeCommand(c.getShape(), Integer.parseInt(couleur, 16));
+                                    //Command co = new ColorShapeCommand(c.getShape(), Integer.parseInt(couleur, 16));
+                                    ChangeColorGroupCommand co = new ChangeColorGroupCommand(group, Integer.parseInt(couleur, 16));
                                     try {
                                         builder.executeCommand(co);
                                     } catch (IOException ex) {
@@ -65,6 +70,22 @@ public class AwtConcreteWhiteBoard extends AwtAbstractWhiteBoard {
                                     }
                                 }
                             });
+
+                            groupMenuItem.addActionListener(a->{
+                                if (!group.contains(c.getShape())){
+                                    group.add(c);
+                                } else {
+                                    System.out.println("le shape existe déja dans le groupe");
+                                }
+                                repaint();
+                            });
+                            deGroupMenuItem.addActionListener(a->{
+                                System.out.println("to be deleted");
+                                //groupSelectedObjects(selectedShapes);
+                                group.remove(c);
+                                repaint();
+                            });
+
                             popupMenu.add(groupMenuItem);
                             popupMenu.add(deGroupMenuItem);
                             popupMenu.add(edit);
